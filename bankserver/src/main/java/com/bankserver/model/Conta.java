@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,7 +23,9 @@ public class Conta {
     private String numeroConta;
     private LocalDate dataCriacao;
     private Double limite;
-    private boolean aprovada;
+
+    @Enumerated(EnumType.STRING)
+    private StatusConta statusConta;
 
     @OneToOne
     @JoinColumn(name = "cliente_id")

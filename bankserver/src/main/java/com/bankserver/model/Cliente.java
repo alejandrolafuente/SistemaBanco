@@ -11,11 +11,11 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Cliente extends Usuario {
-    
-    private Double salario;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
+    private Double salario;
     @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
     private Conta conta;
 }

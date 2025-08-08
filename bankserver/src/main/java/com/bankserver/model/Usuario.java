@@ -1,6 +1,8 @@
 package com.bankserver.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED) // Estratégia de herança (JPA)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Usuario {
 
     @Id
@@ -21,7 +23,9 @@ public abstract class Usuario {
     private String senha;
     private String cpf;
     private String telefone;
-    private String tipo; // "CLIENTE", "GERENTE", "ADMIN"
-    private String estado; // usuario está ativo ou inativo
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipo;
+    @Enumerated(EnumType.STRING)
+    private StatusUsuario status = StatusUsuario.PENDENTE;
 
 }
