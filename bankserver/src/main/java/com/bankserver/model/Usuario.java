@@ -24,8 +24,8 @@ public abstract class Usuario {
     private String cpf;
     private String telefone;
     @Enumerated(EnumType.STRING)
-    private TipoUsuario tipo;
+    private TipoUsuario tipo; // CLIENTE,GERENTE,ADMIN
     @Enumerated(EnumType.STRING)
-    private StatusUsuario status = StatusUsuario.PENDENTE;
+    private StatusUsuario status;
 
 }
