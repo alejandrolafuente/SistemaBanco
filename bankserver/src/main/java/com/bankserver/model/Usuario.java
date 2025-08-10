@@ -1,5 +1,12 @@
 package com.bankserver.model;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,13 +20,13 @@ import lombok.Data;
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Usuario {
+public abstract class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String email;
+    private String login;
     private String senha;
     private String cpf;
     private String telefone;
@@ -27,5 +34,40 @@ public abstract class Usuario {
     private TipoUsuario perfil; // CLIENTE,GERENTE,ADMIN
     @Enumerated(EnumType.STRING)
     private StatusUsuario status; // ATIVO,INATIVO,PENDENTE,BLOQUEADO
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + perfil.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return status != StatusUsuario.BLOQUEADO;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return status == StatusUsuario.ATIVO;
+    }
 
 }

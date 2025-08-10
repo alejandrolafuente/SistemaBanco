@@ -18,4 +18,5 @@ public class Cliente extends Usuario {
     private Double salario;
     @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
     private Conta conta;
+
 }

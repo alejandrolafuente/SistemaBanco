@@ -14,4 +14,5 @@ public class Gerente extends Usuario {
 
     @OneToMany(mappedBy = "gerente")
     private List<Conta> contasGerenciadas;
+
 }
