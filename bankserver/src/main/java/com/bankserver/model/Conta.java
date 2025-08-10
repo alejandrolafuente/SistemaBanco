@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Data
+@Entity
 public class Conta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

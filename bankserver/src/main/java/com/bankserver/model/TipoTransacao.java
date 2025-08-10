@@ -4,7 +4,7 @@ public enum TipoTransacao {
 
     DEPOSITO("Depósito"),
     SAQUE("Saque"),
-    TRANSFERENCIA("Transferenciai");
+    TRANSFERENCIA("Transferencia");
 
     private final String descricao;
 

@@ -16,10 +16,8 @@ public class Saldo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private LocalDate data;
     private Double valor;
-
     @ManyToOne
     @JoinColumn(name = "conta_id")
     private Conta conta;

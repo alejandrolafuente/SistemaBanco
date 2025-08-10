@@ -24,7 +24,7 @@ public class Transacao {
     // Para transferências
     private String contaDestino;
     @Enumerated(EnumType.STRING)
-    private TipoTransacao tipo;
+    private TipoTransacao tipo; // DEPOSITO,SAQUE, TRANSFERENCIA
     @ManyToOne
     @JoinColumn(name = "conta_id")
     private Conta conta;
