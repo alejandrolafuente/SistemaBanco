@@ -12,11 +12,11 @@ public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String tipoLogradouro; // Rua, Avenida, etc.
-    private String logradouro;
+    private String rua; // Rua, Avenida, etc.
+    private String bairro;
     private String numero;
     private String complemento;
     private String cep;
     private String cidade;
-    private String estado;
+    private String uf;
 }

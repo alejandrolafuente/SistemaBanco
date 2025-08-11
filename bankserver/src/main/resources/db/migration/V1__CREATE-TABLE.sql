@@ -27,13 +27,13 @@ CREATE TABLE gerente (
 
 CREATE TABLE endereco (
     id BIGSERIAL PRIMARY KEY,
-    tipo_logradouro VARCHAR(50),
-    logradouro VARCHAR(60) NOT NULL,
+    rua VARCHAR(50),
+    bairro VARCHAR(60) NOT NULL,
     numero VARCHAR(5) NOT NULL,
     complemento VARCHAR(100),
     cep VARCHAR(8) NOT NULL,
     cidade VARCHAR(60) NOT NULL,
-    estado VARCHAR(2) NOT NULL
+    uf VARCHAR(2) NOT NULL
 );
 
 CREATE TABLE cliente (

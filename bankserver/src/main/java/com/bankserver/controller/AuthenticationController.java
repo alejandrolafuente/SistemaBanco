@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bankserver.dto.AuthenticationDTO;
+import com.bankserver.dto.request.AuthenticationDTO;
+import com.bankserver.repository.UsuarioRep;
 
 @RestController
 @RequestMapping("auth")
@@ -17,6 +18,9 @@ public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UsuarioRep usuarioRep;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthenticationDTO data) {
