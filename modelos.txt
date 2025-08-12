@@ -1,32 +1,3 @@
-@Data
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Usuario {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nome;
-    private String email;
-    private String senha;
-    private String cpf;
-    private String telefone;
-    @Enumerated(EnumType.STRING)
-    private TipoUsuario perfil; // CLIENTE,GERENTE,ADMIN
-    @Enumerated(EnumType.STRING)
-    private StatusUsuario status; // ATIVO,INATIVO,PENDENTE,BLOQUEADO
-
-}
-
-@Data
-@Entity
-@EqualsAndHashCode(callSuper = true)
-public class Gerente extends Usuario {
-
-    @OneToMany(mappedBy = "gerente")
-    private List<Conta> contasGerenciadas;
-}
-
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -38,126 +9,11 @@ public class Cliente extends Usuario {
     private Double salario;
     @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
     private Conta conta;
+
 }
 
+@Data
 @Entity
-@Data
-public class Transacao {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private LocalDateTime dataHora;
-    private Double valor;
-    // Para transferências
-    private String contaDestino;
-    @Enumerated(EnumType.STRING)
-    private TipoTransacao tipo; // DEPOSITO,SAQUE, TRANSFERENCIA
-    @ManyToOne
-    @JoinColumn(name = "conta_id")
-    private Conta conta;
-}
-
-public enum TipoUsuario {
-    
-    CLIENTE("Cliente"),
-    GERENTE("Gerente"),
-    ADMIN("Administrador");
-
-    private final String descricao;
-
-    TipoUsuario(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-}
-
-public enum TipoTransacao {
-
-    DEPOSITO("Depósito"),
-    SAQUE("Saque"),
-    TRANSFERENCIA("Transferencia");
-
-    private final String descricao;
-
-    TipoTransacao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-}
-
-public enum StatusUsuario {
-
-    ATIVO("Ativo"),
-    INATIVO("Inativo"),
-    PENDENTE("Pendente"),
-    BLOQUEADO("Bloqueado");
-
-    private final String descricao;
-
-    StatusUsuario(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-}
-
-public enum StatusConta {
-
-    APROVADA("Aprovada"),
-    PENDENTE("Pendente"),
-    REJEITADA("Rejeitada");
-
-    private final String descricao;
-
-    StatusConta(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-}
-
-@Entity
-@Data
-public class Saldo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private LocalDate data;
-    private Double valor;
-
-    @ManyToOne
-    @JoinColumn(name = "conta_id")
-    private Conta conta;
-}
-
-@Entity
-@Data
-public class Endereco {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String tipoLogradouro; // Rua, Avenida, etc.
-    private String logradouro;
-    private String numero;
-    private String complemento;
-    private String cep;
-    private String cidade;
-    private String estado;
-}
-
-@Data
 public class Conta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -179,4 +35,115 @@ public class Conta {
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
     private List<Transacao> transacoes;
+}
+
+@Entity
+@Data
+public class Endereco {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String cep;
+    private String uf;
+    private String cidade;
+    private String bairro;
+    private String rua; // Rua, Avenida, etc.
+    private String numero;
+    private String complemento;
+}
+
+@Data
+@Entity
+@EqualsAndHashCode(callSuper = true)
+public class Gerente extends Usuario {
+
+    @OneToMany(mappedBy = "gerente")
+    private List<Conta> contasGerenciadas;
+
+}
+
+@Entity
+@Data
+public class Saldo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private LocalDate data;
+    private Double valor;
+    @ManyToOne
+    @JoinColumn(name = "conta_id")
+    private Conta conta;
+}
+
+@Entity
+@Data
+public class Transacao {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private LocalDateTime dataHora;
+    private Double valor;
+    // Para transferências
+    private String contaDestino;
+    @Enumerated(EnumType.STRING)
+    private TipoTransacao tipo; // DEPOSITO,SAQUE, TRANSFERENCIA
+    @ManyToOne
+    @JoinColumn(name = "conta_id")
+    private Conta conta;
+}
+
+@Data
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Usuario implements UserDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String cpf;
+    private String login; // email
+    private String nome;
+    private String telefone;
+    private String senha;
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario perfil; // CLIENTE,GERENTE,ADMIN
+    @Enumerated(EnumType.STRING)
+    private StatusUsuario status; // ATIVO,INATIVO,PENDENTE,BLOQUEADO
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + perfil.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return status != StatusUsuario.BLOQUEADO;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return status == StatusUsuario.ATIVO;
+    }
+
 }

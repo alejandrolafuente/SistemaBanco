@@ -25,11 +25,11 @@ public abstract class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
-    private String login;
-    private String senha;
     private String cpf;
+    private String login; // email
+    private String nome;
     private String telefone;
+    private String senha;
     @Enumerated(EnumType.STRING)
     private TipoUsuario perfil; // CLIENTE,GERENTE,ADMIN
     @Enumerated(EnumType.STRING)
