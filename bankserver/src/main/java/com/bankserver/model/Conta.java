@@ -14,10 +14,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Entity
+@Builder
 public class Conta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -20,11 +20,9 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping("/register")
-    @SuppressWarnings("rawtypes")
-    public ResponseEntity register(@RequestBody ClienteRegistrationDTO dto) {
+    public ResponseEntity<?> register(@RequestBody ClienteRegistrationDTO dto) {
 
-        clienteService.insertClient(dto);
+        return clienteService.insertClient(dto);
 
-        return ResponseEntity.ok().build();
     }
 }
