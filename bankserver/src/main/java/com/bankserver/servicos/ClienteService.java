@@ -1,8 +1,10 @@
 package com.bankserver.servicos;
 
+import org.springframework.http.ResponseEntity;
+
 import com.bankserver.dto.request.ClienteRegistrationDTO;
 
 public interface ClienteService {
 
-    Integer insertClient(ClienteRegistrationDTO data); // retornar um por enquanto
+    ResponseEntity<?> insertClient(ClienteRegistrationDTO data); // retornar 1 por enquanto
 }

@@ -27,7 +27,7 @@ public class Conta {
     private Double limite;
 
     @Enumerated(EnumType.STRING)
-    private StatusConta statusConta;
+    private StatusConta statusConta; // APROVADA, PENDENTE, REJEITADA
 
     @OneToOne
     @JoinColumn(name = "cliente_id")
