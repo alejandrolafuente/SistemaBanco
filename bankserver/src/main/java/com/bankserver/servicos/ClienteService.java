@@ -6,5 +6,5 @@ import com.bankserver.dto.request.ClienteRegistrationDTO;
 
 public interface ClienteService {
 
-    ResponseEntity<?> insertClient(ClienteRegistrationDTO data); // retornar 1 por enquanto
+    ResponseEntity<?> insertClient(ClienteRegistrationDTO data); 
 }

@@ -53,13 +53,6 @@ public class ClienteServiceImpl implements ClienteService {
 
         enderecoRep.save(endereco);
 
-        Conta conta = Conta.builder()
-                .numeroConta(gerarNumeroConta())
-                .dataCriacao(LocalDate.now())
-                .limite(0.0)
-                .statusConta(StatusConta.PENDENTE)
-                .build();
-
         // 4. Cria o Cliente (herda de Usuario)
         Cliente cliente = new Cliente();
         cliente.setCpf(data.cpf());
@@ -71,7 +64,15 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setStatus(StatusUsuario.PENDENTE);
         cliente.setSalario(data.salario());
         cliente.setEndereco(endereco); // associa o endereço salvo
-        cliente.setConta(conta); // associa a conta
+
+        Conta conta = Conta.builder()
+                .numeroConta(gerarNumeroConta())
+                .dataCriacao(LocalDate.now())
+                .limite(0.0)
+                .statusConta(StatusConta.PENDENTE)
+                .cliente(cliente)
+                .build();
+        cliente.setConta(conta);
 
         clienteRep.save(cliente);
 

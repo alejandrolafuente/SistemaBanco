@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Login } from '../../models/login/login.model';
 import { Usuario } from '../../models/usuario/usuario.model';
+import { CadastroCliente } from '../../models/cadastro-cliente/cadastro-cliente.model';
+import { ClienteCadastrado } from '../../models/cliente-cadastrado/cliente-cadastrado.model';
 
 const LS_LOGIN_KEY: string = "usuarioLogado";
 
@@ -31,8 +33,16 @@ export class LoginService {
   }
 
   login(login: Login): Observable<Usuario> {
-    let usuarioLogado = this.httpClient.post<Usuario>(this.BASE_URL + '/autenticacao/login', JSON.stringify(login), this.httpOptions);
+    let usuarioLogado = this.httpClient.post<Usuario>(this.BASE_URL +
+      '/auth/login', JSON.stringify(login), this.httpOptions);
     return usuarioLogado;
   }
+
   // colocar metodo de logout
+
+  autoCadastro(cadastroCliente: CadastroCliente): Observable<ClienteCadastrado> {
+    let clienteCadastrado = this.httpClient.post<ClienteCadastrado>(this.BASE_URL +
+      '/cliente/register', JSON.stringify(cadastroCliente), this.httpOptions);
+    return clienteCadastrado;
+  }
 }
