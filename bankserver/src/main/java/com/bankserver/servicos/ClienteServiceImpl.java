@@ -1,11 +1,12 @@
 package com.bankserver.servicos;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bankserver.dto.request.ClienteRegistrationDTO;
@@ -17,6 +18,7 @@ import com.bankserver.model.StatusUsuario;
 import com.bankserver.model.TipoUsuario;
 import com.bankserver.repository.ClienteRep;
 import com.bankserver.repository.ContaRep;
+//import com.bankserver.repository.ContaRep;
 import com.bankserver.repository.EnderecoRep;
 import com.bankserver.repository.UsuarioRep;
 
@@ -38,20 +40,22 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ResponseEntity<?> insertClient(ClienteRegistrationDTO data) {
 
-        if (this.usuarioRep.findByLogin(data.email()) != null)
-            return ResponseEntity.badRequest().build();
+        if (this.usuarioRep.existsByLogin(data.email())) {
+            return ResponseEntity.badRequest().body("Email já cadastrado");
+        }
 
-        Endereco endereco = Endereco.builder()
-                .cep(data.endereco().cep())
-                .uf(data.endereco().uf())
-                .cidade(data.endereco().cidade())
-                .bairro(data.endereco().bairro())
-                .rua(data.endereco().bairro())
-                .numero(data.endereco().numero())
-                .complemento(data.endereco().complemento())
-                .build();
+        Endereco endereco = new Endereco();
+        endereco.setCep(data.endereco().cep());
+        endereco.setUf(data.endereco().uf());
+        endereco.setCidade(data.endereco().cidade());
+        endereco.setBairro(data.endereco().bairro());
+        endereco.setRua(data.endereco().rua()); // Atenção: aqui está usando bairro() para rua - é isso mesmo?
+        endereco.setNumero(data.endereco().numero());
+        endereco.setComplemento(data.endereco().complemento());
 
         enderecoRep.save(endereco);
+
+        String senha = generateRamdomPassword();
 
         // 4. Cria o Cliente (herda de Usuario)
         Cliente cliente = new Cliente();
@@ -59,11 +63,13 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setLogin(data.email());
         cliente.setNome(data.nome());
         cliente.setTelefone(data.telefone());
-        cliente.setSenha("");
+        cliente.setSenha(new BCryptPasswordEncoder().encode(senha));
         cliente.setPerfil(TipoUsuario.CLIENTE);
-        cliente.setStatus(StatusUsuario.PENDENTE);
+        cliente.setStatus(StatusUsuario.ATIVO);
         cliente.setSalario(data.salario());
         cliente.setEndereco(endereco); // associa o endereço salvo
+
+        System.out.println("SENHA NO CADASTRO: " + senha);
 
         Conta conta = Conta.builder()
                 .numeroConta(gerarNumeroConta())
@@ -72,11 +78,31 @@ public class ClienteServiceImpl implements ClienteService {
                 .statusConta(StatusConta.PENDENTE)
                 .cliente(cliente)
                 .build();
-        cliente.setConta(conta);
 
         clienteRep.save(cliente);
 
+        contaRep.save(conta);
+
         return ResponseEntity.ok().body("Cliente cadastrado com sucesso! Status da conta: PENDENTE");
+    }
+
+    private String generateRamdomPassword() {
+
+        String CHARACTERS = "0123456789";
+
+        int STRING_LENGTH = 4;
+
+        SecureRandom random = new SecureRandom();
+
+        StringBuilder sb = new StringBuilder(STRING_LENGTH);
+
+        for (int i = 0; i < STRING_LENGTH; i++) {
+            int index = random.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(index));
+        }
+
+        return sb.toString();
+
     }
 
     // Método auxiliar para gerar número de conta aleatório

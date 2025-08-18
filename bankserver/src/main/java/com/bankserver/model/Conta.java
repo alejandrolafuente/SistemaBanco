@@ -35,7 +35,7 @@ public class Conta {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @ManyToOne
+    @ManyToOne(optional = true)
     @JoinColumn(name = "gerente_id")
     private Gerente gerente;
 

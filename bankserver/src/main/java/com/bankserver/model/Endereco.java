@@ -4,12 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Data
-@Builder
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +19,8 @@ public class Endereco {
     private String rua; // Rua, Avenida, etc.
     private String numero;
     private String complemento;
+
+    public Endereco() {
+        // Construtor padrão exigido pelo Hibernate
+    }
 }

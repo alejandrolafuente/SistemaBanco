@@ -16,7 +16,5 @@ public class Cliente extends Usuario {
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
     private Double salario;
-    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
-    private Conta conta;
 
 }
