@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.model.Cliente;
@@ -18,7 +19,6 @@ import com.bankserver.model.StatusUsuario;
 import com.bankserver.model.TipoUsuario;
 import com.bankserver.repository.ClienteRep;
 import com.bankserver.repository.ContaRep;
-//import com.bankserver.repository.ContaRep;
 import com.bankserver.repository.EnderecoRep;
 import com.bankserver.repository.UsuarioRep;
 
@@ -38,10 +38,11 @@ public class ClienteServiceImpl implements ClienteService {
     private ContaRep contaRep;
 
     @Override
+    @Transactional
     public ResponseEntity<?> insertClient(ClienteRegistrationDTO data) {
 
         if (this.usuarioRep.existsByLogin(data.email())) {
-            return ResponseEntity.badRequest().body("Email já cadastrado");
+            return ResponseEntity.badRequest().body("Cliente já cadastrado");
         }
 
         Endereco endereco = new Endereco();
