@@ -18,6 +18,11 @@ CREATE TABLE usuario (
     )
 );
 
+CREATE TABLE administrador (
+    id BIGINT PRIMARY KEY,
+    FOREIGN KEY (id) REFERENCES usuario (id) ON DELETE CASCADE
+);
+
 CREATE TABLE gerente (
     id BIGINT PRIMARY KEY,
     FOREIGN KEY (id) REFERENCES usuario (id) ON DELETE CASCADE
