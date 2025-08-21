@@ -18,7 +18,7 @@ import com.bankserver.seguranca.UserDetailsImpl;
 
 @RestController
 @RequestMapping("auth")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", allowCredentials = "true")
 public class AuthenticationController {
 
     @Autowired
@@ -39,9 +39,18 @@ public class AuthenticationController {
         UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
         Usuario usuario = userDetails.getUsuario(); // coloquei este método na UserDetailsImpl
 
+        System.out.println("BIRULEIBI: " + usuario.getCpf());
+
         var token = tokenService.generateToken(usuario);
 
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.ok(new LoginResponseDTO(
+                usuario.getId(),
+                token,
+                usuario.getNome(),
+                usuario.getLogin(),
+                usuario.getCpf(),
+                usuario.getTelefone(),
+                usuario.getPerfil().name()));
     }
 
 }

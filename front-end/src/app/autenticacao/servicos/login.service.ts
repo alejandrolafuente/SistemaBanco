@@ -18,7 +18,8 @@ export class LoginService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-    })
+    }),
+    withCredentials: true
   };
 
   constructor(private httpClient: HttpClient) { }

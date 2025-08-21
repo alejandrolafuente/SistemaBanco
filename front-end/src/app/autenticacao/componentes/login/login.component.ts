@@ -52,10 +52,12 @@ export class LoginComponent {
 
         (usuario) => {
           if (usuario != null) {
-            this.loginService.usuarioLogado = usuario; //*** setting LoginObject in LS
+            this.loginService.usuarioLogado = usuario; // setando Usuario na LS
             this.loading = false;
             if (usuario.perfil == "CLIENTE") {
               this.router.navigate(["/cliente/home/" + usuario.id]);
+            } else if (usuario.perfil == "ADMIN") {
+              this.router.navigate(["/admin/gerentes"]);
             }
           }
           else {
