@@ -2,7 +2,7 @@ CREATE TABLE usuario (
     id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(60) NOT NULL,
     login VARCHAR(60) UNIQUE NOT NULL,
-    senha VARCHAR(255) NOT NULL,  -- aumentado p/ armazenar hash de senha
+    senha VARCHAR(255),  -- aumentado p/ armazenar hash de senha
     cpf VARCHAR(11) UNIQUE NOT NULL,
     telefone VARCHAR(11) NOT NULL,
     perfil VARCHAR(10) NOT NULL CHECK (
