@@ -39,7 +39,9 @@ export class LoginService {
     return usuarioLogado;
   }
 
-  // colocar metodo de logout
+  logout(){
+    delete localStorage[LS_LOGIN_KEY];
+  }
 
   autoCadastro(cadastroCliente: CadastroCliente): Observable<ClienteCadastrado> {
     let clienteCadastrado = this.httpClient.post<ClienteCadastrado>(this.BASE_URL +

@@ -1,1 +1,33 @@
-<p>home works!</p>
+<div class="container">
+    <h1 class="text-center">Solicitações Pendentes</h1><br>
+    <div class="row justify-content-center">
+        <div class="col-md-13">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">CPF</th>
+                        <th class="text-center">NOME</th>
+                        <th class="text-center">SALARIO</th>
+                        <th class="text-center">AÇÃO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let solicitacao of solicitacoes">
+                        <td class="text-center">{{ solicitacao.cpf }}</td>
+                        <td class="text-center">{{ solicitacao.nome}}</td>
+                        <td class="text-center">{{ solicitacao.salario }}</td>
+                        <td class="text-center" style="width: 300px">
+                            <a href="#" title="Aprovar" alt="Aprovar" class="btn btn-xs btn-success me-3">
+                                <i class="fa fa-check" aria-hidden="true"></i>Aprovar
+                            </a>
+                            <a href="#" title="Recusar" alt="Recusar" class="btn btn-xs btn-danger">
+                                <i class="fa fa-times" aria-hidden="true"></i>Recusar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p *ngIf="solicitacoes.length==0">Sem novas solicitações</p>
+        </div>
+    </div>
+</div>
