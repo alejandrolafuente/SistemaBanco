@@ -19,7 +19,6 @@ import com.bankserver.seguranca.UserDetailsImpl;
 @RestController
 @RequestMapping("auth")
 @CrossOrigin
-//@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", allowCredentials = "true")
 public class AuthenticationController {
 
     @Autowired
@@ -30,8 +29,6 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationDTO data) {
-
-        System.out.println("CHEGOU DO FRONT: " + data);
 
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
