@@ -58,6 +58,8 @@ export class LoginComponent {
               this.router.navigate(["/cliente/home/" + usuario.id]);
             } else if (usuario.perfil == "ADMIN") {
               this.router.navigate(["/admin/gerentes"]);
+            } else if (usuario.perfil == "GERENTE") {
+              this.router.navigate(["/gerentes/home/" + usuario.id]);
             }
           }
           else {

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './autenticacao/componentes/login/login.component';
 import { CadastroComponent } from './autenticacao/componentes/cadastro/cadastro.component';
 import { AdminRoutes } from './administrador/admin-routing.module';
+import { GerenteRoutes } from './gerente/gerente-routing.module';
 
 export const routes: Routes = [
 
@@ -21,5 +22,7 @@ export const routes: Routes = [
         component: CadastroComponent
     },
 
-    ...AdminRoutes
+    ...AdminRoutes,
+
+    ...GerenteRoutes
 ];
