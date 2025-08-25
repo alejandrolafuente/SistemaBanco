@@ -27,7 +27,8 @@ public class SecurityConfigurations {
     private SecurityFilter securityFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)
+            throws Exception {
         return httpSecurity
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
@@ -35,11 +36,13 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/cliente/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/gerentes").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/gerentes/*/solicitacoes-pendentes").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/admin/novo-gerente").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,
+                                "/gerentes/*/solicitacoes-pendentes").hasRole("GERENTE")
                         .requestMatchers(HttpMethod.POST, "/admin").permitAll()
                         .requestMatchers(HttpMethod.POST, "/admin/novo-gerente").hasRole("ADMIN")
-                        .anyRequest().authenticated())
+                // .anyRequest().authenticated()
+                )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

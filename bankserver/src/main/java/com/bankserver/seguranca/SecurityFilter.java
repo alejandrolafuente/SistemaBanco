@@ -27,25 +27,61 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     private UsuarioRep usuarioRep;
 
+    // @Override
+    // protected void doFilterInternal(HttpServletRequest request,
+    // HttpServletResponse response, FilterChain filterChain)
+    // throws ServletException, IOException {
+
+    // var token = this.recoverToken(request);
+
+    // if (token != null) {
+    // var login = tokenService.validateToken(token);
+
+    // Usuario usuario = usuarioRep.findByLogin(login)
+    // .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+
+    // UserDetails user = new UserDetailsImpl(usuario);
+
+    // var authentication = new UsernamePasswordAuthenticationToken(user, null,
+    // user.getAuthorities());
+    // SecurityContextHolder.getContext().setAuthentication(authentication);
+    // }
+    // filterChain.doFilter(request, response);
+    // }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        System.out.println("=== REQUISIÇÃO: " + request.getRequestURI() + " ===");
+
         var token = this.recoverToken(request);
+        System.out.println("TOKEN RECUPERADO: " + token);
 
         if (token != null) {
-            var login = tokenService.validateToken(token);
+            try {
+                var login = tokenService.validateToken(token);
+                System.out.println("LOGIN DO TOKEN: " + login);
 
-            // UserDetails user = userRepository.findByLogin(login);
+                Usuario usuario = usuarioRep.findByLogin(login)
+                        .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-            Usuario usuario = usuarioRep.findByLogin(login)
-                    .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+                System.out.println("USUÁRIO ENCONTRADO: " + usuario.getNome());
+                System.out.println("PERFIL: " + usuario.getPerfil());
 
-            UserDetails user = new UserDetailsImpl(usuario);
+                UserDetails user = new UserDetailsImpl(usuario);
+                var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("AUTENTICAÇÃO CRIADA: " + authentication.getAuthorities());
+
+            } catch (Exception e) {
+                System.out.println("ERRO AO VALIDAR TOKEN: " + e.getMessage());
+            }
+        } else {
+            System.out.println("NENHUM TOKEN ENCONTRADO!");
         }
+
         filterChain.doFilter(request, response);
     }
 

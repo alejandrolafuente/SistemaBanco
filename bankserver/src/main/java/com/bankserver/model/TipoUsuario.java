@@ -12,7 +12,7 @@ public enum TipoUsuario {
         this.descricao = descricao;
     }
 
-    public String getDiescricao() {
+    public String getDescricao() {
         return descricao;
     }
 }

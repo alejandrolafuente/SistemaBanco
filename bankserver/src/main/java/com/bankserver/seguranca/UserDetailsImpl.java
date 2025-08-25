@@ -24,8 +24,9 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Converte o perfil do usuário para roles (ex.: "ROLE_CLIENTE")
-        return List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getPerfil().name()));
+        String roleName = "ROLE_" + usuario.getPerfil().name();
+        System.out.println("=== ROLE GERADA: " + roleName + " ==="); // ← LOG CRÍTICO
+        return List.of(new SimpleGrantedAuthority(roleName));
     }
 
     @Override
