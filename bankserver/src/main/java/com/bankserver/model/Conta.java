@@ -1,6 +1,6 @@
 package com.bankserver.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -29,7 +29,8 @@ public class Conta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String numeroConta;
-    private LocalDate dataCriacao;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataAprovacao;
     private Double limite;
 
     @Enumerated(EnumType.STRING)
@@ -45,4 +46,9 @@ public class Conta {
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
     private List<Transacao> transacoes;
+
+    public void aprovar() {
+        this.statusConta = StatusConta.APROVADA;
+        this.dataAprovacao = LocalDateTime.now();
+    }
 }

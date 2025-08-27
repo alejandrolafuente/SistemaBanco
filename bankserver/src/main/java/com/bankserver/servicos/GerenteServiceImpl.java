@@ -1,14 +1,19 @@
 package com.bankserver.servicos;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.dto.response.R09ResDTO;
+import com.bankserver.model.Cliente;
 import com.bankserver.model.Conta;
+import com.bankserver.model.StatusUsuario;
 import com.bankserver.repository.ContaRep;
 
 @Service
@@ -34,6 +39,46 @@ public class GerenteServiceImpl implements GerenteService {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(solicitacoes);
+
+    }
+
+    @Override
+    @Transactional
+    public void aprovarCliente(Long contaId) {
+
+        // ** CUSTOMIZAR EXCEPTIONS!!
+        // Conta conta = contaRep.findById(contaId)
+        // .orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada"));
+
+        Conta conta = contaRep.findById(contaId)
+                .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+
+        conta.aprovar();
+
+        Cliente cliente = conta.getCliente();
+        cliente.setStatus(StatusUsuario.ATIVO);
+
+        String senha = generateRamdomPassword();
+        cliente.setSenha(new BCryptPasswordEncoder().encode(senha));
+
+    }
+
+    private String generateRamdomPassword() {
+
+        String CHARACTERS = "0123456789";
+
+        int STRING_LENGTH = 4;
+
+        SecureRandom random = new SecureRandom();
+
+        StringBuilder sb = new StringBuilder(STRING_LENGTH);
+
+        for (int i = 0; i < STRING_LENGTH; i++) {
+            int index = random.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(index));
+        }
+
+        return sb.toString();
 
     }
 

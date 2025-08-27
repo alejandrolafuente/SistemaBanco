@@ -1,6 +1,6 @@
 package com.bankserver.servicos;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -74,7 +74,7 @@ public class ClienteServiceImpl implements ClienteService {
 
         Conta conta = Conta.builder()
                 .numeroConta(gerarNumeroConta())
-                .dataCriacao(LocalDate.now())
+                .dataCriacao(LocalDateTime.now())
                 .limite(calcularLimite(data.salario()))
                 .statusConta(StatusConta.PENDENTE)
                 .cliente(cliente)

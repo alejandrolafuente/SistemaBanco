@@ -1,6 +1,6 @@
 package com.bankserver.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +16,7 @@ public class Saldo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate data;
+    private LocalDateTime data;
     private Double valor;
     @ManyToOne
     @JoinColumn(name = "conta_id")

@@ -21,7 +21,7 @@ export class AppComponent {
     private loginService: LoginService
   ) { }
 
-  get loggedUser(): Usuario | null {
+  get usuarioLogado(): Usuario | null {
     return this.loginService.usuarioLogado;
   }
 

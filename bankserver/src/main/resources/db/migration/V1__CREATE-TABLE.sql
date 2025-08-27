@@ -50,7 +50,8 @@ CREATE TABLE cliente (
 CREATE TABLE conta (
     id BIGSERIAL PRIMARY KEY,
     numero_conta VARCHAR(20) UNIQUE NOT NULL,
-    data_criacao DATE NOT NULL,
+    data_criacao TIMESTAMP WITH TIME ZONE NOT NULL,
+    data_aprovacao TIMESTAMP WITH TIME ZONE,
     limite DOUBLE PRECISION NOT NULL,
     status_conta VARCHAR(10) NOT NULL CHECK (
         status_conta IN (
@@ -67,7 +68,7 @@ CREATE TABLE conta (
 
 CREATE TABLE transacao (
     id BIGSERIAL PRIMARY KEY,
-    data_hora TIMESTAMP NOT NULL,
+    data_hora TIMESTAMP WITH TIME ZONE NOT NULL,
     valor DOUBLE PRECISION NOT NULL,
     conta_destino VARCHAR(20),  -- Para transferências
     tipo VARCHAR(12) NOT NULL CHECK (
@@ -83,7 +84,7 @@ CREATE TABLE transacao (
 
 CREATE TABLE saldo (
     id BIGSERIAL PRIMARY KEY,
-    data DATE NOT NULL,
+    data TIMESTAMP WITH TIME ZONE NOT NULL,
     valor DOUBLE PRECISION NOT NULL,
     conta_id BIGINT NOT NULL,
     FOREIGN KEY (conta_id) REFERENCES conta (id) ON DELETE CASCADE

@@ -17,4 +17,5 @@ public interface ContaRep extends JpaRepository<Conta, Long> {
             "AND c.statusConta = 'PENDENTE' " +
             "AND c.cliente IS NOT NULL")
     List<Conta> findContasPendentesByGerenteId(@Param("gerenteId") Long gerenteId);
+
 }
