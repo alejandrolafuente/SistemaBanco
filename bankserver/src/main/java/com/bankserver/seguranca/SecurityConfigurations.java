@@ -39,6 +39,8 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/admin/novo-gerente").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET,
                                 "/gerentes/*/solicitacoes-pendentes").hasRole("GERENTE")
+                        .requestMatchers(HttpMethod.POST, 
+                            "/gerentes/aprovar-conta/*").hasRole("GERENTE")
                         .requestMatchers(HttpMethod.POST, "/admin").permitAll()
                         .requestMatchers(HttpMethod.POST, "/admin/novo-gerente").hasRole("ADMIN")
                 // .anyRequest().authenticated()

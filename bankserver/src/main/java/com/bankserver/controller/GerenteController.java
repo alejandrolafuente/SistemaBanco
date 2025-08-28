@@ -26,8 +26,8 @@ public class GerenteController {
     }
 
     @PostMapping("/aprovar-conta/{contaId}")
-    public ResponseEntity<?> aprovarConta(@PathVariable Long gerenteId, @PathVariable Long contaId) {
-        // gerenteService.aprovarCliente(contaId); // 👈 Repassa para o Service
+    public ResponseEntity<?> aprovarConta(@PathVariable Long contaId) {
+        gerenteService.aprovarCliente(contaId); 
         return ResponseEntity.ok().build();
     }
 

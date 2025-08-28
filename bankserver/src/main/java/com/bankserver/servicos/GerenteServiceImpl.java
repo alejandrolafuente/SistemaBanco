@@ -15,12 +15,16 @@ import com.bankserver.model.Cliente;
 import com.bankserver.model.Conta;
 import com.bankserver.model.StatusUsuario;
 import com.bankserver.repository.ContaRep;
+import com.bankserver.utils.ServicoEmail;
 
 @Service
 public class GerenteServiceImpl implements GerenteService {
 
     @Autowired
     private ContaRep contaRep;
+
+    @Autowired
+    private ServicoEmail servicoEmail;
 
     // R09
     @Override
@@ -60,6 +64,13 @@ public class GerenteServiceImpl implements GerenteService {
 
         String senha = generateRamdomPassword();
         cliente.setSenha(new BCryptPasswordEncoder().encode(senha));
+
+        String subject = "BANTADS: CADASTRO APROVADO";
+
+        String message = "<html><body>Seu cadastro foi aprovado, sua senha é <br>"
+                + senha + "</body></html>";
+
+        servicoEmail.sendApproveEmail(cliente.getLogin(), subject, message);
 
     }
 
