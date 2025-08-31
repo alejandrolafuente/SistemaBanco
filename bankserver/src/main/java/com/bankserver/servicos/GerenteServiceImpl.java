@@ -1,6 +1,7 @@
 package com.bankserver.servicos;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import com.bankserver.dto.response.R09ResDTO;
 import com.bankserver.dto.response.R10ResDTO;
 import com.bankserver.model.Cliente;
 import com.bankserver.model.Conta;
+import com.bankserver.model.Saldo;
 import com.bankserver.model.StatusUsuario;
 import com.bankserver.repository.ContaRep;
 import com.bankserver.utils.ServicoEmail;
@@ -60,6 +62,14 @@ public class GerenteServiceImpl implements GerenteService {
                 .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
 
         conta.aprovar();
+        conta.setSaldo(0.0);
+
+        // REGISTRA PRIMEIRO SALDO NO HISTÓRICO
+        Saldo saldoInicial = new Saldo();
+        saldoInicial.setData(LocalDateTime.now());
+        saldoInicial.setValor(0.0);
+        saldoInicial.setConta(conta);
+        conta.getHistoricoSaldos().add(saldoInicial);
 
         Cliente cliente = conta.getCliente();
         cliente.setStatus(StatusUsuario.ATIVO);

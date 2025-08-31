@@ -31,10 +31,14 @@ public class Conta {
     private String numeroConta;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataAprovacao;
+    private Double saldo;
     private Double limite;
 
     @Enumerated(EnumType.STRING)
     private StatusConta statusConta; // APROVADA, PENDENTE, REJEITADA
+
+    @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
+    private List<Saldo> historicoSaldos;
 
     @OneToOne
     @JoinColumn(name = "cliente_id")
