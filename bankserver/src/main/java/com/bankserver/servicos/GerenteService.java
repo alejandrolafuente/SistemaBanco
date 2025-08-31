@@ -8,5 +8,5 @@ public interface GerenteService {
     ResponseEntity<?> solicitacoesPendentes(Long id);
 
     // R10
-    void aprovarCliente(Long contaId);
+    ResponseEntity<?> aprovarCliente(Long contaId);
 }

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginService } from '../../autenticacao/servicos/login.service';
 import { Solicitacao } from '../../models/solicitacao/solicitacao.model';
+import { ClienteAprovado } from '../../models/cliente-aprovado/cliente-aprovado.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +29,12 @@ export class GerenteService {
   }
 
   solicitacoesPendentes(id: number): Observable<Solicitacao[]> {
-    return this.httpClient.get<Solicitacao[]>(
-      `${this.BASE_URL}/gerentes/${id}/solicitacoes-pendentes`,
-      this.getHttpOptionsWithToken()
-    );
+    return this.httpClient.get<Solicitacao[]>(`${this.BASE_URL}/gerentes/${id}/solicitacoes-pendentes`,
+      this.getHttpOptionsWithToken());
+  }
+
+  aprovarCliente(idConta: number): Observable<ClienteAprovado> {
+    return this.httpClient.put<ClienteAprovado>(`${this.BASE_URL}/gerentes/aprovar-conta/${idConta}`, null,
+      this.getHttpOptionsWithToken());
   }
 }

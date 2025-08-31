@@ -1,8 +1,7 @@
-export class Solicitacao {
+export class ClienteAprovado {
     constructor(
         public contaId?: number,
         public cpf?: string,
-        public nome?: string,
-        public salario?: number
+        public nome?: string
     ) { }
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.dto.response.R09ResDTO;
+import com.bankserver.dto.response.R10ResDTO;
 import com.bankserver.model.Cliente;
 import com.bankserver.model.Conta;
 import com.bankserver.model.StatusUsuario;
@@ -46,9 +47,10 @@ public class GerenteServiceImpl implements GerenteService {
 
     }
 
+    // R10
     @Override
     @Transactional
-    public void aprovarCliente(Long contaId) {
+    public ResponseEntity<?> aprovarCliente(Long contaId) {
 
         // ** CUSTOMIZAR EXCEPTIONS!!
         // Conta conta = contaRep.findById(contaId)
@@ -67,10 +69,11 @@ public class GerenteServiceImpl implements GerenteService {
 
         String subject = "BANTADS: CADASTRO APROVADO";
 
-        String message = "<html><body>Seu cadastro foi aprovado, sua senha é <br>"
-                + senha + "</body></html>";
+        String message = "Seu cadastro foi aprovado, sua senha é " + senha;
 
         servicoEmail.sendApproveEmail(cliente.getLogin(), subject, message);
+
+        return ResponseEntity.ok(new R10ResDTO(conta.getId(), cliente.getCpf(), cliente.getNome()));
 
     }
 
