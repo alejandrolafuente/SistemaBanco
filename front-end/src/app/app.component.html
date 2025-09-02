@@ -29,8 +29,12 @@
                         <a class="nav-link" href="#" routerLink="/">Transferência</a>
                     </li>
 
+                    <li *ngIf="usuarioLogado.perfil==='CLIENTE'" class="nav-item">
+                        <a class="nav-link" href="#" routerLink="/">Extrato</a>
+                    </li>
+
                     <li class="nav-item">
-                        <a class="nav-link" href="#" routerLink="/home">Home</a>
+                        <a class="nav-link" href="#" routerLink="/home">Inicio</a>
                     </li>
 
                     <!-- <li class="nav-item" ngbDropdown>

@@ -3,6 +3,7 @@ import { LoginComponent } from './autenticacao/componentes/login/login.component
 import { CadastroComponent } from './autenticacao/componentes/cadastro/cadastro.component';
 import { AdminRoutes } from './administrador/admin-routing.module';
 import { GerenteRoutes } from './gerente/gerente-routing.module';
+import { ClienteRoutes } from './cliente/cliente-routing.module';
 
 export const routes: Routes = [
 
@@ -24,5 +25,7 @@ export const routes: Routes = [
 
     ...AdminRoutes,
 
-    ...GerenteRoutes
+    ...GerenteRoutes,
+
+    ...ClienteRoutes
 ];

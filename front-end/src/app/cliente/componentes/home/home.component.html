@@ -1,0 +1,79 @@
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Bem vindo, {{ clientName }}!</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div *ngIf="clientBalance >= 0" class="card text-white bg-success mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Seu Saldo:</h5>
+                    <p class="card-text">R$ {{ clientBalance | number: '1.2-2' }}</p>
+                </div>
+            </div>
+
+            <div *ngIf="clientBalance < 0" class="card text-white bg-danger mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Your Balance</h5>
+                    <p class="card-text">R$ {{ clientBalance | number: '1.2-2' }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-2 mb-3">
+            <a href="#" class="text-decoration-none" [routerLink]="['/client/update']">
+                <div class="card text-white bg-primary mb-3 border-0 shadow-sm hover-shadow-lg">
+                    <div class="card-body text-center">
+                        <h6 class="card-title mb-0">Perfil</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-2 mb-3">
+            <a href="#" class="text-decoration-none">
+                <div class="card text-white bg-info mb-3 border-0 shadow-sm hover-shadow-lg">
+                    <div class="card-body text-center">
+                        <h6 class="card-title mb-0">Deposito</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-2 mb-3">
+            <a href="#" class="text-decoration-none">
+                <div class="card text-white bg-secondary mb-3 border-0 shadow-sm hover-shadow-lg">
+                    <div class="card-body text-center">
+                        <h6 class="card-title mb-0">Saque</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-2 mb-3">
+            <a href="#" class="text-decoration-none">
+                <div class="card text-white bg-warning mb-3 border-0 shadow-sm hover-shadow-lg">
+                    <div class="card-body text-center">
+                        <h6 class="card-title mb-0">Transferência</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-2 mb-3">
+            <a href="#" class="text-decoration-none">
+                <div class="card text-white bg-success mb-3 border-0 shadow-sm hover-shadow-lg">
+                    <div class="card-body text-center">
+                        <h6 class="card-title mb-0">Extrato</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
