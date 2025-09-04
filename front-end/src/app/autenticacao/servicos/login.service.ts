@@ -39,7 +39,7 @@ export class LoginService {
     return usuarioLogado;
   }
 
-  logout(){
+  logout() {
     delete localStorage[LS_LOGIN_KEY];
   }
 

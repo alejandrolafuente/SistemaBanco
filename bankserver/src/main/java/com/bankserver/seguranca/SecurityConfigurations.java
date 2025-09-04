@@ -35,6 +35,7 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/cliente/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cliente/saldo/*").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/admin/novo-gerente").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET,

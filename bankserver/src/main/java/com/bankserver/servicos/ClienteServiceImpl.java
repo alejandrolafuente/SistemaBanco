@@ -43,6 +43,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     private GerenteRep gerenteRep;
 
+    // R01
     @Override
     @Transactional
     public ResponseEntity<?> insertClient(ClienteRegistrationDTO data) {
@@ -88,6 +89,18 @@ public class ClienteServiceImpl implements ClienteService {
         return ResponseEntity.ok().body("Cliente cadastrado com sucesso! Status da conta: PENDENTE");
     }
 
+    // R03
+    @Override
+    public ResponseEntity<?> buscaSaldo(Long userId) {
+
+        Cliente cliente = clienteRep.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        Double saldo = cliente.getConta().getSaldo();
+
+        return ResponseEntity.ok(saldo);
+    }
+
     private Gerente encontrarGerenteComMenosContas() {
 
         Pageable limit = PageRequest.of(0, 1);
@@ -112,4 +125,5 @@ public class ClienteServiceImpl implements ClienteService {
         Random random = new Random();
         return String.format("%08d", random.nextInt(100000000));
     }
+
 }
