@@ -34,6 +34,7 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/", "/health", "/info").permitAll()
                         .requestMatchers(HttpMethod.POST, "/cliente/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/cliente/saldo/*").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
@@ -45,7 +46,6 @@ public class SecurityConfigurations {
                                 "/gerentes/aprovar-conta/*")
                         .hasRole("GERENTE")
                         .requestMatchers(HttpMethod.POST, "/admin").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/admin/novo-gerente").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
