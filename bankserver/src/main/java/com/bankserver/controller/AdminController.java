@@ -20,18 +20,19 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    // R21 - Cadastrar ADMIN
+    @PostMapping
+    public ResponseEntity<?> register(@RequestBody AdminRegistrationDTO dto) {
+
+        return adminService.insertAdmin(dto);
+
+    }
+
     // R17
     @PostMapping("/novo-gerente")
     public ResponseEntity<?> novoGerente(@RequestBody GerenteRegistrationDTO dto) {
 
         return adminService.insertGerente(dto);
-
-    }
-
-    @PostMapping
-    public ResponseEntity<?> register(@RequestBody AdminRegistrationDTO dto) {
-
-        return adminService.insertAdmin(dto);
 
     }
 

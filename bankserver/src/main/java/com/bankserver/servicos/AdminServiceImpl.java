@@ -18,6 +18,7 @@ import com.bankserver.model.TipoUsuario;
 import com.bankserver.repository.AdministradorRep;
 import com.bankserver.repository.GerenteRep;
 import com.bankserver.repository.UsuarioRep;
+import com.bankserver.utils.ServicoEmail;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -30,6 +31,41 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private GerenteRep gerenteRep;
+
+    @Autowired
+    private ServicoEmail servicoEmail;
+
+    // R21 - Cadastrar ADMIN
+    @Override
+    @Transactional
+    public ResponseEntity<?> insertAdmin(AdminRegistrationDTO data) {
+
+        if (this.usuarioRep.existsByLogin(data.email())) {
+            return ResponseEntity.badRequest().body("Administrador já cadastrado!");
+        }
+
+        Administrador administrador = new Administrador();
+        String senha = generateRamdomPassword();
+
+        administrador.setCpf(data.cpf());
+        administrador.setLogin(data.email());
+        administrador.setNome(data.nome());
+        administrador.setTelefone(data.telefone());
+        administrador.setSenha(new BCryptPasswordEncoder().encode(senha));
+        administrador.setPerfil(TipoUsuario.ADMIN);
+        administrador.setStatus(StatusUsuario.ATIVO);
+
+        administradorRep.save(administrador);
+
+        String subject = "BANTADS: CADASTRO APROVADO";
+
+        String message = "Seu cadastro foi aprovado, sua senha é " + senha;
+
+        servicoEmail.sendApproveEmail(administrador.getLogin(), subject, message);
+
+        return ResponseEntity.ok()
+                .body("Administrador cadastrado com sucesso! Veja seu email: " + administrador.getLogin());
+    }
 
     // R17
     @Override
@@ -59,32 +95,6 @@ public class AdminServiceImpl implements AdminService {
         return ResponseEntity.ok(new GerRegResDTO(gerente.getId(), gerente.getCpf(),
                 gerente.getLogin(), gerente.getNome(), gerente.getTelefone()));
 
-    }
-
-    @Override
-    @Transactional
-    public ResponseEntity<?> insertAdmin(AdminRegistrationDTO data) {
-
-        if (this.usuarioRep.existsByLogin(data.email())) {
-            return ResponseEntity.badRequest().body("Administrador já cadastrado!");
-        }
-
-        Administrador administrador = new Administrador();
-        String senha = generateRamdomPassword();
-
-        administrador.setCpf(data.cpf());
-        administrador.setLogin(data.email());
-        administrador.setNome(data.nome());
-        administrador.setTelefone(data.telefone());
-        administrador.setSenha(new BCryptPasswordEncoder().encode(senha));
-        administrador.setPerfil(TipoUsuario.ADMIN);
-        administrador.setStatus(StatusUsuario.ATIVO);
-
-        administradorRep.save(administrador);
-
-        System.out.println("SENHA NO CADASTRO ADMIN: " + senha);
-
-        return ResponseEntity.ok().body("Administrador cadastrado com sucesso!");
     }
 
     private String generateRamdomPassword() {

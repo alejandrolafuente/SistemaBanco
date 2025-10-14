@@ -49,7 +49,7 @@ public class GerenteServiceImpl implements GerenteService {
 
     }
 
-    // R10
+    // R10 - Aprovar Cliente
     @Override
     @Transactional
     public ResponseEntity<?> aprovarCliente(Long contaId) {
