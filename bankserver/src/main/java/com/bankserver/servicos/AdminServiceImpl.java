@@ -61,6 +61,8 @@ public class AdminServiceImpl implements AdminService {
 
         String message = "Seu cadastro foi aprovado, sua senha é " + senha;
 
+        System.out.println("SENHA LOGS RENDER: " + senha);
+
         servicoEmail.sendApproveEmail(administrador.getLogin(), subject, message);
 
         return ResponseEntity.ok()
