@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginService } from '../../autenticacao/servicos/login.service';
+import { environment } from '../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,8 @@ export class ClienteService {
     private loginService: LoginService
   ) { }
 
-  BASE_URL = "http://localhost:8080";
+  //BASE_URL = "http://localhost:8080";
+  BASE_URL = environment.url;
 
   getHttpOptionsWithToken() {
     const token = this.loginService.usuarioLogado?.token;
