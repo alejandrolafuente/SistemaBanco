@@ -5,6 +5,7 @@ import { Login } from '../../models/login/login.model';
 import { Usuario } from '../../models/usuario/usuario.model';
 import { CadastroCliente } from '../../models/cadastro-cliente/cadastro-cliente.model';
 import { ClienteCadastrado } from '../../models/cliente-cadastrado/cliente-cadastrado.model';
+import { environment } from '../../../environments/environment';
 
 const LS_LOGIN_KEY: string = "usuarioLogado";
 
@@ -13,7 +14,8 @@ const LS_LOGIN_KEY: string = "usuarioLogado";
 })
 export class LoginService {
 
-  BASE_URL = "http://localhost:8080";
+  //BASE_URL = "http://localhost:8080";
+  BASE_URL = environment.url;
 
   httpOptions = {
     headers: new HttpHeaders({

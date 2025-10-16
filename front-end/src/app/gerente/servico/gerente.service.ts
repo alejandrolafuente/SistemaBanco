@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginService } from '../../autenticacao/servicos/login.service';
 import { Solicitacao } from '../../models/solicitacao/solicitacao.model';
 import { ClienteAprovado } from '../../models/cliente-aprovado/cliente-aprovado.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class GerenteService {
     private loginService: LoginService
   ) { }
 
-  BASE_URL = "http://localhost:8080";
+  //BASE_URL = "http://localhost:8080";
+  BASE_URL = environment.url;
 
   getHttpOptionsWithToken() {
     const token = this.loginService.usuarioLogado?.token;
