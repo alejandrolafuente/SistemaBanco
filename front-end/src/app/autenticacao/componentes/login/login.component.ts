@@ -55,7 +55,7 @@ export class LoginComponent {
             this.loginService.usuarioLogado = usuario; // setando Usuario na LS
             this.loading = false;
             if (usuario.perfil == "CLIENTE") {
-              this.router.navigate(["/clientes/home/" + usuario.id]);
+              this.router.navigate(["/cliente/home/" + usuario.id]);
             } else if (usuario.perfil == "ADMIN") {
               this.router.navigate(["/admin/gerentes"]);
             } else if (usuario.perfil == "GERENTE") {

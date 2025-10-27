@@ -75,13 +75,16 @@ public class GerenteServiceImpl implements GerenteService {
         cliente.setStatus(StatusUsuario.ATIVO);
 
         String senha = generateRamdomPassword();
+
         cliente.setSenha(new BCryptPasswordEncoder().encode(senha));
 
-        String subject = "BANTADS: CADASTRO APROVADO";
+        System.out.println("SENHA CLIENTE: " + senha);
 
-        String message = "Seu cadastro foi aprovado, sua senha é " + senha;
+        // String subject = "BANTADS: CADASTRO APROVADO";
 
-        servicoEmail.sendApproveEmail(cliente.getLogin(), subject, message);
+        // String message = "Seu cadastro foi aprovado, sua senha é " + senha;
+
+        // servicoEmail.sendApproveEmail(cliente.getLogin(), subject, message);
 
         return ResponseEntity.ok(new R10ResDTO(conta.getId(), cliente.getCpf(), cliente.getNome()));
 
