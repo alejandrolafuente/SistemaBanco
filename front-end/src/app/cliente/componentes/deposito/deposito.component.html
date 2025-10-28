@@ -4,7 +4,7 @@
 
     <div class="row justify-content-center">
 
-        <div class="col-md-10">
+        <div class="col-md-6">
             <div *ngIf="saldo >= 0" class="card text-white bg-success mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Seu Saldo:</h5>
@@ -18,31 +18,31 @@
                     <p class="card-text">R$ {{ saldo | number: '1.2-2' }}</p>
                 </div>
             </div>
-        </div>
-
-        <div class="border p-4 rounded-3">
-            <form #formLogin="ngForm">
-
-                <div class="form-group">
-                    <label for="user">Valor:</label>
-                    <input type="number" class="form-control" id="user" name="user" [(ngModel)]="valorDeposito"
-                        #user="ngModel" required>
-                    <div *ngIf="user.errors && (user.dirty || user.touched)" class="alert alert-danger">
-                        <div [hidden]="!user.errors['required']">
-                            Digite o email
+            <div class="border p-4 rounded-3">
+                <form #formLogin="ngForm">
+                    <div class="form-group">
+                        <label for="valorDeposito">Valor:</label>
+                        <input type="text" class="form-control" id="valorDeposito" name="valorDeposito"
+                            [(ngModel)]="valorDeposito" #inputValor="ngModel" required>
+                        <div *ngIf="inputValor.errors && (inputValor.dirty || inputValor.touched)"
+                            class="alert alert-danger">
+                            <div [hidden]="!inputValor.errors['required']">
+                                Digite o valor
+                            </div>
                         </div>
                     </div>
-                </div>
-                <br>
-                <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-primary" (click)="doLogin()"
-                        [disabled]="!formLogin.form.valid">
-                        <i class="fa fa-save" aria-hidden="true"></i> Depositar
+                    <br>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary" (click)="doLogin()"
+                            [disabled]="!formLogin.form.valid">
+                            <i class="fa fa-save" aria-hidden="true"></i> Depositar
 
-                    </button>
-                </div>
-            </form>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
+
     </div>
 
 </div>
