@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClienteService } from '../../servico/cliente.service';
 import { LoginService } from '../../../autenticacao/servicos/login.service';
 import { RouterModule } from '@angular/router';
 import { Usuario } from '../../../models/usuario/usuario.model';
-import { NgForm, FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-deposito',
@@ -15,6 +15,8 @@ import { NgForm, FormsModule } from '@angular/forms';
 })
 export class DepositoComponent implements OnInit {
 
+  @ViewChild('formDeposit')
+  formDeposit!: NgForm;
   saldo!: number;
   valorDeposito!: number;
   usuario: Usuario | null = null;
@@ -45,6 +47,12 @@ export class DepositoComponent implements OnInit {
     })
   }
 
-  doLogin(): void { }
+  depositar(): void {
+    if (this.formDeposit.form.valid) {
+
+    }
+    const valorNumerico = Number(this.valorDeposito);
+
+  }
 
 }

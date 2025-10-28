@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="border p-4 rounded-3">
-                <form #formLogin="ngForm">
+                <form #formDeposit="ngForm">
                     <div class="form-group">
                         <label for="valorDeposito">Valor:</label>
                         <input type="text" class="form-control" id="valorDeposito" name="valorDeposito"
@@ -33,8 +33,8 @@
                     </div>
                     <br>
                     <div class="d-flex justify-content-center">
-                        <button type="button" class="btn btn-primary" (click)="doLogin()"
-                            [disabled]="!formLogin.form.valid">
+                        <button type="button" class="btn btn-primary" (click)="depositar()"
+                            [disabled]="!formDeposit.form.valid">
                             <i class="fa fa-save" aria-hidden="true"></i> Depositar
 
                         </button>

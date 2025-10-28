@@ -29,9 +29,12 @@ export class ClienteService {
     };
   }
 
-  //R03 
+  // R03 
   buscaSaldo(userId: number): Observable<number> {
     return this.httpClient.get<number>(`${this.BASE_URL}/cliente/saldo/${userId}`,
       this.getHttpOptionsWithToken());
   }
+
+  // R05
+  deposito()
 }
