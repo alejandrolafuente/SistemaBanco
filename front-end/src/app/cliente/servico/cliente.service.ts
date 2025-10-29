@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { LoginService } from '../../autenticacao/servicos/login.service';
 import { environment } from '../../../environments/environment';
+import { Deposito } from '../../models/deposito/deposito.model';
 
 
 @Injectable({
@@ -36,5 +37,10 @@ export class ClienteService {
   }
 
   // R05
-  deposito()
+  deposito(deposito: Deposito): Observable<HttpResponse<void>> {
+    return this.httpClient.post<void>(`${this.BASE_URL}/cliente/deposito`, deposito, {
+      ...this.getHttpOptionsWithToken(),
+      observe: 'response'
+    });
+  }
 }

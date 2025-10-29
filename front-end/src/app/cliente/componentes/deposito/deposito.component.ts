@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClienteService } from '../../servico/cliente.service';
 import { LoginService } from '../../../autenticacao/servicos/login.service';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { Usuario } from '../../../models/usuario/usuario.model';
 import { FormsModule, NgForm } from '@angular/forms';
+import { Deposito } from '../../../models/deposito/deposito.model';
 
 @Component({
   selector: 'app-deposito',
@@ -23,7 +24,8 @@ export class DepositoComponent implements OnInit {
 
   constructor(
     private clienteService: ClienteService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -41,18 +43,26 @@ export class DepositoComponent implements OnInit {
         this.saldo = response;
         console.log("saldo: " + response)
       },
-      error: (err) => {
-        console.error('Erro ao buscar o saldo', err);
+      error: (erro) => {
+        console.error('Erro ao buscar o saldo', erro);
       }
     })
   }
 
   depositar(): void {
-    if (this.formDeposit.form.valid) {
+    if ((this.formDeposit.form.valid) && (this.usuario != null)) {
+      const deposito = new Deposito(1, Number(this.valorDeposito));
 
+      this.clienteService.deposito(deposito).subscribe({
+        next: () => {
+          console.log('Depósito realizado com sucesso');
+          this.router.navigate(["/cliente/home/" + this.usuario?.id]);
+        },
+        error: (erro) => {
+          console.error('Erro no depósito:', erro);
+        }
+      });
     }
-    const valorNumerico = Number(this.valorDeposito);
-
   }
 
 }
