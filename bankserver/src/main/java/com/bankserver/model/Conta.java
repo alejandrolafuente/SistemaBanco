@@ -1,5 +1,6 @@
 package com.bankserver.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -54,5 +55,11 @@ public class Conta {
     public void aprovar() {
         this.statusConta = StatusConta.APROVADA;
         this.dataAprovacao = LocalDateTime.now();
+    }
+
+    public void depositar(BigDecimal valor) {
+        this.saldo += valor.doubleValue();
+        // Opcional: registrar no histórico de saldos
+        // Opcional: criar uma transação do tipo DEPÓSITO
     }
 }

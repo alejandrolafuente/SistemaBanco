@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.dto.request.ClienteRegistrationDTO;
+import com.bankserver.dto.request.DepositoDTO;
 import com.bankserver.model.Cliente;
 import com.bankserver.model.Conta;
 import com.bankserver.model.Endereco;
 import com.bankserver.model.Gerente;
+import com.bankserver.model.Saldo;
 import com.bankserver.model.StatusConta;
 import com.bankserver.model.StatusUsuario;
 import com.bankserver.model.TipoUsuario;
@@ -99,6 +101,27 @@ public class ClienteServiceImpl implements ClienteService {
         Double saldo = cliente.getConta().getSaldo();
 
         return ResponseEntity.ok(saldo);
+    }
+
+    // R05
+    @Override
+    @Transactional
+    public ResponseEntity<?> realizarDeposito(DepositoDTO dto) {
+
+        Cliente cliente = clienteRep.findById(dto.id())
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+        Conta conta = cliente.getConta();
+        conta.depositar(dto.valor());
+
+        // Registra histórico
+        Saldo historicoSaldo = new Saldo();
+        historicoSaldo.setData(LocalDateTime.now());
+        historicoSaldo.setValor(conta.getSaldo());
+        historicoSaldo.setConta(conta);
+
+        contaRep.save(conta);
+
+        return ResponseEntity.ok().build();
     }
 
     private Gerente encontrarGerenteComMenosContas() {

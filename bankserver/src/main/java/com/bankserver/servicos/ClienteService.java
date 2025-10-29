@@ -3,6 +3,7 @@ package com.bankserver.servicos;
 import org.springframework.http.ResponseEntity;
 
 import com.bankserver.dto.request.ClienteRegistrationDTO;
+import com.bankserver.dto.request.DepositoDTO;
 
 public interface ClienteService {
 
@@ -11,4 +12,7 @@ public interface ClienteService {
 
     // R03
     ResponseEntity<?> buscaSaldo(Long userId);
+
+    // R05
+    ResponseEntity<?> realizarDeposito(DepositoDTO dto);
 }

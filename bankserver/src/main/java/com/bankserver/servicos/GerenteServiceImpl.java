@@ -18,7 +18,7 @@ import com.bankserver.model.Conta;
 import com.bankserver.model.Saldo;
 import com.bankserver.model.StatusUsuario;
 import com.bankserver.repository.ContaRep;
-import com.bankserver.utils.ServicoEmail;
+//import com.bankserver.utils.ServicoEmail;
 
 @Service
 public class GerenteServiceImpl implements GerenteService {
@@ -26,8 +26,8 @@ public class GerenteServiceImpl implements GerenteService {
     @Autowired
     private ContaRep contaRep;
 
-    @Autowired
-    private ServicoEmail servicoEmail;
+    // @Autowired
+    // private ServicoEmail servicoEmail;
 
     // R09
     @Override

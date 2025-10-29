@@ -30,6 +30,7 @@ export class DepositoComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuario = this.loginService.usuarioLogado;
+    console.log(this.usuario);
     this.buscaSaldo();
   }
 
@@ -51,7 +52,7 @@ export class DepositoComponent implements OnInit {
 
   depositar(): void {
     if ((this.formDeposit.form.valid) && (this.usuario != null)) {
-      const deposito = new Deposito(1, Number(this.valorDeposito));
+      const deposito = new Deposito(this.usuario.id, Number(this.valorDeposito));
 
       this.clienteService.deposito(deposito).subscribe({
         next: () => {
