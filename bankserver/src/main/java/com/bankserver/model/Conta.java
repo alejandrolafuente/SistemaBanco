@@ -32,8 +32,8 @@ public class Conta {
     private String numeroConta;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataAprovacao;
-    private Double saldo;
-    private Double limite;
+    private BigDecimal saldo;
+    private BigDecimal limite;
 
     @Enumerated(EnumType.STRING)
     private StatusConta statusConta; // APROVADA, PENDENTE, REJEITADA
@@ -58,7 +58,13 @@ public class Conta {
     }
 
     public void depositar(BigDecimal valor) {
-        this.saldo += valor.doubleValue();
+        this.saldo = this.saldo.add(valor);
+        // Opcional: registrar no histórico de saldos
+        // Opcional: criar uma transação do tipo DEPÓSITO
+    }
+
+    public void retirar(BigDecimal valor) {
+        this.saldo = this.saldo.subtract(valor);
         // Opcional: registrar no histórico de saldos
         // Opcional: criar uma transação do tipo DEPÓSITO
     }

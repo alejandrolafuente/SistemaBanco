@@ -1,5 +1,6 @@
 package com.bankserver.servicos;
 
+import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -62,12 +63,12 @@ public class GerenteServiceImpl implements GerenteService {
                 .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
 
         conta.aprovar();
-        conta.setSaldo(0.0);
+        conta.setSaldo(BigDecimal.ZERO);
 
         // REGISTRA PRIMEIRO SALDO NO HISTÓRICO
         Saldo saldoInicial = new Saldo();
         saldoInicial.setData(LocalDateTime.now());
-        saldoInicial.setValor(0.0);
+        saldoInicial.setValor(BigDecimal.ZERO);
         saldoInicial.setConta(conta);
         conta.getHistoricoSaldos().add(saldoInicial);
 

@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.dto.request.DepositoDTO;
+import com.bankserver.dto.request.SaqueDTO;
 
 public interface ClienteService {
 
@@ -15,4 +16,7 @@ public interface ClienteService {
 
     // R05
     ResponseEntity<?> realizarDeposito(DepositoDTO dto);
+
+    // R06
+    ResponseEntity<?> realizarSaque(SaqueDTO dto);
 }

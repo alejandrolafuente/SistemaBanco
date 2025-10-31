@@ -1,5 +1,7 @@
 package com.bankserver.servicos;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.dto.request.DepositoDTO;
+import com.bankserver.dto.request.SaqueDTO;
 import com.bankserver.model.Cliente;
 import com.bankserver.model.Conta;
 import com.bankserver.model.Endereco;
@@ -98,7 +101,7 @@ public class ClienteServiceImpl implements ClienteService {
         Cliente cliente = clienteRep.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-        Double saldo = cliente.getConta().getSaldo();
+        BigDecimal saldo = cliente.getConta().getSaldo();
 
         return ResponseEntity.ok(saldo);
     }
@@ -110,7 +113,9 @@ public class ClienteServiceImpl implements ClienteService {
 
         Cliente cliente = clienteRep.findById(dto.id())
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
         Conta conta = cliente.getConta();
+
         conta.depositar(dto.valor());
 
         // Registra histórico
@@ -121,6 +126,28 @@ public class ClienteServiceImpl implements ClienteService {
 
         contaRep.save(conta);
 
+        return ResponseEntity.ok().build();
+    }
+
+    // R06
+    @Override
+    public ResponseEntity<?> realizarSaque(SaqueDTO dto) {
+
+        Cliente cliente = clienteRep.findById(dto.id())
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        Conta conta = cliente.getConta();
+        
+        conta.retirar(dto.valor());
+
+        // Registra histórico
+        Saldo historicoSaldo = new Saldo();
+        historicoSaldo.setData(LocalDateTime.now());
+        historicoSaldo.setValor(conta.getSaldo());
+        historicoSaldo.setConta(conta);
+
+        contaRep.save(conta);
+        
         return ResponseEntity.ok().build();
     }
 
@@ -136,11 +163,11 @@ public class ClienteServiceImpl implements ClienteService {
         return gerentes.get(0); // SEMPRE retorna um gerente, mesmo que seja o único
     }
 
-    private Double calcularLimite(Double salario) {
-        if (salario >= 2000.0) {
-            return salario / 2;
+    private BigDecimal calcularLimite(BigDecimal salario) {
+        if (salario.compareTo(new BigDecimal("2000.00")) >= 0) {
+            return salario.divide(new BigDecimal("2"), 2, RoundingMode.HALF_UP);
         }
-        return 0.0;
+        return BigDecimal.ZERO;
     }
 
     // Método auxiliar para gerar número de conta aleatório

@@ -1,5 +1,7 @@
 package com.bankserver.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -16,7 +18,7 @@ public class Cliente extends Usuario {
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
-    private Double salario;
+    private BigDecimal salario;
 
     @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
     private Conta conta;

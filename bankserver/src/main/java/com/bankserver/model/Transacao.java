@@ -1,5 +1,6 @@
 package com.bankserver.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -20,7 +21,7 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime dataHora;
-    private Double valor;
+    private BigDecimal valor;
     // Para transferências
     private String contaDestino;
     @Enumerated(EnumType.STRING)
