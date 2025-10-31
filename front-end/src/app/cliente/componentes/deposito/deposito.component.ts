@@ -30,7 +30,6 @@ export class DepositoComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuario = this.loginService.usuarioLogado;
-    console.log(this.usuario);
     this.buscaSaldo();
   }
 
@@ -42,7 +41,6 @@ export class DepositoComponent implements OnInit {
     this.clienteService.buscaSaldo(this.usuario.id).subscribe({
       next: (response) => {
         this.saldo = response;
-        console.log("saldo: " + response)
       },
       error: (erro) => {
         console.error('Erro ao buscar o saldo', erro);
@@ -56,7 +54,6 @@ export class DepositoComponent implements OnInit {
 
       this.clienteService.deposito(deposito).subscribe({
         next: () => {
-          console.log('Depósito realizado com sucesso');
           this.router.navigate(["/cliente/home/" + this.usuario?.id]);
         },
         error: (erro) => {

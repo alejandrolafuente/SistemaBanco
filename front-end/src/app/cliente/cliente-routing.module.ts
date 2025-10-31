@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { AuthGuard } from "../autenticacao/servicos/auth.guard";
 import { HomeComponent } from "./componentes/home/home.component";
 import { DepositoComponent } from "./componentes/deposito/deposito.component";
+import { SaqueComponent } from "./componentes/saque/saque.component";
 
 export const ClienteRoutes: Routes = [
 
@@ -17,6 +18,14 @@ export const ClienteRoutes: Routes = [
     {
         path: 'cliente/deposito',
         component: DepositoComponent,
+        canActivate: [AuthGuard],
+        data: {
+            role: 'CLIENTE'
+        }
+    },
+    {
+        path: 'cliente/saque',
+        component: SaqueComponent,
         canActivate: [AuthGuard],
         data: {
             role: 'CLIENTE'

@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { LoginService } from '../../autenticacao/servicos/login.service';
 import { environment } from '../../../environments/environment';
 import { Deposito } from '../../models/deposito/deposito.model';
+import { Saque } from '../../models/saque/saque.model';
 
 
 @Injectable({
@@ -39,6 +40,14 @@ export class ClienteService {
   // R05
   deposito(deposito: Deposito): Observable<HttpResponse<void>> {
     return this.httpClient.post<void>(`${this.BASE_URL}/cliente/deposito`, deposito, {
+      ...this.getHttpOptionsWithToken(),
+      observe: 'response'
+    });
+  }
+
+  // R06
+  saque(saque: Saque): Observable<HttpResponse<void>> {
+    return this.httpClient.post<void>(`${this.BASE_URL}/cliente/saque`, saque, {
       ...this.getHttpOptionsWithToken(),
       observe: 'response'
     });
