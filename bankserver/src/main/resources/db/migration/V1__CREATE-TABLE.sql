@@ -2,7 +2,7 @@ CREATE TABLE usuario (
     id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(60) NOT NULL,
     login VARCHAR(60) UNIQUE NOT NULL,
-    senha VARCHAR(255),  -- aumentado p/ armazenar hash de senha
+    senha VARCHAR(255),
     cpf VARCHAR(11) UNIQUE NOT NULL,
     telefone VARCHAR(11) NOT NULL,
     perfil VARCHAR(10) NOT NULL CHECK (
@@ -42,7 +42,7 @@ CREATE TABLE endereco (
 CREATE TABLE cliente (
     id BIGINT PRIMARY KEY,
     endereco_id BIGINT UNIQUE,
-    salario DOUBLE PRECISION,
+    salario NUMERIC(15,2),
     FOREIGN KEY (id) REFERENCES usuario (id) ON DELETE CASCADE,
     FOREIGN KEY (endereco_id) REFERENCES endereco (id) ON DELETE SET NULL
 );
@@ -52,7 +52,8 @@ CREATE TABLE conta (
     numero_conta VARCHAR(20) UNIQUE NOT NULL,
     data_criacao TIMESTAMP WITH TIME ZONE NOT NULL,
     data_aprovacao TIMESTAMP WITH TIME ZONE,
-    limite DOUBLE PRECISION NOT NULL,
+    saldo NUMERIC(15,2),
+    limite NUMERIC(15,2) NOT NULL,
     status_conta VARCHAR(10) NOT NULL CHECK (
         status_conta IN (
             'APROVADA',
@@ -69,7 +70,7 @@ CREATE TABLE conta (
 CREATE TABLE transacao (
     id BIGSERIAL PRIMARY KEY,
     data_hora TIMESTAMP WITH TIME ZONE NOT NULL,
-    valor DOUBLE PRECISION NOT NULL,
+    valor NUMERIC(15,2) NOT NULL,
     conta_destino VARCHAR(20),  -- Para transferências
     tipo VARCHAR(12) NOT NULL CHECK (
         tipo IN (
@@ -85,7 +86,7 @@ CREATE TABLE transacao (
 CREATE TABLE saldo (
     id BIGSERIAL PRIMARY KEY,
     data TIMESTAMP WITH TIME ZONE NOT NULL,
-    valor DOUBLE PRECISION NOT NULL,
+    valor NUMERIC(15,2) NOT NULL,
     conta_id BIGINT NOT NULL,
     FOREIGN KEY (conta_id) REFERENCES conta (id) ON DELETE CASCADE
 );

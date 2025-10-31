@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.dto.request.DepositoDTO;
+import com.bankserver.dto.request.SaqueDTO;
 import com.bankserver.servicos.ClienteService;
 
 @RestController
@@ -38,8 +39,13 @@ public class ClienteController {
     // R05
     @PostMapping("/deposito")
     public ResponseEntity<?> deposito(@RequestBody DepositoDTO dto) {
-        System.out.println("Cliente quer DEPOSITO: " + dto.id());
         return clienteService.realizarDeposito(dto);
+    }
+
+    // R05
+    @PostMapping("/saque")
+    public ResponseEntity<?> saque(@RequestBody SaqueDTO dto) {
+        return clienteService.realizarSaque(dto);
     }
 
 }
