@@ -1,1 +1,59 @@
-<p>transferencia works!</p>
+<h1 class="text-center">Transferênciai</h1>
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+            <div *ngIf="saldo >= 0" class="card text-white bg-success mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Seu Saldo:</h5>
+                    <p class="card-text">R$ {{ saldo | number: '1.2-2' }}</p>
+                </div>
+            </div>
+
+            <div *ngIf="saldo < 0" class="card text-white bg-danger mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Seu Saldo:</h5>
+                    <p class="card-text">R$ {{ saldo | number: '1.2-2' }}</p>
+                </div>
+            </div>
+            <div class="border p-4 rounded-3">
+                <form #formTransferencia="ngForm">
+                    <div class="form-group">
+                        <label for="contaDestino">Conta de destino:</label>
+                        <input type="text" class="form-control" id="contaDestino" name="contaDestino"
+                            [(ngModel)]="contaDestino" #inputConta="ngModel" required>
+                        <div *ngIf="inputConta.errors && (inputConta.dirty || inputConta.touched)"
+                            class="alert alert-danger">
+                            <div [hidden]="!inputConta.errors['required']">
+                                Digite a conta
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="form-group">
+                        <label for="valorTransferencia">Valor:</label>
+                        <input type="text" class="form-control" id="valorTransferencia" name="valorTransferencia"
+                            [(ngModel)]="valorTransferencia" #inputValor="ngModel" required>
+                        <div *ngIf="inputValor.errors && (inputValor.dirty || inputValor.touched)"
+                            class="alert alert-danger">
+                            <div [hidden]="!inputValor.errors['required']">
+                                Digite o valor
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary" (click)="transferir()"
+                            [disabled]="!formTransferencia.form.valid">
+                            <i class="fa fa-save" aria-hidden="true"></i> Transferir
+
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>

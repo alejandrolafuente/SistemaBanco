@@ -5,6 +5,7 @@ import { LoginService } from '../../autenticacao/servicos/login.service';
 import { environment } from '../../../environments/environment';
 import { Deposito } from '../../models/deposito/deposito.model';
 import { Saque } from '../../models/saque/saque.model';
+import { Transferencia } from '../../models/transferencia/transferencia';
 
 
 @Injectable({
@@ -51,5 +52,14 @@ export class ClienteService {
       ...this.getHttpOptionsWithToken(),
       observe: 'response'
     });
+  }
+
+  // R07
+  transferencia(transferencia: Transferencia): Observable<HttpResponse<void>> {
+    return this.httpClient.post<void>(`${this.BASE_URL}/cliente/transferencia`, transferencia, {
+      ...this.getHttpOptionsWithToken(),
+      observe: 'response'
+    }
+    );
   }
 }
