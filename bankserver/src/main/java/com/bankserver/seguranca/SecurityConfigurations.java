@@ -40,6 +40,7 @@ public class SecurityConfigurations {
                                                 .requestMatchers(HttpMethod.GET, "/cliente/saldo/*").hasRole("CLIENTE")
                                                 .requestMatchers(HttpMethod.POST, "/cliente/deposito").hasRole("CLIENTE")
                                                 .requestMatchers(HttpMethod.POST, "/cliente/saque").hasRole("CLIENTE")
+                                                .requestMatchers(HttpMethod.POST, "/cliente/transferencia").hasRole("CLIENTE")
                                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/admin/novo-gerente")
                                                 .hasRole("ADMIN")

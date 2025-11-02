@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.dto.request.DepositoDTO;
 import com.bankserver.dto.request.SaqueDTO;
+import com.bankserver.dto.request.TransferDTO;
 import com.bankserver.model.Cliente;
 import com.bankserver.model.Conta;
 import com.bankserver.model.Endereco;
@@ -23,12 +24,18 @@ import com.bankserver.model.Gerente;
 import com.bankserver.model.Saldo;
 import com.bankserver.model.StatusConta;
 import com.bankserver.model.StatusUsuario;
+import com.bankserver.model.TipoTransacao;
 import com.bankserver.model.TipoUsuario;
+import com.bankserver.model.Transacao;
+import com.bankserver.model.Usuario;
 import com.bankserver.repository.ClienteRep;
-import com.bankserver.repository.ContaRep;
+import com.bankserver.repository.ContaRepository;
 import com.bankserver.repository.EnderecoRep;
 import com.bankserver.repository.GerenteRep;
+import com.bankserver.repository.SaldoRepository;
+import com.bankserver.repository.TransacaoRepository;
 import com.bankserver.repository.UsuarioRep;
+import com.bankserver.seguranca.UserDetailsImpl;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
@@ -43,10 +50,16 @@ public class ClienteServiceImpl implements ClienteService {
     private EnderecoRep enderecoRep;
 
     @Autowired
-    private ContaRep contaRep;
+    private ContaRepository contaRepository;
 
     @Autowired
     private GerenteRep gerenteRep;
+
+    @Autowired
+    private TransacaoRepository transacaoRepository;
+
+    @Autowired
+    private SaldoRepository saldoRepository;
 
     // R01
     @Override
@@ -89,7 +102,7 @@ public class ClienteServiceImpl implements ClienteService {
 
         clienteRep.save(cliente);
 
-        contaRep.save(conta);
+        contaRepository.save(conta);
 
         return ResponseEntity.ok().body("Cliente cadastrado com sucesso! Status da conta: PENDENTE");
     }
@@ -124,7 +137,7 @@ public class ClienteServiceImpl implements ClienteService {
         historicoSaldo.setValor(conta.getSaldo());
         historicoSaldo.setConta(conta);
 
-        contaRep.save(conta);
+        contaRepository.save(conta);
 
         return ResponseEntity.ok().build();
     }
@@ -137,7 +150,7 @@ public class ClienteServiceImpl implements ClienteService {
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
         Conta conta = cliente.getConta();
-        
+
         conta.retirar(dto.valor());
 
         // Registra histórico
@@ -146,9 +159,60 @@ public class ClienteServiceImpl implements ClienteService {
         historicoSaldo.setValor(conta.getSaldo());
         historicoSaldo.setConta(conta);
 
-        contaRep.save(conta);
-        
+        contaRepository.save(conta);
+
         return ResponseEntity.ok().build();
+    }
+
+    // R07
+    @Override
+    public ResponseEntity<?> realizarTransferencia(TransferDTO dto, UserDetailsImpl userDetailsImpl) {
+
+        // extrai o id do cliente
+        Usuario usuarioLogado = userDetailsImpl.getUsuario();
+        Long userId = usuarioLogado.getId();
+
+        // busca o cliente e sua conta (conta de origem)
+        Cliente cliente = clienteRep.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        Conta contaOrigem = cliente.getConta();
+
+        // busca conta destino
+        Conta contaDestino = contaRepository.findByNumeroConta(dto.contaDestino())
+                .orElseThrow(() -> new RuntimeException("Conta destino não encontrada"));
+
+        // executa a transferência
+        contaOrigem.transferir(dto.valor(), contaDestino);
+
+        // registra a transação
+        Transacao transacao = new Transacao();
+        transacao.setDataHora(LocalDateTime.now());
+        transacao.setValor(dto.valor());
+        transacao.setContaDestino(dto.contaDestino());
+        transacao.setTipo(TipoTransacao.TRANSFERENCIA);
+        transacao.setConta(contaOrigem);
+        transacaoRepository.save(transacao);
+
+        // registra saldo da conta origem
+        Saldo saldoOrigem = new Saldo();
+        saldoOrigem.setData(LocalDateTime.now());
+        saldoOrigem.setValor(contaOrigem.getSaldo());
+        saldoOrigem.setConta(contaOrigem);
+        saldoRepository.save(saldoOrigem);
+
+        // registra saldo da conta destino
+        Saldo saldoDestino = new Saldo();
+        saldoDestino.setData(LocalDateTime.now());
+        saldoDestino.setValor(contaDestino.getSaldo());
+        saldoDestino.setConta(contaDestino);
+        saldoRepository.save(saldoDestino);
+
+        // atualiza as contas
+        contaRepository.save(contaOrigem);
+        contaRepository.save(contaDestino);
+
+        return ResponseEntity.ok("Transferência realizada");
     }
 
     private Gerente encontrarGerenteComMenosContas() {

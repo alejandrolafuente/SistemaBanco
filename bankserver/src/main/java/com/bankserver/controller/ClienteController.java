@@ -2,6 +2,7 @@ package com.bankserver.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.dto.request.DepositoDTO;
 import com.bankserver.dto.request.SaqueDTO;
+import com.bankserver.dto.request.TransferDTO;
+import com.bankserver.seguranca.UserDetailsImpl;
 import com.bankserver.servicos.ClienteService;
 
 @RestController
@@ -46,6 +49,13 @@ public class ClienteController {
     @PostMapping("/saque")
     public ResponseEntity<?> saque(@RequestBody SaqueDTO dto) {
         return clienteService.realizarSaque(dto);
+    }
+
+    // R07
+    @PostMapping("/transferencia")
+    public ResponseEntity<?> transferir(@RequestBody TransferDTO dto,
+            @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
+        return clienteService.realizarTransferencia(dto, userDetailsImpl);
     }
 
 }

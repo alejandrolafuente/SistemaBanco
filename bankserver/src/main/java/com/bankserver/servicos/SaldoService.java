@@ -12,24 +12,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.model.Conta;
 import com.bankserver.model.Saldo;
-import com.bankserver.repository.ContaRep;
-import com.bankserver.repository.SaldoRep;
+import com.bankserver.repository.ContaRepository;
+import com.bankserver.repository.SaldoRepository;
 
 @Service
 @EnableScheduling
 public class SaldoService {
 
     @Autowired
-    private ContaRep contaRep;
+    private ContaRepository contaRepository;
 
     @Autowired
-    private SaldoRep saldoRep;
+    private SaldoRepository saldoRep;
 
     // método agendado
     @Transactional
     @Scheduled(cron = "0 0 23 * * *") // Todo dia às 23:00
     public void registrarSaldoDiario() {
-        List<Conta> contas = contaRep.findAll();
+        List<Conta> contas = contaRepository.findAll();
 
         for (Conta conta : contas) {
             Saldo saldoDiario = new Saldo();

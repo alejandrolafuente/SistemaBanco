@@ -68,4 +68,18 @@ public class Conta {
         // Opcional: registrar no histórico de saldos
         // Opcional: criar uma transação do tipo DEPÓSITO
     }
+
+    public void transferir(BigDecimal valor, Conta contaDestino) {
+
+        // verifica se o saldo suficiente considerando limite
+        BigDecimal saldoDisponivel = this.saldo.add(this.limite);
+        if (valor.compareTo(saldoDisponivel) > 0) {
+            throw new RuntimeException("Saldo insuficiente!");
+        }
+
+        // debita da conta de origem
+        this.retirar(valor);
+
+        contaDestino.depositar(valor);
+    }
 }

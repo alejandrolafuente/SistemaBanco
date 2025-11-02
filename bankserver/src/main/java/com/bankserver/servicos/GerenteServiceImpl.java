@@ -18,14 +18,14 @@ import com.bankserver.model.Cliente;
 import com.bankserver.model.Conta;
 import com.bankserver.model.Saldo;
 import com.bankserver.model.StatusUsuario;
-import com.bankserver.repository.ContaRep;
+import com.bankserver.repository.ContaRepository;
 //import com.bankserver.utils.ServicoEmail;
 
 @Service
 public class GerenteServiceImpl implements GerenteService {
 
     @Autowired
-    private ContaRep contaRep;
+    private ContaRepository contaRepository;
 
     // @Autowired
     // private ServicoEmail servicoEmail;
@@ -34,7 +34,7 @@ public class GerenteServiceImpl implements GerenteService {
     @Override
     public ResponseEntity<?> solicitacoesPendentes(Long id) {
 
-        List<Conta> contasPendentes = contaRep.findContasPendentesByGerenteId(id);
+        List<Conta> contasPendentes = contaRepository.findContasPendentesByGerenteId(id);
 
         List<R09ResDTO> solicitacoes = contasPendentes.stream()
                 .map(conta -> new R09ResDTO(
@@ -59,7 +59,7 @@ public class GerenteServiceImpl implements GerenteService {
         // Conta conta = contaRep.findById(contaId)
         // .orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada"));
 
-        Conta conta = contaRep.findById(contaId)
+        Conta conta = contaRepository.findById(contaId)
                 .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
 
         conta.aprovar();
