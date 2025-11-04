@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginService } from '../../autenticacao/servicos/login.service';
 import { Solicitacao } from '../../models/solicitacao/solicitacao.model';
-import { ClienteAprovado } from '../../models/cliente-aprovado/cliente-aprovado.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -35,8 +34,8 @@ export class GerenteService {
       this.getHttpOptionsWithToken());
   }
 
-  aprovarCliente(idConta: number): Observable<ClienteAprovado> {
-    return this.httpClient.put<ClienteAprovado>(`${this.BASE_URL}/gerentes/aprovar-conta/${idConta}`, null,
-      this.getHttpOptionsWithToken());
-  }
+  // aprovarCliente(idConta: number): Observable<ClienteAprovado> {
+  //   return this.httpClient.put<ClienteAprovado>(`${this.BASE_URL}/gerentes/aprovar-conta/${idConta}`, null,
+  //     this.getHttpOptionsWithToken());
+  // }
 }

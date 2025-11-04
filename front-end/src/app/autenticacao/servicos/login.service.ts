@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Login } from '../../models/login/login.model';
 import { Usuario } from '../../models/usuario/usuario.model';
-import { CadastroCliente } from '../../models/cadastro-cliente/cadastro-cliente.model';
-import { ClienteCadastrado } from '../../models/cliente-cadastrado/cliente-cadastrado.model';
 import { environment } from '../../../environments/environment';
+import { Cliente } from '../../models/cliente/cliente';
 
 const LS_LOGIN_KEY: string = "usuarioLogado";
 
@@ -35,6 +34,14 @@ export class LoginService {
     localStorage[LS_LOGIN_KEY] = JSON.stringify(usuario);
   }
 
+  // R01
+  autoCadastro(cliente: Cliente): Observable<HttpResponse<void>> {
+    return this.httpClient.post<void>(`${this.BASE_URL}/cliente/register`, cliente, {
+      observe: 'response'
+    });
+  }
+
+  // R02
   login(login: Login): Observable<Usuario> {
     let usuarioLogado = this.httpClient.post<Usuario>(this.BASE_URL +
       '/auth/login', JSON.stringify(login), this.httpOptions);
@@ -45,9 +52,4 @@ export class LoginService {
     delete localStorage[LS_LOGIN_KEY];
   }
 
-  autoCadastro(cadastroCliente: CadastroCliente): Observable<ClienteCadastrado> {
-    let clienteCadastrado = this.httpClient.post<ClienteCadastrado>(this.BASE_URL +
-      '/cliente/register', JSON.stringify(cadastroCliente), this.httpOptions);
-    return clienteCadastrado;
-  }
 }

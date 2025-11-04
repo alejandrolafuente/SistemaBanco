@@ -212,7 +212,7 @@ public class ClienteServiceImpl implements ClienteService {
         contaRepository.save(contaOrigem);
         contaRepository.save(contaDestino);
 
-        return ResponseEntity.ok("Transferência realizada");
+        return ResponseEntity.ok().build();
     }
 
     private Gerente encontrarGerenteComMenosContas() {
