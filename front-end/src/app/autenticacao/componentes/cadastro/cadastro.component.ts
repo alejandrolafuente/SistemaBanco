@@ -38,16 +38,41 @@ export class CadastroComponent {
     private loginService: LoginService
   ) { }
 
-  consultarCEP() {
-    const cep = this.cliente.endereco.cep.replace(/\D/g, ''); // Remove não dígitos
+  gerarCPFValido() {
+    this.cliente.cpf = this.gerarCPF();
+  }
 
-    // Validação do CEP
+  private gerarCPF(): string {
+    const randomDigit = () => Math.floor(Math.random() * 10);
+
+    // gera 9 dígitos aleatórios
+    let cpf = Array.from({ length: 9 }, randomDigit);
+
+    // calcula o primeiro dígito verificador
+    let soma = cpf.reduce((acc, digit, index) => acc + digit * (10 - index), 0);
+    let resto = soma % 11;
+    cpf.push(resto < 2 ? 0 : 11 - resto);
+
+    // calcula o segundo dígito verificador
+    soma = cpf.reduce((acc, digit, index) => acc + digit * (11 - index), 0);
+    resto = soma % 11;
+    cpf.push(resto < 2 ? 0 : 11 - resto);
+
+    // formata como CPF (XXX.XXX.XXX-XX)
+    return cpf.join('')
+      .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  }
+
+  consultarCEP() {
+    const cep = this.cliente.endereco.cep.replace(/\D/g, ''); // remove não dígitos
+
+    // validação do CEP
     if (cep.length !== 8) {
       this.message = 'CEP deve ter 8 dígitos';
       return;
     }
 
-    // Consulta a API ViaCEP
+    // consulta a API ViaCEP
     fetch(`https://viacep.com.br/ws/${cep}/json/`)
       .then(response => response.json())
       .then(data => {
@@ -56,14 +81,14 @@ export class CadastroComponent {
           return;
         }
 
-        // Preenche automaticamente os campos do endereço
+        // preenche automaticamente os campos do endereço
         this.cliente.endereco.uf = data.uf;
         this.cliente.endereco.cidade = data.localidade;
         this.cliente.endereco.bairro = data.bairro;
         this.cliente.endereco.rua = data.logradouro;
         this.cliente.endereco.complemento = data.complemento;
 
-        this.message = ''; // Limpa mensagem de erro se houver
+        this.message = ''; // limpa mensagem de erro se houver
       })
       .catch(error => {
         this.message = 'Erro ao consultar CEP';
