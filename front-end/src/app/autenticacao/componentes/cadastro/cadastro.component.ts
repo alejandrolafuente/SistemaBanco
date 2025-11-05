@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Cliente } from '../../../models/cliente/cliente';
 import { LoginService } from '../../servicos/login.service';
+import { NumericoDirective } from '../../../shared/diretivas/numerico/numerico.directive';
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, NumericoDirective],
   templateUrl: './cadastro.component.html',
   styleUrl: './cadastro.component.css'
 })
@@ -35,7 +36,8 @@ export class CadastroComponent {
   };
 
   constructor(
-    private loginService: LoginService
+    private loginService: LoginService,
+    private router: Router
   ) { }
 
   gerarCPFValido() {
@@ -58,9 +60,10 @@ export class CadastroComponent {
     resto = soma % 11;
     cpf.push(resto < 2 ? 0 : 11 - resto);
 
-    // formata como CPF (XXX.XXX.XXX-XX)
-    return cpf.join('')
-      .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+
+    //formatar depois para (XXX.XXX.XXX-XX)
+    return cpf.join('');
+    //.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
   }
 
   consultarCEP() {
@@ -94,6 +97,19 @@ export class CadastroComponent {
         this.message = 'Erro ao consultar CEP';
         console.error('Erro:', error);
       });
+  }
+
+  cadastrar(): void {
+    if (this.formCadastro.form.valid) {
+      this.loginService.cadastrar(this.cliente).subscribe({
+        next: () => {
+          this.router.navigate(["/login"]);
+        },
+        error: (erro) => {
+          console.error('Erro no cadastro:', erro);
+        }
+      })
+    }
   }
 
 }

@@ -35,7 +35,7 @@ export class LoginService {
   }
 
   // R01
-  autoCadastro(cliente: Cliente): Observable<HttpResponse<void>> {
+  cadastrar(cliente: Cliente): Observable<HttpResponse<void>> {
     return this.httpClient.post<void>(`${this.BASE_URL}/cliente/register`, cliente, {
       observe: 'response'
     });

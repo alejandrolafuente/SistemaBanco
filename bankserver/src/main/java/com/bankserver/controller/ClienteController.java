@@ -29,7 +29,9 @@ public class ClienteController {
     // R01
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody ClienteRegistrationDTO dto) {
-        return clienteService.insertClient(dto);
+        System.out.println("REQUEST DE CADASTRO CHEGOU: => " + dto);
+        return null;
+        // return clienteService.insertClient(dto);
     }
 
     // R03
