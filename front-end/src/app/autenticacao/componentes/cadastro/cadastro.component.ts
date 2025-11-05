@@ -5,11 +5,13 @@ import { Router } from '@angular/router';
 import { Cliente } from '../../../models/cliente/cliente';
 import { LoginService } from '../../servicos/login.service';
 import { NumericoDirective } from '../../../shared/diretivas/numerico/numerico.directive';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [FormsModule, CommonModule, NumericoDirective],
+  imports: [FormsModule, CommonModule, NumericoDirective, NgxMaskDirective, NgxMaskPipe],
+  providers: [provideNgxMask()],
   templateUrl: './cadastro.component.html',
   styleUrl: './cadastro.component.css'
 })
@@ -60,10 +62,8 @@ export class CadastroComponent {
     resto = soma % 11;
     cpf.push(resto < 2 ? 0 : 11 - resto);
 
-
-    //formatar depois para (XXX.XXX.XXX-XX)
     return cpf.join('');
-    //.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+
   }
 
   consultarCEP() {
