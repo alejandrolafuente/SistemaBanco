@@ -11,6 +11,6 @@ import com.bankserver.model.Usuario;
 public interface UsuarioRep extends JpaRepository<Usuario, Long> {
 
     boolean existsByLogin(String login);
-
+    boolean existsByCpf(String cpf); 
     Optional<Usuario> findByLogin(String login);
 }

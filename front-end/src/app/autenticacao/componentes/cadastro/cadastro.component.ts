@@ -66,6 +66,28 @@ export class CadastroComponent {
 
   }
 
+
+  verificarEmail() {
+    const email = this.cliente.email;
+
+    const emailControl = this.formCadastro.form.get('email');
+
+    if (emailControl && emailControl.valid) {
+      this.loginService.verificarEmailExistente(email).subscribe({
+        next: (existe) => {  // recebe boolean 
+          if (existe) {
+            this.message = 'Email já cadastrado no sistema';
+          } else {
+            this.message = '';
+          }
+        },
+        error: (erro) => {
+          console.error('Erro ao verificar email:', erro);
+        }
+      });
+    }
+  }
+
   consultarCEP() {
     const cep = this.cliente.endereco.cep.replace(/\D/g, ''); // remove não dígitos
 

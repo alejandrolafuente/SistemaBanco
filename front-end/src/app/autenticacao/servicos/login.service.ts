@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Login } from '../../models/login/login.model';
 import { Usuario } from '../../models/usuario/usuario.model';
@@ -34,6 +34,21 @@ export class LoginService {
     localStorage[LS_LOGIN_KEY] = JSON.stringify(usuario);
   }
 
+
+  verificarEmailExistente(email: string): Observable<boolean> {
+    return this.httpClient.get<{ existe: boolean }>(`${this.BASE_URL}/api/usuarios/verificar-email/${email}`
+    ).pipe(
+      map(response => response.existe)
+    );
+  }
+
+  verificarCpfExistente(cpf: string): Observable<boolean> {
+    return this.httpClient.get<{ existe: boolean }>(
+      `${this.BASE_URL}/api/usuarios/verificar-cpf/${cpf}`
+    ).pipe(
+      map(response => response.existe)
+    );
+  }
   // R01
   cadastrar(cliente: Cliente): Observable<HttpResponse<void>> {
     return this.httpClient.post<void>(`${this.BASE_URL}/cliente/register`, cliente, {

@@ -33,7 +33,6 @@ public class AuthenticationController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        // correção: acessar o Usuario através do UserDetailsImpl!
         UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
         
         Usuario usuario = userDetails.getUsuario(); // coloquei este método na UserDetailsImpl

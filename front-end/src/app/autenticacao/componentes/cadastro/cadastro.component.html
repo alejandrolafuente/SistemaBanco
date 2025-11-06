@@ -47,11 +47,14 @@
 
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="text" class="form-control" id="email" name="email" [(ngModel)]="cliente.email"
-                                #email="ngModel" maxlength="60" required>
+                            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="cliente.email"
+                                #email="ngModel" maxlength="60" email required (blur)="verificarEmail()">
                             <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
                                 <div [hidden]="!email.errors['required']">
                                     Digite o email
+                                </div>
+                                <div *ngIf="email.errors?.['email']">
+                                    Formato de email inválido
                                 </div>
                             </div>
                         </div>
