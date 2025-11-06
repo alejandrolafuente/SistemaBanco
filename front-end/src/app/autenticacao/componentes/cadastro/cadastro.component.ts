@@ -44,6 +44,8 @@ export class CadastroComponent {
 
   gerarCPFValido() {
     this.cliente.cpf = this.gerarCPF();
+    // verifica automaticamente o cpf no BD após gerar
+    setTimeout(() => this.verificarCpf(), 100);
   }
 
   private gerarCPF(): string {
@@ -83,6 +85,25 @@ export class CadastroComponent {
         },
         error: (erro) => {
           console.error('Erro ao verificar email:', erro);
+        }
+      });
+    }
+  }
+
+  verificarCpf() {
+    const cpf = this.cliente.cpf.replace(/\D/g, ''); // adequa formatacao
+
+    if (cpf && cpf.length === 11) {
+      this.loginService.verificarCpfExistente(cpf).subscribe({
+        next: (existe) => {
+          if (existe) {
+            this.message = 'CPF já cadastrado no sistema';
+          } else {
+            this.message = '';
+          }
+        },
+        error: (erro) => {
+          console.error('Erro ao verificar CPF:', erro);
         }
       });
     }

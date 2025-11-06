@@ -30,7 +30,7 @@
                         <div class="form-group">
                             <label for="cpf">CPF:</label>
                             <input type="text" class="form-control" id="cpf" name="cpf" [(ngModel)]="cliente.cpf"
-                                #cpf="ngModel" readonly mask="000.000.000-00" required>
+                                #cpf="ngModel" readonly mask="000.000.000-00" required (blur)="verificarCpf()">
                             <div class="mt-2">
                                 <button type="button" class="btn btn-outline-secondary btn-sm"
                                     (click)="gerarCPFValido()">
