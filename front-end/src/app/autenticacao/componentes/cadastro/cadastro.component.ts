@@ -19,7 +19,10 @@ export class CadastroComponent {
 
   @ViewChild('formCadastro')
   formCadastro!: NgForm;
-  message!: string;
+  message: string = ''; // erros gerais, como cep
+  emailMessage: string = '';
+  cpfMessage: string = '';
+  cepMessage: string = '';
   cliente: Cliente = {
     cpf: '',
     email: '',
@@ -78,13 +81,14 @@ export class CadastroComponent {
       this.loginService.verificarEmailExistente(email).subscribe({
         next: (existe) => {  // recebe boolean 
           if (existe) {
-            this.message = 'Email já cadastrado no sistema';
+            this.emailMessage = 'Email já cadastrado no sistema';
           } else {
             this.message = '';
           }
         },
         error: (erro) => {
           console.error('Erro ao verificar email:', erro);
+          this.emailMessage = 'Erro ao verificar email';
         }
       });
     }
@@ -97,13 +101,14 @@ export class CadastroComponent {
       this.loginService.verificarCpfExistente(cpf).subscribe({
         next: (existe) => {
           if (existe) {
-            this.message = 'CPF já cadastrado no sistema';
+            this.cpfMessage = 'CPF já cadastrado no sistema';
           } else {
-            this.message = '';
+            this.cpfMessage = '';
           }
         },
         error: (erro) => {
           console.error('Erro ao verificar CPF:', erro);
+          this.cpfMessage = 'Erro ao verificar CPF';
         }
       });
     }
@@ -113,33 +118,37 @@ export class CadastroComponent {
     const cep = this.cliente.endereco.cep.replace(/\D/g, ''); // remove não dígitos
 
     // validação do CEP
-    if (cep.length !== 8) {
-      this.message = 'CEP deve ter 8 dígitos';
-      return;
-    }
+    // if (cep.length !== 8) {
+    //   this.cepMessage = 'CEP deve ter 8 dígitos';
+    //   return;
+    // }
 
     // consulta a API ViaCEP
-    fetch(`https://viacep.com.br/ws/${cep}/json/`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.erro) {
-          this.message = 'CEP não encontrado';
-          return;
-        }
+    if (cep.length === 8) {
 
-        // preenche automaticamente os campos do endereço
-        this.cliente.endereco.uf = data.uf;
-        this.cliente.endereco.cidade = data.localidade;
-        this.cliente.endereco.bairro = data.bairro;
-        this.cliente.endereco.rua = data.logradouro;
-        this.cliente.endereco.complemento = data.complemento;
 
-        this.message = ''; // limpa mensagem de erro se houver
-      })
-      .catch(error => {
-        this.message = 'Erro ao consultar CEP';
-        console.error('Erro:', error);
-      });
+      fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.erro) {
+            this.cepMessage = 'CEP não encontrado';
+            return;
+          }
+
+          // preenche automaticamente os campos do endereço
+          this.cliente.endereco.uf = data.uf;
+          this.cliente.endereco.cidade = data.localidade;
+          this.cliente.endereco.bairro = data.bairro;
+          this.cliente.endereco.rua = data.logradouro;
+          this.cliente.endereco.complemento = data.complemento;
+
+          this.message = ''; // limpa mensagem de erro se houver
+        })
+        .catch(error => {
+          this.cepMessage = 'Erro ao consultar CEP';
+          console.error('Erro:', error);
+        });
+    }
   }
 
   cadastrar(): void {
