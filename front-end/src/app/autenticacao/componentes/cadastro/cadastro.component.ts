@@ -6,6 +6,7 @@ import { Cliente } from '../../../models/cliente/cliente';
 import { LoginService } from '../../servicos/login.service';
 import { NumericoDirective } from '../../../shared/diretivas/numerico/numerico.directive';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { CadastroBase } from '../../../shared/base/cadastro-base';
 
 @Component({
   selector: 'app-cadastro',
@@ -15,13 +16,11 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
   templateUrl: './cadastro.component.html',
   styleUrl: './cadastro.component.css'
 })
-export class CadastroComponent {
+export class CadastroComponent extends CadastroBase {
 
   @ViewChild('formCadastro')
   formCadastro!: NgForm;
   message: string = ''; // erros gerais, como cep
-  emailMessage: string = '';
-  cpfMessage: string = '';
   cepMessage: string = '';
   cliente: Cliente = {
     cpf: '',
@@ -41,87 +40,28 @@ export class CadastroComponent {
   };
 
   constructor(
-    private loginService: LoginService,
+    loginService: LoginService,
     private router: Router
-  ) { }
+  ) {
+    super(loginService);
+  }
 
   gerarCPFValido() {
     this.cliente.cpf = this.gerarCPF();
     // verifica automaticamente o cpf no BD após gerar
-    setTimeout(() => this.verificarCpf(), 100);
+    setTimeout(() => this.executarVerificacaoCpf(), 100);
   }
 
-  private gerarCPF(): string {
-    const randomDigit = () => Math.floor(Math.random() * 10);
-
-    // gera 9 dígitos aleatórios
-    let cpf = Array.from({ length: 9 }, randomDigit);
-
-    // calcula o primeiro dígito verificador
-    let soma = cpf.reduce((acc, digit, index) => acc + digit * (10 - index), 0);
-    let resto = soma % 11;
-    cpf.push(resto < 2 ? 0 : 11 - resto);
-
-    // calcula o segundo dígito verificador
-    soma = cpf.reduce((acc, digit, index) => acc + digit * (11 - index), 0);
-    resto = soma % 11;
-    cpf.push(resto < 2 ? 0 : 11 - resto);
-
-    return cpf.join('');
-
+  executarVerificacaoEmail() {
+    this.verificarEmail(this.cliente.email, this.formCadastro, 'email');
   }
 
-
-  verificarEmail() {
-    const email = this.cliente.email;
-
-    const emailControl = this.formCadastro.form.get('email');
-
-    if (emailControl && emailControl.valid) {
-      this.loginService.verificarEmailExistente(email).subscribe({
-        next: (existe) => {  // recebe boolean 
-          if (existe) {
-            this.emailMessage = 'Email já cadastrado no sistema';
-          } else {
-            this.message = '';
-          }
-        },
-        error: (erro) => {
-          console.error('Erro ao verificar email:', erro);
-          this.emailMessage = 'Erro ao verificar email';
-        }
-      });
-    }
-  }
-
-  verificarCpf() {
-    const cpf = this.cliente.cpf.replace(/\D/g, ''); // adequa formatacao
-
-    if (cpf && cpf.length === 11) {
-      this.loginService.verificarCpfExistente(cpf).subscribe({
-        next: (existe) => {
-          if (existe) {
-            this.cpfMessage = 'CPF já cadastrado no sistema';
-          } else {
-            this.cpfMessage = '';
-          }
-        },
-        error: (erro) => {
-          console.error('Erro ao verificar CPF:', erro);
-          this.cpfMessage = 'Erro ao verificar CPF';
-        }
-      });
-    }
+  executarVerificacaoCpf() {
+    this.verificarCpf(this.cliente.cpf);
   }
 
   consultarCEP() {
     const cep = this.cliente.endereco.cep.replace(/\D/g, ''); // remove não dígitos
-
-    // validação do CEP
-    // if (cep.length !== 8) {
-    //   this.cepMessage = 'CEP deve ter 8 dígitos';
-    //   return;
-    // }
 
     // consulta a API ViaCEP
     if (cep.length === 8) {
