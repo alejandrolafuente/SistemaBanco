@@ -5,6 +5,7 @@ import { Login } from '../../models/login/login.model';
 import { Usuario } from '../../models/usuario/usuario.model';
 import { environment } from '../../../environments/environment';
 import { Cliente } from '../../models/cliente/cliente';
+import { Administrador } from '../../models/administrador/administrador';
 
 const LS_LOGIN_KEY: string = "usuarioLogado";
 
@@ -43,8 +44,7 @@ export class LoginService {
   }
 
   verificarCpfExistente(cpf: string): Observable<boolean> {
-    return this.httpClient.get<{ existe: boolean }>(
-      `${this.BASE_URL}/api/usuarios/verificar-cpf/${cpf}`
+    return this.httpClient.get<{ existe: boolean }>(`${this.BASE_URL}/api/usuarios/verificar-cpf/${cpf}`
     ).pipe(
       map(response => response.existe)
     );
@@ -61,6 +61,13 @@ export class LoginService {
     let usuarioLogado = this.httpClient.post<Usuario>(this.BASE_URL +
       '/auth/login', JSON.stringify(login), this.httpOptions);
     return usuarioLogado;
+  }
+
+  // R21 - adicionar admin - serviço extra
+  cadastrarAdmin(administrador: Administrador): Observable<HttpResponse<void>> {
+    return this.httpClient.post<void>(`${this.BASE_URL}/admin`, administrador, {
+      observe: 'response'
+    });
   }
 
   logout() {

@@ -9,6 +9,6 @@ public interface AdminService {
 
     ResponseEntity<?> insertGerente(GerenteRegistrationDTO data);
     
-    ResponseEntity<?> insertAdmin(AdminRegistrationDTO data);
+    ResponseEntity<Void> insertAdmin(AdminRegistrationDTO data);
 
 }

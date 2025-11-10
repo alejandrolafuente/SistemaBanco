@@ -4,6 +4,7 @@ import { GerentesComponent } from "./componentes/gerentes/gerentes.component";
 import { InsercaoGerenteComponent } from "./componentes/insercao-gerente/insercao-gerente.component";
 import { ListagemGerentesComponent } from "./componentes/listagem-gerentes/listagem-gerentes.component";
 import { RelatorioClientesComponent } from "./componentes/relatorio-clientes/relatorio-clientes.component";
+import { RegistrarAdminComponent } from "./componentes/registrar-admin/registrar-admin.component";
 
 export const AdminRoutes: Routes = [
 
@@ -15,5 +16,9 @@ export const AdminRoutes: Routes = [
             role: 'ADMIN'
         }
 
-    }
+    },
+    {
+        path: 'admin/registrar',
+        component: RegistrarAdminComponent
+    },
 ]

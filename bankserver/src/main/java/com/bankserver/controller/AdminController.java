@@ -22,7 +22,7 @@ public class AdminController {
 
     // R21 - Cadastrar ADMIN
     @PostMapping
-    public ResponseEntity<?> register(@RequestBody AdminRegistrationDTO dto) {
+    public ResponseEntity<Void> register(@RequestBody AdminRegistrationDTO dto) {
 
         return adminService.insertAdmin(dto);
 

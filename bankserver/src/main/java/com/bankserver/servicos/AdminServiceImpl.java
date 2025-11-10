@@ -38,10 +38,11 @@ public class AdminServiceImpl implements AdminService {
     // R21 - Cadastrar ADMIN
     @Override
     @Transactional
-    public ResponseEntity<?> insertAdmin(AdminRegistrationDTO data) {
+    public ResponseEntity<Void> insertAdmin(AdminRegistrationDTO data) {
 
         if (this.usuarioRep.existsByLogin(data.email())) {
-            return ResponseEntity.badRequest().body("Administrador já cadastrado!");
+            // return ResponseEntity.badRequest().body("Administrador já cadastrado!");
+            return ResponseEntity.badRequest().build(); // remove o body por enquanto
         }
 
         Administrador administrador = new Administrador();
@@ -63,10 +64,12 @@ public class AdminServiceImpl implements AdminService {
 
         System.out.println("SENHA NO CADASTRO ADMIN: " + senha);
 
-       // servicoEmail.sendApproveEmail(administrador.getLogin(), subject, message);
+        // servicoEmail.sendApproveEmail(administrador.getLogin(), subject, message);
 
-        return ResponseEntity.ok()
-                .body("Administrador cadastrado com sucesso! Veja seu email: " + administrador.getLogin());
+        // return ResponseEntity.ok()
+        // .body("Administrador cadastrado com sucesso! Veja seu email: " +
+        // administrador.getLogin());
+        return ResponseEntity.ok().build();
     }
 
     // R17
