@@ -51,45 +51,6 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    // @Override
-    // protected void doFilterInternal(HttpServletRequest request,
-    // HttpServletResponse response, FilterChain filterChain)
-    // throws ServletException, IOException {
-
-    // System.out.println("=== REQUISIÇÃO: " + request.getRequestURI() + " ===");
-
-    // var token = this.recoverToken(request);
-    // System.out.println("TOKEN RECUPERADO: " + token);
-
-    // if (token != null) {
-    // try {
-    // var login = tokenService.validateToken(token);
-    // System.out.println("LOGIN DO TOKEN: " + login);
-
-    // Usuario usuario = usuarioRep.findByLogin(login)
-    // .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
-
-    // System.out.println("USUÁRIO ENCONTRADO: " + usuario.getNome());
-    // System.out.println("PERFIL: " + usuario.getPerfil());
-
-    // UserDetails user = new UserDetailsImpl(usuario);
-    // var authentication = new UsernamePasswordAuthenticationToken(user, null,
-    // user.getAuthorities());
-    // SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    // System.out.println("AUTENTICAÇÃO CRIADA: " +
-    // authentication.getAuthorities());
-
-    // } catch (Exception e) {
-    // System.out.println("ERRO AO VALIDAR TOKEN: " + e.getMessage());
-    // }
-    // } else {
-    // System.out.println("NENHUM TOKEN ENCONTRADO!");
-    // }
-
-    // filterChain.doFilter(request, response);
-    // }
-
     private String recoverToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
         if (authHeader == null)
