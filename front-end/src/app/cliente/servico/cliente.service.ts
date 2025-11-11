@@ -21,12 +21,10 @@ export class ClienteService {
   //BASE_URL = "http://localhost:8080";
   BASE_URL = environment.url;
 
-  getHttpOptionsWithToken() {
-    const token = this.loginService.usuarioLogado?.token;
+  getHttpOptions() {
     return {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Content-Type': 'application/json'
       }),
       withCredentials: true
     };
@@ -35,13 +33,13 @@ export class ClienteService {
   // R03 
   buscaSaldo(userId: number): Observable<number> {
     return this.httpClient.get<number>(`${this.BASE_URL}/cliente/saldo/${userId}`,
-      this.getHttpOptionsWithToken());
+      this.getHttpOptions());
   }
 
   // R05
   deposito(deposito: Deposito): Observable<HttpResponse<void>> {
     return this.httpClient.post<void>(`${this.BASE_URL}/cliente/deposito`, deposito, {
-      ...this.getHttpOptionsWithToken(),
+      ...this.getHttpOptions(),
       observe: 'response'
     });
   }
@@ -49,7 +47,7 @@ export class ClienteService {
   // R06
   saque(saque: Saque): Observable<HttpResponse<void>> {
     return this.httpClient.post<void>(`${this.BASE_URL}/cliente/saque`, saque, {
-      ...this.getHttpOptionsWithToken(),
+      ...this.getHttpOptions(),
       observe: 'response'
     });
   }
@@ -57,7 +55,7 @@ export class ClienteService {
   // R07
   transferencia(transferencia: Transferencia): Observable<HttpResponse<void>> {
     return this.httpClient.post<void>(`${this.BASE_URL}/cliente/transferencia`, transferencia, {
-      ...this.getHttpOptionsWithToken(),
+      ...this.getHttpOptions(),
       observe: 'response'
     }
     );

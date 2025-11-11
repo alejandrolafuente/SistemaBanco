@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginService } from './autenticacao/servicos/login.service';
-import { Usuario } from './models/usuario/usuario.model';
+import { Usuario } from './models/usuario/usuario';
 
 
 @Component({

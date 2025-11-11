@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { ClienteService } from '../../servico/cliente.service';
 import { LoginService } from '../../../autenticacao/servicos/login.service';
-import { Usuario } from '../../../models/usuario/usuario.model';
+import { Usuario } from '../../../models/usuario/usuario';
 
 @Component({
   selector: 'app-home',

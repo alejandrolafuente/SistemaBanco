@@ -18,20 +18,18 @@ export class GerenteService {
   //BASE_URL = "http://localhost:8080";
   BASE_URL = environment.url;
 
-  getHttpOptionsWithToken() {
-    const token = this.loginService.usuarioLogado?.token;
+  getHttpOptions() {
     return {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Content-Type': 'application/json'
       }),
-      withCredentials: true
+      withCredentials: true // envia o cookie autimaticamente!
     };
   }
 
   solicitacoesPendentes(id: number): Observable<Solicitacao[]> {
     return this.httpClient.get<Solicitacao[]>(`${this.BASE_URL}/gerentes/${id}/solicitacoes-pendentes`,
-      this.getHttpOptionsWithToken());
+      this.getHttpOptions());
   }
 
   // aprovarCliente(idConta: number): Observable<ClienteAprovado> {

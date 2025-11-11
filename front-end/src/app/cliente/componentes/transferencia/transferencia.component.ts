@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ClienteService } from '../../servico/cliente.service';
 import { LoginService } from '../../../autenticacao/servicos/login.service';
 import { RouterModule, Router } from '@angular/router';
-import { Usuario } from '../../../models/usuario/usuario.model';
+import { Usuario } from '../../../models/usuario/usuario';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Transferencia } from '../../../models/transferencia/transferencia';
 

@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Login } from '../../../models/login/login.model';
+import { Login } from '../../../models/login/login';
 import { LoginService } from '../../servicos/login.service';
 
 @Component({
@@ -21,8 +21,11 @@ export class LoginComponent {
 
   @ViewChild('formLogin')
   formLogin!: NgForm;
-
-  login: Login = new Login();
+  
+  login: Login = {
+    login: '',
+    senha: ''
+  };
   loading: boolean = false;
   message!: string;
 
@@ -52,7 +55,7 @@ export class LoginComponent {
 
         (usuario) => {
           if (usuario != null) {
-            this.loginService.usuarioLogado = usuario; // setando Usuario na LS
+            this.loginService.usuarioLogado = usuario; // setando dados Usuario na LS
             this.loading = false;
             if (usuario.perfil == "CLIENTE") {
               this.router.navigate(["/cliente/home/" + usuario.id]);

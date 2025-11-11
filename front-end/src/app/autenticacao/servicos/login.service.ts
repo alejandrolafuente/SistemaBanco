@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Login } from '../../models/login/login.model';
-import { Usuario } from '../../models/usuario/usuario.model';
+import { Login } from '../../models/login/login';
+import { Usuario } from '../../models/usuario/usuario';
 import { environment } from '../../../environments/environment';
 import { Cliente } from '../../models/cliente/cliente';
 import { Administrador } from '../../models/administrador/administrador';
@@ -58,9 +58,9 @@ export class LoginService {
 
   // R02
   login(login: Login): Observable<Usuario> {
-    let usuarioLogado = this.httpClient.post<Usuario>(this.BASE_URL +
-      '/auth/login', JSON.stringify(login), this.httpOptions);
-    return usuarioLogado;
+    return this.httpClient.post<Usuario>(this.BASE_URL +
+      '/auth/login', login, this.httpOptions);
+
   }
 
   // R21 - adicionar admin - serviço extra

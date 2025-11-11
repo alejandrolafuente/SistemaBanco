@@ -53,7 +53,6 @@ public class AuthenticationController {
         // Retornar usuário sem o token no body
         return ResponseEntity.ok(new LoginResponseDTO(
                 usuario.getId(),
-                null, // Não enviar token no body
                 usuario.getNome(),
                 usuario.getLogin(),
                 usuario.getCpf(),
