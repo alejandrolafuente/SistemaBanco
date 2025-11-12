@@ -7,7 +7,10 @@ import { RelatorioClientesComponent } from "./componentes/relatorio-clientes/rel
 import { RegistrarAdminComponent } from "./componentes/registrar-admin/registrar-admin.component";
 
 export const AdminRoutes: Routes = [
-
+    {
+        path: 'admin/registrar',
+        component: RegistrarAdminComponent
+    },
     {
         path: 'admin/gerentes',
         component: GerentesComponent,
@@ -18,7 +21,21 @@ export const AdminRoutes: Routes = [
 
     },
     {
-        path: 'admin/registrar',
-        component: RegistrarAdminComponent
+        path: 'admin/listar-gerentes',
+        component: ListagemGerentesComponent,
+        canActivate: [AuthGuard],
+        data: {
+            role: 'ADMIN'
+        }
+
     },
-]
+    {
+        path: 'admin/inserir-gerente',
+        component: InsercaoGerenteComponent,
+        canActivate: [AuthGuard],
+        data: {
+            role: 'ADMIN'
+        }
+
+    }
+]   
