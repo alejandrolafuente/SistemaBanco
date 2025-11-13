@@ -1,5 +1,7 @@
 package com.bankserver.servicos;
 
+import java.math.BigDecimal;
+
 import org.springframework.http.ResponseEntity;
 
 import com.bankserver.dto.request.ClienteRegistrationDTO;
@@ -14,7 +16,7 @@ public interface ClienteService {
     ResponseEntity<?> insertClient(ClienteRegistrationDTO data);
 
     // R03
-    ResponseEntity<?> buscaSaldo(Long userId);
+    ResponseEntity<BigDecimal> buscaSaldo(Long userId);
 
     // R05
     ResponseEntity<?> realizarDeposito(DepositoDTO dto);

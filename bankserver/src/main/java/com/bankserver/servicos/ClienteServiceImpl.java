@@ -17,6 +17,7 @@ import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.dto.request.DepositoDTO;
 import com.bankserver.dto.request.SaqueDTO;
 import com.bankserver.dto.request.TransferDTO;
+import com.bankserver.exceptions.ClientNotFoundException;
 import com.bankserver.model.Cliente;
 import com.bankserver.model.Conta;
 import com.bankserver.model.Endereco;
@@ -109,10 +110,10 @@ public class ClienteServiceImpl implements ClienteService {
 
     // R03
     @Override
-    public ResponseEntity<?> buscaSaldo(Long userId) {
+    public ResponseEntity<BigDecimal> buscaSaldo(Long userId) {
 
         Cliente cliente = clienteRep.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado para o id = " + userId));
 
         BigDecimal saldo = cliente.getConta().getSaldo();
 

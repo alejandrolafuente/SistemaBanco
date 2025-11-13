@@ -1,5 +1,7 @@
 package com.bankserver.controller;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,7 +38,7 @@ public class ClienteController {
 
     // R03
     @GetMapping("/saldo/{userId}")
-    public ResponseEntity<?> buscaSaldo(@PathVariable Long userId) {
+    public ResponseEntity<BigDecimal> buscaSaldo(@PathVariable Long userId) {
 
         return clienteService.buscaSaldo(userId);
     }
