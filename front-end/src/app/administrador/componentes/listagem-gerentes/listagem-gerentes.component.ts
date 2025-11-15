@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { R19ResDTO } from '../../../models/gerenteDTO/R19ResDTO';
+import { Router, RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-listagem-gerentes',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './listagem-gerentes.component.html',
   styleUrl: './listagem-gerentes.component.css'
 })

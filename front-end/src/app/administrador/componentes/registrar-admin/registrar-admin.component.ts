@@ -21,6 +21,7 @@ export class RegistrarAdminComponent extends CadastroBase {
   @ViewChild('formCadastro')
   formCadastro!: NgForm;
   message: string = ''; // erros gerais
+
   administrador: Administrador = {
     cpf: '',
     email: '',
@@ -38,16 +39,18 @@ export class RegistrarAdminComponent extends CadastroBase {
   gerarCPFValido() {
     this.administrador.cpf = this.gerarCPF();
     // verifica automaticamente o cpf no BD após usário gerá-lo
-    setTimeout(() => this.executarVerificacaoCpf(), 100);
+    // setTimeout(() => this.executarVerificacaoCpf(), 100);
+  }
+
+  executarVerificacaoCpf() {
+    this.verificarCpf(this.administrador.cpf);
   }
 
   executarVerificacaoEmail() {
     this.verificarEmail(this.administrador.email, this.formCadastro, 'email');
   }
 
-  executarVerificacaoCpf() {
-    this.verificarCpf(this.administrador.cpf);
-  }
+
 
   cadastrar(): void {
     if (this.formCadastro.form.valid) {
