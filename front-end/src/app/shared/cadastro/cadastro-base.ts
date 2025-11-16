@@ -1,0 +1,70 @@
+import { NgForm } from "@angular/forms";
+import { ICadastroStrategy } from "./icadastro-strategy";
+import { IEntidadeCadastravel } from "./ientidade-cadastravel";
+import { LoginService } from "../../autenticacao/servicos/login.service";
+
+export abstract class CadastroBase implements ICadastroStrategy {
+
+    emailMessage: string = '';
+    cpfMessage: string = '';
+
+    protected abstract get form(): NgForm;
+    protected abstract get entidade(): IEntidadeCadastravel;
+
+    constructor(protected loginService: LoginService) { }
+
+    gerarCPF(): string {
+        const randomDigit = () => Math.floor(Math.random() * 10);
+
+        // gera 9 dígitos aleatórios
+        let cpf = Array.from({ length: 9 }, randomDigit);
+
+        // calcula o primeiro dígito verificador
+        let soma = cpf.reduce((acc, digit, index) => acc + digit * (10 - index), 0);
+        let resto = soma % 11;
+        cpf.push(resto < 2 ? 0 : 11 - resto);
+
+        // calcula o 2o dígito verificador
+        soma = cpf.reduce((acc, digit, index) => acc + digit * (11 - index), 0);
+        resto = soma % 11;
+        cpf.push(resto < 2 ? 0 : 11 - resto);
+
+        return cpf.join('');
+    }
+
+    verificarCpf(cpf: string): void {
+        const cpfLimpo = cpf.replace(/\D/g, '');
+
+        if (cpfLimpo && cpfLimpo.length === 11) {
+            this.loginService.verificarCpfExistente(cpfLimpo).subscribe({
+                next: (existe) => {
+                    this.cpfMessage = existe ? 'CPF já cadastrado no sistema' : '';
+                },
+                error: (erro) => {
+                    this.cpfMessage = 'Erro ao verificar CPF';
+                    console.error('Erro na verificação de CPF:', erro);
+                }
+            });
+        }
+    }
+
+    verificarEmail(email: string, form: NgForm, campo: string): void {
+        const emailControl = form.form.get(campo);
+
+        if (emailControl && emailControl.valid) {
+            this.loginService.verificarEmailExistente(email).subscribe({
+                next: (existe) => {
+                    this.emailMessage = existe ? 'Email já cadastrado no sistema' : '';
+                },
+                error: (erro) => {
+                    this.emailMessage = 'Erro ao verificar email';
+                    console.error('Erro na verificação de email:', erro);
+                }
+            });
+        }
+    }
+
+    validarAntesDoCadastro(): boolean {
+        throw new Error("Method not implemented.");
+    }
+}
