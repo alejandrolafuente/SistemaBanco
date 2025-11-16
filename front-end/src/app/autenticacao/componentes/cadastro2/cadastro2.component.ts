@@ -100,7 +100,14 @@ export class Cadastro2Component extends CadastroBase {
   }
 
   protected override processarCadastro(): void {
-    throw new Error('Method not implemented.');
+    this.loginService.cadastrar(this.cliente).subscribe({
+      next: () => {
+        this.router.navigate(["/login"]);
+      },
+      error: (erro) => {
+        console.error('Erro no cadastro do cliente:', erro);
+      }
+    });
   }
 
 }
