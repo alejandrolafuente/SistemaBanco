@@ -65,6 +65,33 @@ export abstract class CadastroBase implements ICadastroStrategy {
     }
 
     validarAntesDoCadastro(): boolean {
-        throw new Error("Method not implemented.");
+        if (!this.form.valid) {
+            this.marcarCamposComoSujos();
+            return false;
+        }
+
+        if (this.emailMessage || this.cpfMessage) {
+            return false;
+        }
+
+        return true;
     }
+
+    private marcarCamposComoSujos(): void {
+        Object.keys(this.form.controls).forEach(key => {
+            this.form.controls[key].markAsDirty();
+            this.form.controls[key].markAsTouched();
+        });
+    }
+
+
+    // padrao de projeto Template - as subclasses implementam o processo específico
+    protected abstract processarCadastro(): void;
+
+    public cadastrar(): void {
+        if (this.validarAntesDoCadastro()) {
+            this.processarCadastro();
+        }
+    }
+
 }

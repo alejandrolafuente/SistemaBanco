@@ -6,7 +6,10 @@ export interface ICadastroStrategy {
     cpfMessage: string;
 
     gerarCPF(): string;
+
     verificarCpf(cpf: string): void;
+
     verificarEmail(email: string, form: NgForm, campo: string): void;
+    
     validarAntesDoCadastro(): boolean;
 }
