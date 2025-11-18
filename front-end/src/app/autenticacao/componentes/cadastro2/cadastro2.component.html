@@ -91,8 +91,9 @@
                         <div class="form-group">
                             <label for="salario">Salário:</label>
                             <input type="text" class="form-control" id="salario" name="salario"
-                                [(ngModel)]="cliente.salario" #salario="ngModel" numerico>
+                                [(ngModel)]="cliente.salario" #salario="ngModel" placeholder="R$ 0,00" monetario>
                         </div>
+
                     </form>
                 </div>
             </div>

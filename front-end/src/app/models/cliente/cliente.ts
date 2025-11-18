@@ -5,6 +5,6 @@ export interface Cliente {
     email: string;
     nome: string;
     telefone: string;
-    salario: number;
+    salario: number | null;
     endereco: Endereco
 }

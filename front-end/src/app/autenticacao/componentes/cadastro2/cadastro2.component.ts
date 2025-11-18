@@ -7,13 +7,14 @@ import { Cliente } from '../../../models/cliente/cliente';
 import { LoginService } from '../../servicos/login.service';
 import { CepService, EnderecoViaCEP } from '../../../services/cep.service';
 import { NumericoDirective } from '../../../shared/diretivas/numerico/numerico.directive';
+import { MonetarioDirective } from '../../../shared/diretivas/monetario/monetario.directive';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { IEntidadeCadastravel } from '../../../shared/cadastro/ientidade-cadastravel';
 
 @Component({
   selector: 'app-cadastro2',
   standalone: true,
-  imports: [FormsModule, CommonModule, NumericoDirective, NgxMaskDirective, NgxMaskPipe],
+  imports: [FormsModule, CommonModule, NumericoDirective, MonetarioDirective, NgxMaskDirective, NgxMaskPipe],
   providers: [provideNgxMask()],
   templateUrl: './cadastro2.component.html',
   styleUrl: './cadastro2.component.css'
@@ -28,7 +29,7 @@ export class Cadastro2Component extends CadastroBase {
     email: '',
     nome: '',
     telefone: '',
-    salario: 0,
+    salario: null,
     endereco: {
       cep: '',
       uf: '',
@@ -47,6 +48,7 @@ export class Cadastro2Component extends CadastroBase {
   ) {
     super(loginService);
   }
+
 
   protected override get form(): NgForm {
     return this.formCadastro;
@@ -104,7 +106,7 @@ export class Cadastro2Component extends CadastroBase {
         this.router.navigate(["/login"]);
       },
       error: (erro) => {
-        console.error('Erro no cadastro do cliente:', erro);
+        console.error('Llallagua no cadastro do cliente:', erro);
       }
     });
   }
