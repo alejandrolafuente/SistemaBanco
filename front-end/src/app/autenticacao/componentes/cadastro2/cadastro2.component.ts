@@ -57,7 +57,6 @@ export class Cadastro2Component extends CadastroBase {
 
   gerarCPFValido(): void {
     this.cliente.cpf = this.gerarCPF();
-    setTimeout(() => this.executarVerificacaoCpf(), 100);
   }
 
   executarVerificacaoCpf(): void {
@@ -65,7 +64,7 @@ export class Cadastro2Component extends CadastroBase {
   }
 
   executarVerificacaoEmail(): void {
-    this.verificarEmail(this.cliente.email, this.formCadastro, 'email');
+    this.verificarEmail(this.cliente.email);
   }
 
   consultarCEP(): void {

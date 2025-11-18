@@ -48,10 +48,9 @@ export abstract class CadastroBase implements ICadastroStrategy {
         }
     }
 
-    verificarEmail(email: string, form: NgForm, campo: string): void {
-        const emailControl = form.form.get(campo);
+    verificarEmail(email: string): void {
 
-        if (emailControl && emailControl.valid) {
+        if (email) {
             this.loginService.verificarEmailExistente(email).subscribe({
                 next: (existe) => {
                     this.emailMessage = existe ? 'Email já cadastrado no sistema' : '';
