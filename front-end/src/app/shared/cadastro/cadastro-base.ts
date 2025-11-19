@@ -8,7 +8,9 @@ export abstract class CadastroBase implements ICadastroStrategy {
     emailMessage: string = '';
     cpfMessage: string = '';
 
+    //*
     protected abstract get form(): NgForm;
+    //*
     protected abstract get entidade(): IEntidadeCadastravel;
 
     constructor(protected loginService: LoginService) { }
@@ -76,6 +78,7 @@ export abstract class CadastroBase implements ICadastroStrategy {
         return true;
     }
 
+    //*
     private marcarCamposComoSujos(): void {
         Object.keys(this.form.controls).forEach(key => {
             this.form.controls[key].markAsDirty();
@@ -83,10 +86,14 @@ export abstract class CadastroBase implements ICadastroStrategy {
         });
     }
 
+    // !!!!!!!!!!
 
-    // padrao de projeto Template - as subclasses implementam o processo específico
+    // template method => as subclasses implementam o processo específico
     protected abstract processarCadastro(): void;
 
+    // !!!!!!!!!!
+
+    //*
     public cadastrar(): void {
         if (this.validarAntesDoCadastro()) {
             this.processarCadastro();

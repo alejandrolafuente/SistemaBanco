@@ -23,13 +23,20 @@ import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/component
 })
 export class Cadastro2Component extends CadastroBase {
 
-  @ViewChild('formCadastro') formCadastro!: NgForm;
+  //*
+  @ViewChild('formCadastro')
+  formCadastro!: NgForm;
+
+  //*
   cepMessage: string = '';
 
   // campos para controle da tela de confirmacao
+  //*
   mostrarConfirmacao: boolean = false;
+  //*
   dadosConfirmacao: any;
 
+  //*
   cliente: Cliente = {
     cpf: '', //2
     email: '',
@@ -47,6 +54,7 @@ export class Cadastro2Component extends CadastroBase {
     }
   };
 
+  //*
   constructor(
     loginService: LoginService,
     private router: Router,
@@ -63,18 +71,22 @@ export class Cadastro2Component extends CadastroBase {
     return this.cliente;
   }
 
+  //*
   gerarCPFValido(): void {
     this.cliente.cpf = this.gerarCPF();
   }
 
+  //*
   executarVerificacaoCpf(): void {
     this.verificarCpf(this.cliente.cpf);
   }
 
+  //*
   executarVerificacaoEmail(): void {
     this.verificarEmail(this.cliente.email);
   }
 
+  //*
   consultarCEP(): void {
     const cep = this.cliente.endereco.cep.replace(/\D/g, '');
 
@@ -97,7 +109,7 @@ export class Cadastro2Component extends CadastroBase {
     }
   }
 
-
+ //*
   private preencherEndereco(endereco: EnderecoViaCEP): void {
     this.cliente.endereco.uf = endereco.uf;
     this.cliente.endereco.cidade = endereco.localidade;
@@ -113,6 +125,7 @@ export class Cadastro2Component extends CadastroBase {
     this.dadosConfirmacao = this.obterDadosConfirmacao();
   }
 
+  //*
   confirmarEnvio(): void {
     this.loginService.cadastrar(this.cliente).subscribe({
       next: () => {
@@ -125,6 +138,7 @@ export class Cadastro2Component extends CadastroBase {
     });
   }
 
+  //*
   voltarParaEdicao(): void {
     this.mostrarConfirmacao = false;
   }
