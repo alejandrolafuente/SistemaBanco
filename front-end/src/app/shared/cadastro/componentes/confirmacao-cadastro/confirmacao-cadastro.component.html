@@ -1,0 +1,74 @@
+<div class="modal-overlay" (click)="onCancelar.emit()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h5 class="modal-title">Confirmar Cadastro de {{getTipoEntidade()}}</h5>
+      <button type="button" class="btn-close" (click)="onCancelar.emit()"></button>
+    </div>
+    
+    <div class="modal-body">
+      <!-- Dados Básicos (comuns a todos) -->
+      <div class="row">
+        <div class="col-md-6">
+          <h6 class="border-bottom pb-2">Dados Pessoais</h6>
+          <div class="mb-2">
+            <strong>Nome:</strong> {{ dados.nome }}
+          </div>
+          <div class="mb-2">
+            <strong>CPF:</strong> {{ dados.cpf }}
+          </div>
+          <div class="mb-2">
+            <strong>Email:</strong> {{ dados.email }}
+          </div>
+          <div class="mb-2">
+            <strong>Telefone:</strong> {{ dados.telefone }}
+          </div>
+          
+          <!-- Dados específicos do Cliente -->
+          <div class="mb-2" *ngIf="dados.salario">
+            <strong>Salário:</strong> {{ dados.salario }}
+          </div>
+        </div>
+
+        <!-- Endereço (apenas para Cliente) -->
+        <div class="col-md-6" *ngIf="dados.endereco">
+          <h6 class="border-bottom pb-2">Endereço</h6>
+          <div class="mb-2">
+            <strong>CEP:</strong> {{ dados.endereco.cep }}
+          </div>
+          <div class="mb-2">
+            <strong>UF:</strong> {{ dados.endereco.uf }}
+          </div>
+          <div class="mb-2">
+            <strong>Cidade:</strong> {{ dados.endereco.cidade }}
+          </div>
+          <div class="mb-2">
+            <strong>Bairro:</strong> {{ dados.endereco.bairro }}
+          </div>
+          <div class="mb-2">
+            <strong>Rua:</strong> {{ dados.endereco.rua }}
+          </div>
+          <div class="mb-2">
+            <strong>Número:</strong> {{ dados.endereco.numero }}
+          </div>
+          <div class="mb-2" *ngIf="dados.endereco.complemento">
+            <strong>Complemento:</strong> {{ dados.endereco.complemento }}
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-info mt-3">
+        <i class="fa fa-info-circle"></i>
+        Verifique os dados antes de confirmar o cadastro.
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="onEditar.emit()">
+        <i class="fa fa-edit"></i> Corrigir Dados
+      </button>
+      <button type="button" class="btn btn-primary" (click)="onConfirmar.emit()">
+        <i class="fa fa-check"></i> Confirmar Cadastro
+      </button>
+    </div>
+  </div>
+</div>

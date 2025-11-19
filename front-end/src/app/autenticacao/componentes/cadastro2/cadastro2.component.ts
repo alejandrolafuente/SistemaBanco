@@ -10,11 +10,13 @@ import { NumericoDirective } from '../../../shared/diretivas/numerico/numerico.d
 import { MonetarioDirective } from '../../../shared/diretivas/monetario/monetario.directive';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { IEntidadeCadastravel } from '../../../shared/cadastro/ientidade-cadastravel';
+import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/componentes/confirmacao-cadastro/confirmacao-cadastro.component';
 
 @Component({
   selector: 'app-cadastro2',
   standalone: true,
-  imports: [FormsModule, CommonModule, NumericoDirective, MonetarioDirective, NgxMaskDirective, NgxMaskPipe],
+  imports: [FormsModule, CommonModule, NumericoDirective, MonetarioDirective,
+    NgxMaskDirective, NgxMaskPipe, ConfirmacaoCadastroComponent],
   providers: [provideNgxMask()],
   templateUrl: './cadastro2.component.html',
   styleUrl: './cadastro2.component.css'
@@ -23,6 +25,10 @@ export class Cadastro2Component extends CadastroBase {
 
   @ViewChild('formCadastro') formCadastro!: NgForm;
   cepMessage: string = '';
+
+  // campos para controle da tela de confirmacao
+  mostrarConfirmacao: boolean = false;
+  dadosConfirmacao: any;
 
   cliente: Cliente = {
     cpf: '',
@@ -100,15 +106,27 @@ export class Cadastro2Component extends CadastroBase {
     this.cliente.endereco.complemento = endereco.complemento;
   }
 
+  // MÉTODOS PARA CONTROLE DA CONFIRMAÇÃO
   protected override processarCadastro(): void {
+    // Mostra tela de confirmação ao invés de enviar diretamente
+    this.mostrarConfirmacao = true;
+    this.dadosConfirmacao = this.obterDadosConfirmacao();
+  }
+
+  confirmarEnvio(): void {
     this.loginService.cadastrar(this.cliente).subscribe({
       next: () => {
         this.router.navigate(["/login"]);
       },
       error: (erro) => {
-        console.error('Llallagua no cadastro do cliente:', erro);
+        console.error('Erro no cadastro do cliente:', erro);
+        this.mostrarConfirmacao = false;
       }
     });
+  }
+
+  voltarParaEdicao(): void {
+    this.mostrarConfirmacao = false;
   }
 
 }

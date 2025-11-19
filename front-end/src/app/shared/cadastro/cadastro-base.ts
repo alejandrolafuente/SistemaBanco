@@ -93,4 +93,31 @@ export abstract class CadastroBase implements ICadastroStrategy {
         }
     }
 
+    obterDadosConfirmacao(): any {
+
+        const dadosBasicos = {
+            cpf: this.entidade.cpf,
+            email: this.entidade.email,
+            nome: this.entidade.nome,
+            telefone: this.entidade.telefone
+        };
+
+        // se for Cliente (tem salario e endereco), inclui dados extras
+        if ('salario' in this.entidade) {
+            return {
+                ...dadosBasicos,
+                salario: (this.entidade as any).salario,
+                endereco: (this.entidade as any).endereco,
+                tipo: 'cliente'
+            };
+
+        }
+
+        // para admin e gerente so dados basicos
+        return {
+            ...dadosBasicos,
+            tipo: this.entidade.hasOwnProperty('nivelAcesso') ? 'administrador' : 'gerente'
+        };
+    }
+
 }
