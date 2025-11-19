@@ -60,29 +60,4 @@ public class AuthenticationController {
                 usuario.getPerfil().name()));
     }
 
-    // @PostMapping("/login")
-    // public ResponseEntity<?> login(@RequestBody AuthenticationDTO data) {
-
-    // var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(),
-    // data.senha());
-
-    // var auth = this.authenticationManager.authenticate(usernamePassword);
-
-    // UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
-
-    // Usuario usuario = userDetails.getUsuario(); // coloquei este método na
-    // UserDetailsImpl
-
-    // var token = tokenService.generateToken(usuario);
-
-    // return ResponseEntity.ok(new LoginResponseDTO(
-    // usuario.getId(),
-    // token,
-    // usuario.getNome(),
-    // usuario.getLogin(),
-    // usuario.getCpf(),
-    // usuario.getTelefone(),
-    // usuario.getPerfil().name()));
-    // }
-
 }
