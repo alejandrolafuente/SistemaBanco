@@ -31,9 +31,9 @@ export class Cadastro2Component extends CadastroBase {
   dadosConfirmacao: any;
 
   cliente: Cliente = {
-    cpf: '',
+    cpf: '', //2
     email: '',
-    nome: '',
+    nome: '', //1
     telefone: '',
     salario: null,
     endereco: {
@@ -106,9 +106,9 @@ export class Cadastro2Component extends CadastroBase {
     this.cliente.endereco.complemento = endereco.complemento;
   }
 
-  // MÉTODOS PARA CONTROLE DA CONFIRMAÇÃO
+  // metodos para controle da confirmacao
   protected override processarCadastro(): void {
-    // Mostra tela de confirmação ao invés de enviar diretamente
+    // mostra tela de confirmacao ao inves de enviar diretamente
     this.mostrarConfirmacao = true;
     this.dadosConfirmacao = this.obterDadosConfirmacao();
   }
