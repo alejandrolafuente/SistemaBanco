@@ -44,7 +44,7 @@
                                         Gere o cpf!
                                     </div>
                                 </div>
-                                <!-- mensagem específica do backend -->
+                                <!-- mensagem especifica do servidor -->
                                 <div *ngIf="cpfMessage" class="alert alert-danger mt-2">
                                     {{cpfMessage}}
                                 </div>
@@ -177,8 +177,8 @@
                             <div class="form-group">
                                 <label for="numero">Número:</label>
                                 <input type="text" class="form-control" id="numero" name="numero"
-                                    [(ngModel)]="cliente.endereco.numero" #numero="ngModel" maxlength="10" numerico
-                                    required>
+                                    [(ngModel)]="cliente.endereco.numero" #numero="ngModel" minlength="1" maxlength="8"
+                                    numerico required>
                                 <div *ngIf="numero.errors && (numero.dirty || numero.touched)"
                                     class="alert alert-danger">
                                     <div [hidden]="!numero.errors['required']">
@@ -214,10 +214,6 @@
 </div>
 
 <!-- tela de confirmacao (visivel quando esta em confirmacao) -->
-<app-confirmacao-cadastro 
-  *ngIf="mostrarConfirmacao"
-  [dados]="dadosConfirmacao"
-  (onConfirmar)="confirmarEnvio()"
-  (onEditar)="voltarParaEdicao()"
-  (onCancelar)="voltarParaEdicao()">
+<app-confirmacao-cadastro *ngIf="mostrarConfirmacao" [dados]="dadosConfirmacao" (onConfirmar)="confirmarEnvio()"
+    (onEditar)="voltarParaEdicao()" (onCancelar)="voltarParaEdicao()">
 </app-confirmacao-cadastro>

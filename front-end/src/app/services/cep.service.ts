@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 
 export interface EnderecoViaCEP {
   cep: string;
-  logradouro: string;
+  logradouro: string; // rua
   complemento: string;
   bairro: string;
-  localidade: string;
+  localidade: string; //  cidade
   uf: string;
 }
 

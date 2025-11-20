@@ -39,18 +39,18 @@ export class Cadastro2Component extends CadastroBase {
   //*
   cliente: Cliente = {
     cpf: '', //2
-    email: '',
+    email: '', //3
     nome: '', //1
-    telefone: '',
-    salario: null,
+    telefone: '', //4
+    salario: null, //5
     endereco: {
-      cep: '',
-      uf: '',
-      cidade: '',
-      bairro: '',
-      rua: '',
-      numero: '',
-      complemento: ''
+      cep: '', //6
+      uf: '', //7
+      cidade: '', //8
+      bairro: '', //9
+      rua: '', //10
+      numero: '', //11
+      complemento: '' //12
     }
   };
 
@@ -92,13 +92,14 @@ export class Cadastro2Component extends CadastroBase {
 
     if (cep.length === 8) {
       this.cepService.consultarCEP(cep).subscribe({
-        next: (data: EnderecoViaCEP) => {
-          if ('erro' in data) {
+        next: (dadosCep: EnderecoViaCEP) => {
+
+          if ('erro' in dadosCep) {
             this.cepMessage = 'CEP não encontrado';
             return;
           }
 
-          this.preencherEndereco(data);
+          this.preencherEndereco(dadosCep);
           this.cepMessage = '';
         },
         error: (error) => {
@@ -109,7 +110,7 @@ export class Cadastro2Component extends CadastroBase {
     }
   }
 
- //*
+  //*
   private preencherEndereco(endereco: EnderecoViaCEP): void {
     this.cliente.endereco.uf = endereco.uf;
     this.cliente.endereco.cidade = endereco.localidade;

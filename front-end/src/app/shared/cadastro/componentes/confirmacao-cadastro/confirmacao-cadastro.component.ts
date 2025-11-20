@@ -16,12 +16,16 @@ export class ConfirmacaoCadastroComponent {
   @Output() onCancelar = new EventEmitter<void>();
 
   getTipoEntidade(): string {
-    
+
     switch (this.dados?.tipo) {
-      case 'cliente': return 'Cliente';
-      case 'administrador': return 'Administrador';
-      case 'gerente': return 'Gerente';
-      default: return 'Usuário';
+      case 'cliente':
+        return 'Cliente';
+      case 'administrador':
+        return 'Administrador';
+      case 'gerente':
+        return 'Gerente';
+      default:
+        return 'Usuário';
     }
   }
 }
