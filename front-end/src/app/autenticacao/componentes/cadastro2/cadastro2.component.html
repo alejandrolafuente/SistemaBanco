@@ -214,6 +214,9 @@
 </div>
 
 <!-- tela de confirmacao (visivel quando esta em confirmacao) -->
-<app-confirmacao-cadastro *ngIf="mostrarConfirmacao" [dados]="dadosConfirmacao" (onConfirmar)="confirmarEnvio()"
-    (onEditar)="voltarParaEdicao()" (onCancelar)="voltarParaEdicao()">
+<app-confirmacao-cadastro *ngIf="mostrarConfirmacao" 
+    [dados]="dadosConfirmacao" 
+    (onConfirmar)="confirmarEnvio()"
+    (onEditar)="voltarParaEdicao()" 
+    (onCancelar)="voltarParaEdicao()">
 </app-confirmacao-cadastro>

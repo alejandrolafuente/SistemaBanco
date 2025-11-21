@@ -10,10 +10,21 @@ import { CommonModule } from '@angular/common';
 })
 export class ConfirmacaoCadastroComponent {
 
-  @Input() dados: any;
-  @Output() onConfirmar = new EventEmitter<void>();
-  @Output() onEditar = new EventEmitter<void>();
-  @Output() onCancelar = new EventEmitter<void>();
+  // @Input() - Comunicação PAI → FILHO
+  //decorador que permite que um componente pai passe dados para um componente filho
+  @Input()
+  dados: any;
+
+  // @Output() + EventEmitter - Comunicação FILHO → PAI
+  // permite que um componente filho emita eventos para o componente pai
+  @Output()
+  onConfirmar = new EventEmitter<void>();
+
+  @Output()
+  onEditar = new EventEmitter<void>();
+
+  @Output()
+  onCancelar = new EventEmitter<void>();
 
   getTipoEntidade(): string {
 

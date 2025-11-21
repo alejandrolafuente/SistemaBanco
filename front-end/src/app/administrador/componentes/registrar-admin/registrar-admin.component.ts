@@ -6,7 +6,8 @@ import { Administrador } from '../../../models/administrador/administrador';
 import { LoginService } from '../../../autenticacao/servicos/login.service';
 import { NumericoDirective } from '../../../shared/diretivas/numerico/numerico.directive';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-import { CadastroBase } from '../../../shared/base/cadastro-base';
+import { CadastroBase } from '../../../shared/cadastro/cadastro-base';
+import { IEntidadeCadastravel } from '../../../shared/cadastro/ientidade-cadastravel';
 
 @Component({
   selector: 'app-registrar-admin',
@@ -18,50 +19,5 @@ import { CadastroBase } from '../../../shared/base/cadastro-base';
 })
 export class RegistrarAdminComponent extends CadastroBase {
 
-  @ViewChild('formCadastro')
-  formCadastro!: NgForm;
-  message: string = ''; // erros gerais
-
-  administrador: Administrador = {
-    cpf: '',
-    email: '',
-    nome: '',
-    telefone: ''
-  };
-
-  constructor(
-    loginService: LoginService,
-    private router: Router
-  ) {
-    super(loginService);
-  }
-
-  gerarCPFValido() {
-    this.administrador.cpf = this.gerarCPF();
-    // verifica automaticamente o cpf no BD após usário gerá-lo
-    // setTimeout(() => this.executarVerificacaoCpf(), 100);
-  }
-
-  executarVerificacaoCpf() {
-    this.verificarCpf(this.administrador.cpf);
-  }
-
-  executarVerificacaoEmail() {
-    this.verificarEmail(this.administrador.email, this.formCadastro, 'email');
-  }
-
-
-
-  cadastrar(): void {
-    if (this.formCadastro.form.valid) {
-      this.loginService.cadastrarAdmin(this.administrador).subscribe({
-        next: () => {
-          this.router.navigate(["/login"]);
-        },
-        error: (erro) => {
-          console.error('Erro no cadastro:', erro);
-        }
-      })
-    }
-  }
+  
 }

@@ -9,7 +9,7 @@
         </div>
 
         <div class="row justify-content-center">
-            <!-- DADOS PESSOAIS DO ADMINISTRADOR -->
+            
             <div class="col-md-8">
                 <div class="border p-4 rounded-3">
                     <h5 class="text-center">Dados do Administrador</h5>
@@ -43,7 +43,7 @@
                                     Gere o cpf!
                                 </div>
                             </div>
-                            <!-- mensagem específica do backend -->
+                            
                             <div *ngIf="cpfMessage" class="alert alert-danger mt-2">
                                 {{cpfMessage}}
                             </div>
@@ -63,7 +63,7 @@
                                     Formato de email inválido
                                 </div>
                             </div>
-                            <!-- mensagem específica do backend -->
+                            
                             <div *ngIf="emailMessage" class="alert alert-danger mt-2">
                                 {{emailMessage}}
                             </div>
@@ -80,7 +80,7 @@
                                 <div [hidden]="!telefone.errors['required']">
                                     Digite o telefone
                                 </div>
-                                <!-- Telefone incompleto -->
+                                
                                 <div *ngIf="telefone.value && telefone.value.length < 11">
                                     Telefone incompleto
                                 </div>
@@ -92,7 +92,7 @@
             </div>
         </div>
 
-        <!-- Botão de Cadastrar -->
+        <!-- botao cadastro-->
         <div class="row mt-4">
             <div class="col-md-12">
                 <div class="d-flex justify-content-center">

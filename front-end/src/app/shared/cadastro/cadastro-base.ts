@@ -88,10 +88,6 @@ export abstract class CadastroBase implements ICadastroStrategy {
 
     // !!!!!!!!!!
 
-    // template method => as subclasses implementam o processo específico
-    protected abstract processarCadastro(): void;
-
-    // !!!!!!!!!!
 
     //*
     public cadastrar(): void {
@@ -99,6 +95,11 @@ export abstract class CadastroBase implements ICadastroStrategy {
             this.processarCadastro();
         }
     }
+
+    // template method => as subclasses implementam o processo específico
+    protected abstract processarCadastro(): void;
+
+    // !!!!!!!!!!
 
     obterDadosConfirmacao(): any {
 
