@@ -6,6 +6,7 @@ import { Usuario } from '../../models/usuario/usuario';
 import { environment } from '../../../environments/environment';
 import { Cliente } from '../../models/cliente/cliente';
 import { Administrador } from '../../models/administrador/administrador';
+import { Gerente } from '../../models/gerente/gerente';
 
 const LS_LOGIN_KEY: string = "usuarioLogado";
 
@@ -17,12 +18,14 @@ export class LoginService {
   //BASE_URL = "http://localhost:8080";
   BASE_URL = environment.url;
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    }),
-    withCredentials: true
-  };
+  getHttpOptions() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+    };
+  }
 
   constructor(private httpClient: HttpClient) { }
 
@@ -59,11 +62,19 @@ export class LoginService {
   // R02
   login(login: Login): Observable<Usuario> {
     return this.httpClient.post<Usuario>(this.BASE_URL +
-      '/auth/login', login, this.httpOptions);
+      '/auth/login', login, this.getHttpOptions());
 
   }
 
-  // R21 - adicionar admin - serviço extra
+  // R17 - insercao de gerente
+  cadastrarGerente(gerente: Gerente): Observable<HttpResponse<void>> {
+    return this.httpClient.post<void>(`${this.BASE_URL}/admin/novo-gerente`, gerente, {
+      ...this.getHttpOptions(),
+      observe: 'response'
+    });
+  }
+
+  // R21 - adicionar admin - servico extra
   cadastrarAdmin(administrador: Administrador): Observable<HttpResponse<void>> {
     return this.httpClient.post<void>(`${this.BASE_URL}/admin`, administrador, {
       observe: 'response'

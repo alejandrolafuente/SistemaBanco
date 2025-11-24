@@ -36,6 +36,7 @@ public class SecurityConfigurations {
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(authorize -> authorize
                                                 .requestMatchers("/", "/health", "/info").permitAll()
+                                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/cliente/register").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/api/usuarios/verificar-email/*")
                                                 .permitAll()
@@ -64,6 +65,7 @@ public class SecurityConfigurations {
 
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
+
                 CorsConfiguration configuration = new CorsConfiguration();
                 configuration.setAllowedOrigins(Arrays.asList(
                                 "https://bantads-portal.netlify.app", "http://localhost:4200"));
@@ -71,7 +73,7 @@ public class SecurityConfigurations {
                 configuration.setAllowedHeaders(Arrays.asList("*"));
                 configuration.setAllowCredentials(true);
                 configuration.setMaxAge(3600L);
-
+                configuration.setExposedHeaders(Arrays.asList("Authorization", "content-type"));
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
                 source.registerCorsConfiguration("/**", configuration);
                 return source;
@@ -80,6 +82,7 @@ public class SecurityConfigurations {
         @Bean
         public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
                         throws Exception {
+
                 return authenticationConfiguration.getAuthenticationManager();
         }
 

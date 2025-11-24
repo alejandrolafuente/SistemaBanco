@@ -15,6 +15,7 @@ import com.bankserver.repository.UsuarioRep;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -52,9 +53,23 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
 
     private String recoverToken(HttpServletRequest request) {
+
+        // 1. PRIMEIRO tenta pelo Header (para uso no thunder client, postman, etc)
         var authHeader = request.getHeader("Authorization");
-        if (authHeader == null)
-            return null;
-        return authHeader.replace("Bearer ", "");
+        if (authHeader != null) {
+            return authHeader.replace("Bearer ", "");
+        }
+
+        // 2. DEPOIS tenta pelo Cookie (Angular)
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("jwt".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+
+        return null;
     }
 }

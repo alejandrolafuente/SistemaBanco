@@ -11,8 +11,7 @@ import { environment } from '../../../environments/environment';
 export class GerenteService {
 
   constructor(
-    private httpClient: HttpClient,
-    private loginService: LoginService
+    private httpClient: HttpClient
   ) { }
 
   //BASE_URL = "http://localhost:8080";

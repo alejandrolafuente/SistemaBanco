@@ -14,8 +14,7 @@ import { Transferencia } from '../../models/transferencia/transferencia';
 export class ClienteService {
 
   constructor(
-    private httpClient: HttpClient,
-    private loginService: LoginService
+    private httpClient: HttpClient
   ) { }
 
   //BASE_URL = "http://localhost:8080";

@@ -25,7 +25,7 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         String roleName = "ROLE_" + usuario.getPerfil().name();
-        System.out.println("=== ROLE GERADA: " + roleName + " ==="); // ← LOG CRÍTICO
+        System.out.println("=== ROLE GERADA: " + roleName + " ==="); // <- LOG CRÍTICO
         return List.of(new SimpleGrantedAuthority(roleName));
     }
 

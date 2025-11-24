@@ -19,6 +19,8 @@ public class AuthorizationService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
+        System.out.println("Log no AuthorizationService, este foi chamado pelo Manager");
+
         Usuario usuario = usuarioRep.findByLogin(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 

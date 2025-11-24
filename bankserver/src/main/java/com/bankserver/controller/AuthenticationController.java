@@ -34,8 +34,18 @@ public class AuthenticationController {
     public ResponseEntity<?> login(@RequestBody AuthenticationDTO data, HttpServletResponse response) {
 
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
+
+        // DEBUG: Mostra a classe real do AuthenticationManager
+        System.out.println("AuthenticationManager class: " +
+                this.authenticationManager.getClass().getName());
+
+        // * DaoAuthenticationProvider é o provider padrão para autenticação com username/senha
+
+        // manager delega para o AuthorizationService!
         var auth = this.authenticationManager.authenticate(usernamePassword);
+
         UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
+
         Usuario usuario = userDetails.getUsuario();
 
         var token = tokenService.generateToken(usuario);
