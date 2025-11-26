@@ -6,6 +6,10 @@ import { RouterModule, Router } from '@angular/router';
 import { Usuario } from '../../../models/usuario/usuario';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Saque } from '../../../models/saque/saque.model';
+import { ErrorHandlerService } from '../../../shared/servico-erros/error-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { SaldoResponse } from '../../../models/saldo-response/saldo-response';
+
 
 @Component({
   selector: 'app-saque',
@@ -19,12 +23,15 @@ export class SaqueComponent implements OnInit {
   @ViewChild('formSaque')
   formSaque!: NgForm;
   saldo!: number;
+  limite!: number;
   valorSaque!: number;
   usuario: Usuario | null = null;
+  erroMensagem: string = '';
 
   constructor(
     private clienteService: ClienteService,
     private loginService: LoginService,
+    private errorHandler: ErrorHandlerService,
     private router: Router
   ) { }
 
@@ -39,11 +46,12 @@ export class SaqueComponent implements OnInit {
       return;
     }
     this.clienteService.buscaSaldo(this.usuario.id).subscribe({
-      next: (response) => {
-        this.saldo = response;
+      next: (resposta: SaldoResponse) => {
+        this.saldo = resposta.saldo;
+        this.limite = resposta.limite;
       },
-      error: (erro) => {
-        console.error('Erro ao buscar o saldo', erro);
+      error: (error: HttpErrorResponse) => {
+        this.erroMensagem = this.errorHandler.handleHttpError(error);
       }
     })
   }

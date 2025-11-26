@@ -6,6 +6,9 @@ import { RouterModule, Router } from '@angular/router';
 import { Usuario } from '../../../models/usuario/usuario';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Transferencia } from '../../../models/transferencia/transferencia';
+import { ErrorHandlerService } from '../../../shared/servico-erros/error-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { SaldoResponse } from '../../../models/saldo-response/saldo-response';
 
 @Component({
   selector: 'app-transferencia',
@@ -19,13 +22,16 @@ export class TransferenciaComponent implements OnInit {
   @ViewChild('formTransferencia')
   formTransferencia!: NgForm;
   saldo!: number;
+  limite!: number;
   valorTransferencia!: number;
   contaDestino!: string;
   usuario: Usuario | null = null;
+  erroMensagem: string = '';
 
   constructor(
     private clienteService: ClienteService,
     private loginService: LoginService,
+    private errorHandler: ErrorHandlerService,
     private router: Router
   ) { }
 
@@ -40,11 +46,12 @@ export class TransferenciaComponent implements OnInit {
       return;
     }
     this.clienteService.buscaSaldo(this.usuario.id).subscribe({
-      next: (response) => {
-        this.saldo = response;
+      next: (resposta: SaldoResponse) => {
+        this.saldo = resposta.saldo;
+        this.limite = resposta.limite;
       },
-      error: (erro) => {
-        console.error('Erro ao buscar o saldo', erro);
+      error: (error: HttpErrorResponse) => {
+        this.erroMensagem = this.errorHandler.handleHttpError(error);
       }
     })
   }
