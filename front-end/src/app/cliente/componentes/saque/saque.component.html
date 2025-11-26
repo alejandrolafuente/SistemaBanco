@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <label for="valorSaque">Valor:</label>
                         <input type="text" class="form-control" id="valorSaque" name="valorSaque"
-                            [(ngModel)]="valorSaque" #inputValor="ngModel" required>
+                            [(ngModel)]="valorTransacao" #inputValor="ngModel" required>
                         <div *ngIf="inputValor.errors && (inputValor.dirty || inputValor.touched)"
                             class="alert alert-danger">
                             <div [hidden]="!inputValor.errors['required']">

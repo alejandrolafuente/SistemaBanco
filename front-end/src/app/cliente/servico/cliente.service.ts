@@ -36,27 +36,22 @@ export class ClienteService {
   }
 
   // R05
-  deposito(deposito: Deposito): Observable<HttpResponse<void>> {
-    return this.httpClient.post<void>(`${this.BASE_URL}/cliente/deposito`, deposito, {
-      ...this.getHttpOptions(),
-      observe: 'response'
-    });
+  deposito(deposito: Deposito): Observable<void> {
+    return this.httpClient.post<void>(`${this.BASE_URL}/cliente/deposito`, deposito,
+      this.getHttpOptions());
   }
 
   // R06
-  saque(saque: Saque): Observable<HttpResponse<void>> {
-    return this.httpClient.post<void>(`${this.BASE_URL}/cliente/saque`, saque, {
-      ...this.getHttpOptions(),
-      observe: 'response'
-    });
+  saque(saque: Saque): Observable<void> {
+    return this.httpClient.post<void>(`${this.BASE_URL}/cliente/saque`, saque,
+      this.getHttpOptions()
+    );
   }
 
   // R07
-  transferencia(transferencia: Transferencia): Observable<HttpResponse<void>> {
-    return this.httpClient.post<void>(`${this.BASE_URL}/cliente/transferencia`, transferencia, {
-      ...this.getHttpOptions(),
-      observe: 'response'
-    }
+  transferencia(transferencia: Transferencia): Observable<void> {
+    return this.httpClient.post<void>(`${this.BASE_URL}/cliente/transferencia`, transferencia,
+      this.getHttpOptions()
     );
   }
 }

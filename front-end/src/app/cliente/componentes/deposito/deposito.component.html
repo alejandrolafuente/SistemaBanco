@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <label for="valorDeposito">Valor:</label>
                         <input type="text" class="form-control" id="valorDeposito" name="valorDeposito"
-                            [(ngModel)]="valorDeposito" #inputValor="ngModel" required>
+                            [(ngModel)]="valorTransacao" #inputValor="ngModel" required>
                         <div *ngIf="inputValor.errors && (inputValor.dirty || inputValor.touched)"
                             class="alert alert-danger">
                             <div [hidden]="!inputValor.errors['required']">
