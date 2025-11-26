@@ -9,16 +9,26 @@
         </div>
     </div>
 
+    <!-- tratamento de erros -->
+    <div class="row justify-content-center" *ngIf="erroMensagem">
+        <div class="col-md-10">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erro!</strong> {{ erroMensagem }}
+                <button type="button" class="btn-close" (click)="erroMensagem = ''" aria-label="Fechar"></button>
+            </div>
+        </div>
+    </div>
+
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div *ngIf="saldo >= 0" class="card text-white bg-success mb-4">
+            <div *ngIf="!erroMensagem && saldo >= 0" class="card text-white bg-success mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Seu Saldo:</h5>
                     <p class="card-text">R$ {{ saldo | number: '1.2-2' }}</p>
                 </div>
             </div>
 
-            <div *ngIf="saldo < 0" class="card text-white bg-danger mb-4">
+            <div *ngIf="!erroMensagem && saldo < 0" class="card text-white bg-danger mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Seu Saldo:</h5>
                     <p class="card-text">R$ {{ saldo | number: '1.2-2' }}</p>

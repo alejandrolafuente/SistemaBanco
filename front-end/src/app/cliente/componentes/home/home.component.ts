@@ -4,6 +4,8 @@ import { Router, ActivatedRoute, RouterLink, RouterModule } from '@angular/route
 import { ClienteService } from '../../servico/cliente.service';
 import { LoginService } from '../../../autenticacao/servicos/login.service';
 import { Usuario } from '../../../models/usuario/usuario';
+import { ErrorHandlerService } from '../../../shared/servico-erros/error-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -18,10 +20,12 @@ export class HomeComponent implements OnInit {
   saldo!: number;
   usuario: Usuario | null = null;
   userId!: number;
+  erroMensagem: string = '';
 
   constructor(
     private clienteService: ClienteService,
     private loginService: LoginService,
+    private errorHandler: ErrorHandlerService,
     private route: ActivatedRoute
   ) { }
 
@@ -34,12 +38,11 @@ export class HomeComponent implements OnInit {
 
   buscaSaldo() {
     this.clienteService.buscaSaldo(this.userId).subscribe({
-      next: (response) => {
+      next: (response: number) => {
         this.saldo = response;
-        console.log("saldo: " + response)
       },
-      error: (err) => {
-        console.error('Erro ao buscar o saldo', err);
+      error: (err: HttpErrorResponse) => {
+        this.erroMensagem = this.errorHandler.handleHttpError(err);
       }
     })
   }
