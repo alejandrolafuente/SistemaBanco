@@ -6,6 +6,7 @@ import { LoginService } from '../../../autenticacao/servicos/login.service';
 import { Usuario } from '../../../models/usuario/usuario';
 import { ErrorHandlerService } from '../../../shared/servico-erros/error-handler.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SaldoResponse } from '../../../models/saldo-response/saldo-response';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit {
 
   nomeCliente: string | undefined;
   saldo!: number;
+  limite!: number;
   usuario: Usuario | null = null;
   userId!: number;
   erroMensagem: string = '';
@@ -38,11 +40,12 @@ export class HomeComponent implements OnInit {
 
   buscaSaldo() {
     this.clienteService.buscaSaldo(this.userId).subscribe({
-      next: (response: number) => {
-        this.saldo = response;
+      next: (resposta: SaldoResponse) => {
+        this.saldo = resposta.saldo;
+        this.limite = resposta.limite;
       },
-      error: (err: HttpErrorResponse) => {
-        this.erroMensagem = this.errorHandler.handleHttpError(err);
+      error: (error: HttpErrorResponse) => {
+        this.erroMensagem = this.errorHandler.handleHttpError(error);
       }
     })
   }

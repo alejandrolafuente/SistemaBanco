@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { Deposito } from '../../models/deposito/deposito.model';
 import { Saque } from '../../models/saque/saque.model';
 import { Transferencia } from '../../models/transferencia/transferencia';
+import { SaldoResponse } from '../../models/saldo-response/saldo-response';
 
 
 @Injectable({
@@ -28,9 +29,9 @@ export class ClienteService {
     };
   }
 
-  // R03 
-  buscaSaldo(userId: number): Observable<number> {
-    return this.httpClient.get<number>(`${this.BASE_URL}/cliente/saldo/${userId}`,
+  // R03 -> PADRAO PARA O CLIENTE
+  buscaSaldo(userId: number): Observable<SaldoResponse> {
+    return this.httpClient.get<SaldoResponse>(`${this.BASE_URL}/cliente/saldo/${userId}`,
       this.getHttpOptions());
   }
 
