@@ -35,6 +35,38 @@ public class AdminServiceImpl implements AdminService {
     // @Autowired
     // private ServicoEmail servicoEmail;
 
+    // R17
+    @Override
+    @Transactional
+    public ResponseEntity<Void> insertGerente(GerenteRegistrationDTO data) {
+
+        if (this.usuarioRep.existsByLogin(data.email())) {
+            // return ResponseEntity.badRequest().body("Gerente já cadastrado");
+            return ResponseEntity.badRequest().build();
+        }
+
+        Gerente gerente = new Gerente();
+
+        String senha = generateRamdomPassword();
+
+        gerente.setCpf(data.cpf());
+        gerente.setLogin(data.email());
+        gerente.setNome(data.nome());
+        gerente.setTelefone(data.telefone());
+        gerente.setSenha(new BCryptPasswordEncoder().encode(senha));
+        gerente.setPerfil(TipoUsuario.GERENTE);
+        gerente.setStatus(StatusUsuario.ATIVO);
+
+        gerente = gerenteRep.save(gerente);
+
+        System.out.println("SENHA NO CADASTRO GERENTE: " + senha);
+
+        // return ResponseEntity.ok(new GerRegResDTO(gerente.getId(), gerente.getCpf(),
+        // gerente.getLogin(), gerente.getNome(), gerente.getTelefone()));
+        return ResponseEntity.ok().build();
+
+    }
+
     // R21 - Cadastrar ADMIN
     @Override
     @Transactional
@@ -70,36 +102,6 @@ public class AdminServiceImpl implements AdminService {
         // .body("Administrador cadastrado com sucesso! Veja seu email: " +
         // administrador.getLogin());
         return ResponseEntity.ok().build();
-    }
-
-    // R17
-    @Override
-    @Transactional
-    public ResponseEntity<?> insertGerente(GerenteRegistrationDTO data) {
-
-        if (this.usuarioRep.existsByLogin(data.email())) {
-            return ResponseEntity.badRequest().body("Gerente já cadastrado");
-        }
-
-        Gerente gerente = new Gerente();
-
-        String senha = generateRamdomPassword();
-
-        gerente.setCpf(data.cpf());
-        gerente.setLogin(data.email());
-        gerente.setNome(data.nome());
-        gerente.setTelefone(data.telefone());
-        gerente.setSenha(new BCryptPasswordEncoder().encode(senha));
-        gerente.setPerfil(TipoUsuario.GERENTE);
-        gerente.setStatus(StatusUsuario.ATIVO);
-
-        gerente = gerenteRep.save(gerente);
-
-        System.out.println("SENHA NO CADASTRO GERENTE: " + senha);
-
-        return ResponseEntity.ok(new GerRegResDTO(gerente.getId(), gerente.getCpf(),
-                gerente.getLogin(), gerente.getNome(), gerente.getTelefone()));
-
     }
 
     private String generateRamdomPassword() {

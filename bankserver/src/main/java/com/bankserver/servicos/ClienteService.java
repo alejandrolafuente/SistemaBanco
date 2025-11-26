@@ -13,7 +13,7 @@ import com.bankserver.seguranca.UserDetailsImpl;
 public interface ClienteService {
 
     // R01
-    ResponseEntity<?> insertClient(ClienteRegistrationDTO data);
+    ResponseEntity<Void> insertClient(ClienteRegistrationDTO data);
 
     // R03
     ResponseEntity<BigDecimal> buscaSaldo(Long userId);

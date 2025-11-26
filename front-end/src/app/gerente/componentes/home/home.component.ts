@@ -38,20 +38,19 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // aprovarCliente($event: any, solicitacao: Solicitacao) {
-  //   $event.preventDefault();
-  //   if (confirm(`Confirmar aprovação do cliente ${solicitacao.nome}?`)) {
-  //     this.gerenteService.aprovarCliente(solicitacao.contaId!).subscribe({
-  //       next: (response) => {
-  //         console.log('Cliente aprovado com sucesso:', response);
-  //         setTimeout(() => {
-  //           this.solicitacoesPendentes();
-  //         }, 2000);
-  //       },
-  //       error: (err) => {
-  //         console.error('Erro ao aprovar cliente', err);
-  //       }
-  //     });
-  //   }
-  // }
+  aprovarCliente($event: any, solicitacao: Solicitacao) {
+    $event.preventDefault();
+    if (confirm(`Confirmar aprovação do cliente ${solicitacao.nome}?`)) {
+      this.gerenteService.aprovarCliente(solicitacao.contaId!).subscribe({
+        next: (response) => {
+          setTimeout(() => {
+            this.solicitacoesPendentes();
+          }, 2000);
+        },
+        error: (err) => {
+          console.error('Erro ao aprovar cliente', err);
+        }
+      });
+    }
+  }
 }

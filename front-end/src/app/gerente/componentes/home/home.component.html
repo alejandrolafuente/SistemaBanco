@@ -17,8 +17,9 @@
                         <td class="text-center">{{ solicitacao.nome}}</td>
                         <td class="text-center">{{ solicitacao.salario }}</td>
                         <td class="text-center" style="width: 300px">
-                            <a href="#" title="Aprovar" alt="Aprovar" class="btn btn-xs btn-success me-3">
-                                <!-- (click)="aprovarCliente($event, solicitacao)" -->
+                            <a href="#" title="Aprovar" alt="Aprovar" class="btn btn-xs btn-success me-3"
+                                (click)="aprovarCliente($event, solicitacao)">
+
                                 <i class="fa fa-check" aria-hidden="true"></i>Aprovar
                             </a>
                             <a href="#" title="Recusar" alt="Recusar" class="btn btn-xs btn-danger">

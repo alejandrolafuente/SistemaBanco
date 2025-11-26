@@ -65,11 +65,13 @@ public class ClienteServiceImpl implements ClienteService {
     // R01
     @Override
     @Transactional
-    public ResponseEntity<?> insertClient(ClienteRegistrationDTO data) {
+    public ResponseEntity<Void> insertClient(ClienteRegistrationDTO data) {
 
         if (this.usuarioRep.existsByLogin(data.email())) {
-            return ResponseEntity.badRequest().body("Cliente já cadastrado");
+            // return ResponseEntity.badRequest().body("Cliente já cadastrado");
+            return ResponseEntity.badRequest().build();
         }
+
 
         Endereco endereco = new Endereco();
         endereco.setCep(data.endereco().cep());
@@ -105,7 +107,9 @@ public class ClienteServiceImpl implements ClienteService {
 
         contaRepository.save(conta);
 
-        return ResponseEntity.ok().body("Cliente cadastrado com sucesso! Status da conta: PENDENTE");
+        // return ResponseEntity.ok().body("Cliente cadastrado com sucesso! Status da
+        // conta: PENDENTE");
+        return ResponseEntity.ok().build();
     }
 
     // R03

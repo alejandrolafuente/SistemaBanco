@@ -12,7 +12,7 @@ export const AdminRoutes: Routes = [
         component: RegistrarAdminComponent
     },
     {
-        path: 'admin/gerentes',
+        path: 'admin/home',
         component: GerentesComponent,
         canActivate: [AuthGuard],
         data: {

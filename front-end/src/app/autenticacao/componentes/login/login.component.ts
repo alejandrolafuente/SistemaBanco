@@ -60,7 +60,7 @@ export class LoginComponent {
             if (usuario.perfil == "CLIENTE") {
               this.router.navigate(["/cliente/home/" + usuario.id]);
             } else if (usuario.perfil == "ADMIN") {
-              this.router.navigate(["/admin/gerentes"]);
+              this.router.navigate(["/admin/home"]);
             } else if (usuario.perfil == "GERENTE") {
               this.router.navigate(["/gerentes/home/" + usuario.id]);
             }

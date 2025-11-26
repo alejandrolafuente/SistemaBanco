@@ -53,7 +53,7 @@ public class GerenteServiceImpl implements GerenteService {
     // R10 - Aprovar Cliente
     @Override
     @Transactional
-    public ResponseEntity<?> aprovarCliente(Long contaId) {
+    public ResponseEntity<Void> aprovarCliente(Long contaId) {
 
         // ** CUSTOMIZAR EXCEPTIONS!!
         // Conta conta = contaRep.findById(contaId)
@@ -87,7 +87,8 @@ public class GerenteServiceImpl implements GerenteService {
 
         // servicoEmail.sendApproveEmail(cliente.getLogin(), subject, message);
 
-        return ResponseEntity.ok(new R10ResDTO(conta.getId(), cliente.getCpf(), cliente.getNome()));
+       // return ResponseEntity.ok(new R10ResDTO(conta.getId(), cliente.getCpf(), cliente.getNome()));
+       return ResponseEntity.ok().build();
 
     }
 

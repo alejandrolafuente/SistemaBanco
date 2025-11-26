@@ -7,7 +7,7 @@ import com.bankserver.dto.request.GerenteRegistrationDTO;
 
 public interface AdminService {
 
-    ResponseEntity<?> insertGerente(GerenteRegistrationDTO data);
+    ResponseEntity<Void> insertGerente(GerenteRegistrationDTO data);
     
     ResponseEntity<Void> insertAdmin(AdminRegistrationDTO data);
 

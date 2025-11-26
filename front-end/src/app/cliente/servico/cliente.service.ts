@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { LoginService } from '../../autenticacao/servicos/login.service';
 import { environment } from '../../../environments/environment';
 import { Deposito } from '../../models/deposito/deposito.model';
 import { Saque } from '../../models/saque/saque.model';

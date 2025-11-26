@@ -24,10 +24,7 @@ public class AdminController {
     @PostMapping("/novo-gerente")
     public ResponseEntity<?> novoGerente(@RequestBody GerenteRegistrationDTO dto) {
 
-        System.out.println("REQUEST DE CADASTRO GERENTE: => " + dto);
-        return ResponseEntity.ok().build();
-
-        // return adminService.insertGerente(dto);
+        return adminService.insertGerente(dto);
 
     }
 
