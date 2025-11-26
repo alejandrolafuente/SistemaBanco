@@ -29,7 +29,7 @@ export class ClienteService {
     };
   }
 
-  // R03 -> PADRAO PARA O CLIENTE
+  // R03 -> VAMOS SEGUIR ESTE PADRAO
   buscaSaldo(userId: number): Observable<SaldoResponse> {
     return this.httpClient.get<SaldoResponse>(`${this.BASE_URL}/cliente/saldo/${userId}`,
       this.getHttpOptions());

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
-import com.bankserver.dto.response.GerRegResDTO;
 import com.bankserver.model.Administrador;
 import com.bankserver.model.Gerente;
 import com.bankserver.model.StatusUsuario;

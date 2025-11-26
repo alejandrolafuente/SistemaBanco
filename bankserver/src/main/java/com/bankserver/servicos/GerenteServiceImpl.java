@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.dto.response.R09ResDTO;
-import com.bankserver.dto.response.R10ResDTO;
 import com.bankserver.model.Cliente;
 import com.bankserver.model.Conta;
 import com.bankserver.model.Saldo;

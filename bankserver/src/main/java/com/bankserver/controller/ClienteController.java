@@ -1,6 +1,5 @@
 package com.bankserver.controller;
 
-import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,7 @@ import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.dto.request.DepositoDTO;
 import com.bankserver.dto.request.SaqueDTO;
 import com.bankserver.dto.request.TransferDTO;
+import com.bankserver.dto.response.R03ResDTO;
 import com.bankserver.seguranca.UserDetailsImpl;
 import com.bankserver.servicos.ClienteService;
 
@@ -31,14 +31,12 @@ public class ClienteController {
     // R01
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody ClienteRegistrationDTO dto) {
-        // System.out.println("REQUEST DE CADASTRO CHEGOU: => " + dto);
-        // return null;
         return clienteService.insertClient(dto);
     }
 
     // R03
     @GetMapping("/saldo/{userId}")
-    public ResponseEntity<BigDecimal> buscaSaldo(@PathVariable Long userId) {
+    public ResponseEntity<R03ResDTO> buscaSaldo(@PathVariable Long userId) {
 
         return clienteService.buscaSaldo(userId);
     }

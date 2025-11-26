@@ -17,6 +17,7 @@ import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.dto.request.DepositoDTO;
 import com.bankserver.dto.request.SaqueDTO;
 import com.bankserver.dto.request.TransferDTO;
+import com.bankserver.dto.response.R03ResDTO;
 import com.bankserver.exceptions.ClientNotFoundException;
 import com.bankserver.model.Cliente;
 import com.bankserver.model.Conta;
@@ -72,13 +73,12 @@ public class ClienteServiceImpl implements ClienteService {
             return ResponseEntity.badRequest().build();
         }
 
-
         Endereco endereco = new Endereco();
         endereco.setCep(data.endereco().cep());
         endereco.setUf(data.endereco().uf());
         endereco.setCidade(data.endereco().cidade());
         endereco.setBairro(data.endereco().bairro());
-        endereco.setRua(data.endereco().rua()); // Atenção: aqui está usando bairro() para rua - é isso mesmo?
+        endereco.setRua(data.endereco().rua());
         endereco.setNumero(data.endereco().numero());
         endereco.setComplemento(data.endereco().complemento());
 
@@ -114,14 +114,17 @@ public class ClienteServiceImpl implements ClienteService {
 
     // R03
     @Override
-    public ResponseEntity<BigDecimal> buscaSaldo(Long userId) {
+    public ResponseEntity<R03ResDTO> buscaSaldo(Long userId) {
 
         Cliente cliente = clienteRep.findById(userId)
                 .orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado para o id = " + userId));
 
         BigDecimal saldo = cliente.getConta().getSaldo();
+        BigDecimal limite = cliente.getConta().getLimite();
 
-        return ResponseEntity.ok(saldo);
+        R03ResDTO response = new R03ResDTO(saldo, limite);
+
+        return ResponseEntity.ok(response);
     }
 
     // R05
