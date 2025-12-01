@@ -17,7 +17,7 @@ import com.bankserver.model.TipoUsuario;
 import com.bankserver.repository.AdministradorRep;
 import com.bankserver.repository.GerenteRep;
 import com.bankserver.repository.UsuarioRep;
-//import com.bankserver.utils.ServicoEmail;
+import com.bankserver.utils.ServicoEmail;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -31,8 +31,8 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private GerenteRep gerenteRep;
 
-    // @Autowired
-    // private ServicoEmail servicoEmail;
+    @Autowired
+    private ServicoEmail servicoEmail;
 
     // R17
     @Override
@@ -89,13 +89,13 @@ public class AdminServiceImpl implements AdminService {
 
         administradorRep.save(administrador);
 
-        // String subject = "BANTADS: CADASTRO APROVADO";
+        String subject = "BANTADS: CADASTRO DE ADMINISTADOR APROVADO";
 
-        // String message = "Seu cadastro foi aprovado, sua senha é " + senha;
+        String message = "Seu cadastro como administrador foi aprovado, sua senha é " + senha;
 
         System.out.println("SENHA NO CADASTRO ADMIN: " + senha);
 
-        // servicoEmail.sendApproveEmail(administrador.getLogin(), subject, message);
+        servicoEmail.sendApproveEmail(administrador.getLogin(), subject, message);
 
         // return ResponseEntity.ok()
         // .body("Administrador cadastrado com sucesso! Veja seu email: " +
