@@ -58,7 +58,13 @@ public class AdminServiceImpl implements AdminService {
 
         gerente = gerenteRep.save(gerente);
 
+        String subject = "BANTADS: CADASTRO DE GERENTE APROVADO";
+
+        String message = "Seu cadastro como gerente foi aprovado, sua senha é " + senha;
+
         System.out.println("SENHA NO CADASTRO GERENTE: " + senha);
+
+        servicoEmail.sendApproveEmail(gerente.getLogin(), subject, message);
 
         // return ResponseEntity.ok(new GerRegResDTO(gerente.getId(), gerente.getCpf(),
         // gerente.getLogin(), gerente.getNome(), gerente.getTelefone()));
