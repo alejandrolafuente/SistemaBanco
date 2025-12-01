@@ -39,7 +39,8 @@ public class AuthenticationController {
         System.out.println("AuthenticationManager class: " +
                 this.authenticationManager.getClass().getName());
 
-        // * DaoAuthenticationProvider é o provider padrão para autenticação com username/senha
+        // * DaoAuthenticationProvider é o provider padrão para autenticação com
+        // username/senha
 
         // manager delega para o AuthorizationService!
         var auth = this.authenticationManager.authenticate(usernamePassword);
@@ -51,12 +52,28 @@ public class AuthenticationController {
         var token = tokenService.generateToken(usuario);
 
         // criar cookie HttpOnly
+        // Cookie cookie = new Cookie("jwt", token);
+        // cookie.setHttpOnly(true);
+        // cookie.setSecure(true); // apenas HTTPS em produção
+        // cookie.setPath("/");
+        // cookie.setMaxAge(2 * 60 * 60); // 2 horas em segundos
+        // cookie.setAttribute("SameSite", "Lax");
+        boolean isProduction = System.getenv("RENDER") != null;
+
         Cookie cookie = new Cookie("jwt", token);
         cookie.setHttpOnly(true);
-        cookie.setSecure(true); // apenas HTTPS em produção
         cookie.setPath("/");
-        cookie.setMaxAge(2 * 60 * 60); // 2 horas em segundos
-        cookie.setAttribute("SameSite", "Lax");
+        cookie.setMaxAge(2 * 60 * 60);
+
+        if (isProduction) {
+            // PRODUÇÃO (Render): HTTPS + SameSite=None
+            cookie.setSecure(true);
+            cookie.setAttribute("SameSite", "None");
+        } else {
+            // LOCAL: HTTP + SameSite=Lax
+            cookie.setSecure(false);
+            cookie.setAttribute("SameSite", "Lax");
+        }
 
         response.addCookie(cookie);
 
