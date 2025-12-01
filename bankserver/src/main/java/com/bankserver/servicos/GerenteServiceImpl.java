@@ -18,7 +18,7 @@ import com.bankserver.model.Conta;
 import com.bankserver.model.Saldo;
 import com.bankserver.model.StatusUsuario;
 import com.bankserver.repository.ContaRepository;
-//import com.bankserver.utils.ServicoEmail;
+import com.bankserver.utils.ServicoEmail;
 
 @Service
 public class GerenteServiceImpl implements GerenteService {
@@ -26,8 +26,8 @@ public class GerenteServiceImpl implements GerenteService {
     @Autowired
     private ContaRepository contaRepository;
 
-    // @Autowired
-    // private ServicoEmail servicoEmail;
+    @Autowired
+    private ServicoEmail servicoEmail;
 
     // R09
     @Override
@@ -80,11 +80,11 @@ public class GerenteServiceImpl implements GerenteService {
 
         System.out.println("SENHA CLIENTE: " + senha);
 
-        // String subject = "BANTADS: CADASTRO APROVADO";
+        String subject = "BANTADS: CADASTRO DE CLIENTE APROVADO";
 
-        // String message = "Seu cadastro foi aprovado, sua senha é " + senha;
+        String message = "Seu cadastro foi aprovado, sua senha é " + senha;
 
-        // servicoEmail.sendApproveEmail(cliente.getLogin(), subject, message);
+        servicoEmail.sendApproveEmail(cliente.getLogin(), subject, message);
 
        // return ResponseEntity.ok(new R10ResDTO(conta.getId(), cliente.getCpf(), cliente.getNome()));
        return ResponseEntity.ok().build();
