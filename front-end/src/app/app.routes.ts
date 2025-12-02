@@ -23,6 +23,12 @@ export const routes: Routes = [
         component: Cadastro2Component
     },
 
+    {
+        path: 'especificacao',
+        redirectTo: '/especificacao.pdf',
+        pathMatch: 'full'
+    },
+
     ...AdminRoutes,
 
     ...GerenteRoutes,
