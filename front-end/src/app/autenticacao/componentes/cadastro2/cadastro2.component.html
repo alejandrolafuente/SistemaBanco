@@ -9,12 +9,12 @@
             </button>
         </div> -->
 
-            <div class="row">
-                <!-- DADOS PESSOAIS DO USUÁRIO -->
-                <div class="col-md-6">
-                    <div class="border p-4 rounded-3">
-                        <h5 class="text-center">Dados Pessoais</h5>
-                        <form #formCadastro="ngForm">
+            <form #formCadastro="ngForm">
+                <div class="row">
+                    <!-- dados pessoais usuario - caixa esquerda-->
+                    <div class="col-md-6">
+                        <div class="border p-4 rounded-3">
+                            <h5 class="text-center">Dados Pessoais</h5>
 
                             <div class="form-group">
                                 <label for="nome">Nome:</label>
@@ -95,20 +95,20 @@
                                     [(ngModel)]="cliente.salario" #salario="ngModel" placeholder="R$ 0,00" monetario>
                             </div>
 
-                        </form>
-                    </div>
-                </div>
 
-                <!-- DADOS DO ENDEREÇO -->
-                <div class="col-md-6">
-                    <div class="border p-4 rounded-3">
-                        <h5 class="text-center">Endereço</h5>
-                        <form>
+                        </div>
+                    </div>
+
+                    <!-- DADOS DO ENDEREÇO -->
+                    <div class="col-md-6">
+                        <div class="border p-4 rounded-3">
+                            <h5 class="text-center">Endereço</h5>
+                            <!-- <form> -->
                             <div class="form-group">
                                 <label for="cep">CEP (somente números):</label>
                                 <input type="text" class="form-control" id="cep" name="cep"
                                     [(ngModel)]="cliente.endereco.cep" #cep="ngModel" mask="00000-000" minlength="8"
-                                    required (blur)="consultarCEP()" (input)="cepMessage = ''">
+                                    required (blur)="consultarCEP()" (input)="cepMessage = ''" required>
                                 <div *ngIf="cep.errors && (cep.dirty || cep.touched)" class="alert alert-danger">
                                     <div [hidden]="!cep.errors['required']">
                                         Digite o CEP
@@ -193,30 +193,28 @@
                                 <input type="text" class="form-control" id="complemento" name="complemento"
                                     [(ngModel)]="cliente.endereco.complemento" #complemento="ngModel" maxlength="100">
                             </div>
-                        </form>
+                            <!-- </form> -->
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Botão de Cadastrar -->
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <div class="d-flex justify-content-center">
-                        <button type="button" class="btn btn-primary" [disabled]="!formCadastro.form.valid"
-                            (click)="cadastrar()" i>
-                            <i class=" fa fa-save" aria-hidden="true"></i> Cadastrar
-                        </button>
+                <!-- Botão de Cadastrar -->
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary" [disabled]="!formCadastro.form.valid"
+                                (click)="cadastrar()" i>
+                                <i class=" fa fa-save" aria-hidden="true"></i> Cadastrar
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </div><br>
+                </div><br>
+            </form>
         </div>
     </div>
 </div>
 
 <!-- tela de confirmacao (visivel quando esta em confirmacao) -->
-<app-confirmacao-cadastro *ngIf="mostrarConfirmacao" 
-    [dados]="dadosConfirmacao" 
-    (onConfirmar)="confirmarEnvio()"
-    (onEditar)="voltarParaEdicao()" 
-    (onCancelar)="voltarParaEdicao()">
+<app-confirmacao-cadastro *ngIf="mostrarConfirmacao" [dados]="dadosConfirmacao" (onConfirmar)="confirmarEnvio()"
+    (onEditar)="voltarParaEdicao()" (onCancelar)="voltarParaEdicao()">
 </app-confirmacao-cadastro>

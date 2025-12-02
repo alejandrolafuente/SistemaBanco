@@ -19,7 +19,7 @@ export const routes: Routes = [
     },
 
     {
-        path: 'cadastro2',
+        path: 'cadastro',
         component: Cadastro2Component
     },
 

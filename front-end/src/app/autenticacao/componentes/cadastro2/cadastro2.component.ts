@@ -129,6 +129,9 @@ export class Cadastro2Component extends CadastroBase {
 
   //*
   confirmarEnvio(): void {
+    if (this.cliente.salario == null) {
+      this.cliente.salario = 0;
+    }
     this.loginService.cadastrar(this.cliente).subscribe({
       next: () => {
         this.router.navigate(["/login"]);

@@ -4,11 +4,12 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Deposito } from '../../../models/deposito/deposito.model';
 import { TransacaoBase } from '../../../shared/transacao/transacao-base';
+import { MonetarioDirective } from '../../../shared/diretivas/monetario/monetario.directive';
 
 @Component({
   selector: 'app-deposito',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, MonetarioDirective],
   templateUrl: './deposito.component.html',
   styleUrl: './deposito.component.css'
 })

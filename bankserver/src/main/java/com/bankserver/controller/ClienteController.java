@@ -1,6 +1,5 @@
 package com.bankserver.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -44,7 +43,9 @@ public class ClienteController {
     // R05
     @PostMapping("/deposito")
     public ResponseEntity<?> deposito(@RequestBody DepositoDTO dto) {
-        return clienteService.realizarDeposito(dto);
+        //return clienteService.realizarDeposito(dto);
+        System.out.println("DEPOSITO => " + dto);
+        return ResponseEntity.ok().build();
     }
 
     // R06
