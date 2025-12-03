@@ -13,7 +13,10 @@ import { Observable } from "rxjs";
 @Directive()
 export abstract class TransacaoBase implements ITransacao, OnInit {
 
-    @ViewChild('formTransacao') formTransacao!: NgForm;
+    @ViewChild('formTransacao')
+    formTransacao!: NgForm;
+
+
     saldo!: number;
     limite!: number;
     valorTransacao!: number;
@@ -52,6 +55,9 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
         return this.formTransacao.form.valid && this.usuario != null;
     }
 
+    // template method
+    abstract executarTransacao(): void
+
     protected redirecionar(): void {
         this.router.navigate(["/cliente/home/" + this.usuario?.id]);
     }
@@ -65,10 +71,6 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
             }
         });
     }
-
-    // template method
-    abstract executarTransacao(): void
-
 
 
 }
