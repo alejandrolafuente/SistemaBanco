@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Deposito } from '../../models/deposito/deposito.model';
+import { Deposito } from '../../models/deposito/deposito';
 import { Saque } from '../../models/saque/saque.model';
 import { Transferencia } from '../../models/transferencia/transferencia';
 import { SaldoResponse } from '../../models/saldo-response/saldo-response';

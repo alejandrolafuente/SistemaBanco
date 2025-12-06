@@ -109,7 +109,6 @@ export abstract class CadastroBase implements ICadastroStrategy {
             nome: this.entidade.nome,
             telefone: this.entidade.telefone
         };
-
         // se for Cliente (tem salario e endereco), inclui dados extras
         if ('salario' in this.entidade) {
             return {
@@ -120,7 +119,6 @@ export abstract class CadastroBase implements ICadastroStrategy {
             };
 
         }
-
         // para admin e gerente so dados basicos
         return {
             ...dadosBasicos,

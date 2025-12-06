@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Saque } from '../../../models/saque/saque.model';
 import { TransacaoBase } from '../../../shared/transacao/transacao-base';
+import { Transacao } from '../../../shared/transacao/transacao';
 
 
 @Component({
@@ -14,6 +15,12 @@ import { TransacaoBase } from '../../../shared/transacao/transacao-base';
   styleUrl: './saque.component.css'
 })
 export class SaqueComponent extends TransacaoBase {
+  protected override get entidade(): Transacao {
+    throw new Error('Method not implemented.');
+  }
+  override mostrarTelaConfirmacaoTransacao(): void {
+    throw new Error('Method not implemented.');
+  }
 
   retirar(): void {
     const saque = new Saque(this.usuario!.id, Number(this.valorTransacao));

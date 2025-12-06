@@ -9,6 +9,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { SaldoResponse } from "../../models/saldo-response/saldo-response";
 import { NgForm } from "@angular/forms";
 import { Observable } from "rxjs";
+import { Transacao } from "./transacao";
 
 @Directive()
 export abstract class TransacaoBase implements ITransacao, OnInit {
@@ -22,6 +23,8 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
     valorTransacao!: number;
     usuario: Usuario | null = null;
     erroMensagem: string = '';
+
+    protected abstract get entidade(): Transacao;
 
     constructor(
         protected clienteService: ClienteService,
@@ -51,6 +54,46 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
         });
     }
 
+    abstract mostrarTelaConfirmacaoTransacao(): void
+
+    obterDadosConfirmacao(): any {
+
+        const dadosBasicos = {
+            // cpf: this.entidade.cpf,
+            // email: this.entidade.email,
+            // nome: this.entidade.nome,
+            // telefone: this.entidade.telefone
+            id: this.entidade.id,
+            valor: this.entidade.valor
+        };
+        // // se for Cliente (tem salario e endereco), inclui dados extras
+        // if ('salario' in this.entidade) {
+        //     return {
+        //         ...dadosBasicos,
+        //         salario: (this.entidade as any).salario,
+        //         endereco: (this.entidade as any).endereco,
+        //         tipo: 'cliente'
+        //     };
+        if ('contaDestino' in this.entidade) {
+            return {
+                ...dadosBasicos,
+                contaDestino: (this.entidade as any).contaDestino,
+                tipo: 'transferencia'
+            };
+        }
+        // para admin e gerente so dados basicos
+        // return {
+        //     ...dadosBasicos,
+        //     tipo: this.entidade.hasOwnProperty('nivelAcesso') ? 'administrador' : 'gerente'
+        // };
+
+        // para deposito e saque so dados basicos
+        return {
+            ...dadosBasicos,
+            tipo: this.entidade.hasOwnProperty('nivelAcesso') ? 'deposito' : 'saque'
+        };
+    }
+
     validarTransacao(): boolean {
         return this.formTransacao.form.valid && this.usuario != null;
     }
@@ -58,13 +101,18 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
     // template method
     abstract executarTransacao(): void
 
+
+    //************************************** MÉTODOS CONCRETOS *************************************** */
+
     protected redirecionar(): void {
         this.router.navigate(["/cliente/home/" + this.usuario?.id]);
     }
 
     protected executarTransacaoServico<T>(operacao: Observable<T>, nomeOperacao: string): void {
         operacao.subscribe({
-            next: () => this.redirecionar(),
+            next: () => {
+                this.redirecionar()
+            },
             error: (erro: HttpErrorResponse) => {
                 console.error(`Erro no ${nomeOperacao}:`, erro);
                 this.erroMensagem = this.errorHandler.handleHttpError(erro);

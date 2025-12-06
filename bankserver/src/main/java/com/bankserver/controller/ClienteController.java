@@ -43,9 +43,9 @@ public class ClienteController {
     // R05
     @PostMapping("/deposito")
     public ResponseEntity<?> deposito(@RequestBody DepositoDTO dto) {
-        //return clienteService.realizarDeposito(dto);
-        System.out.println("DEPOSITO => " + dto);
-        return ResponseEntity.ok().build();
+        return clienteService.realizarDeposito(dto);
+        // System.out.println("DEPOSITO => " + dto);
+        // return ResponseEntity.ok().build();
     }
 
     // R06
