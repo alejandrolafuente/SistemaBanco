@@ -90,7 +90,7 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
         // para deposito e saque so dados basicos
         return {
             ...dadosBasicos,
-            tipo: this.entidade.hasOwnProperty('nivelAcesso') ? 'deposito' : 'saque'
+            tipo: this.entidade.hasOwnProperty('nivelAcesso') ? 'saque' : 'deposito'
         };
     }
 
