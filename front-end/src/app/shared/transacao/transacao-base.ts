@@ -101,7 +101,9 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
     // template method
     abstract executarTransacao(): void
 
-    abstract redirecionar(): void;
+    redirecionar(): void {
+        this.router.navigate(["/cliente/home/" + this.usuario?.id]);
+    };
     //************************************** MÉTODOS CONCRETOS *************************************** */
 
 

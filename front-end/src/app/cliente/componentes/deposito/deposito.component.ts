@@ -17,9 +17,6 @@ import { Deposito } from '../../../models/deposito/deposito';
 })
 export class DepositoComponent extends TransacaoBase {
 
-  override redirecionar(): void {
-    this.router.navigate(["/cliente/home/" + this.usuario?.id]);
-  }
 
   dadosConfirmacao: any;
   mostrarConfirmacao: boolean = false;
