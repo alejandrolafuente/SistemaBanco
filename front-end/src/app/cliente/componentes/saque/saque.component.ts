@@ -15,6 +15,12 @@ import { Transacao } from '../../../shared/transacao/transacao';
   styleUrl: './saque.component.css'
 })
 export class SaqueComponent extends TransacaoBase {
+  
+  override redirecionar(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  
   protected override get entidade(): Transacao {
     throw new Error('Method not implemented.');
   }

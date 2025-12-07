@@ -44,7 +44,7 @@ public class ClienteController {
     @PostMapping("/deposito")
     public ResponseEntity<?> deposito(@RequestBody DepositoDTO dto) {
         //return clienteService.realizarDeposito(dto);
-        System.out.println("DEPOSITO => " + dto);
+        System.out.println("\nDEPOSITO CHEGANDO => " + dto);
         return ResponseEntity.ok().build();
     }
 
