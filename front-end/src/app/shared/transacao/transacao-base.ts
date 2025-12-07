@@ -63,8 +63,8 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
             // email: this.entidade.email,
             // nome: this.entidade.nome,
             // telefone: this.entidade.telefone
-            id: this.entidade.id,
-            valor: this.entidade.valor
+            id: this.usuario?.id,
+            valor: Number(this.valorTransacao)
         };
         // // se for Cliente (tem salario e endereco), inclui dados extras
         // if ('salario' in this.entidade) {
@@ -101,12 +101,10 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
     // template method
     abstract executarTransacao(): void
 
-
+    abstract redirecionar(): void;
     //************************************** MÉTODOS CONCRETOS *************************************** */
 
-    protected redirecionar(): void {
-        this.router.navigate(["/cliente/home/" + this.usuario?.id]);
-    }
+
 
     protected executarTransacaoServico<T>(operacao: Observable<T>, nomeOperacao: string): void {
         operacao.subscribe({

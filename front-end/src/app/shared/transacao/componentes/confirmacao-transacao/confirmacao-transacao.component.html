@@ -11,7 +11,7 @@
                 <div class="col-md-6">
                     <h6 class="border-bottom pb-2">Dados Transacao</h6>
                     <div class="mb-2">
-                        <strong>N&ordm Conta:</strong> {{ dados.id }}
+                        <strong>Número Conta:</strong> {{ dados.id }}
                     </div>
                     <div class="mb-2">
                         <strong>Valor:</strong> {{ dados.valor }}
@@ -19,14 +19,14 @@
 
                     <!-- dados transacao transferencia  -->
                     <div class="mb-2" *ngIf="dados.contaDestino">
-                        <strong>N&ordm Conta Destino:</strong> {{ dados.contaDestino }}
+                        <strong>Número Conta Destino:</strong> {{ dados.contaDestino }}
                     </div>
                 </div>
             </div>
 
             <div class="alert alert-info mt-3">
                 <i class="fa fa-info-circle"></i>
-                Verifique os dados antes de confirmar o cadastro.
+                Verifique os dados antes de confirmar {{getTipoTransacao()}}.
             </div>
         </div>
 
@@ -35,7 +35,7 @@
                 <i class="fa fa-edit"></i> Corrigir Dados
             </button>
             <button type="button" class="btn btn-primary" (click)="onConfirmar.emit()">
-                <i class="fa fa-check"></i> Confirmar Cadastro
+                <i class="fa fa-check"></i> Confirmar {{getTipoTransacao()}}
             </button>
         </div>
     </div>

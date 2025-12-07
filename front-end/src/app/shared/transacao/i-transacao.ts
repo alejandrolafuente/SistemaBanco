@@ -16,4 +16,6 @@ export interface ITransacao {
 
     // template method - metodo chave do design pattern template method
     executarTransacao(): void;
+
+    redirecionar(): void
 }

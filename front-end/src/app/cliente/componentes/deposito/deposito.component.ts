@@ -17,6 +17,10 @@ import { Deposito } from '../../../models/deposito/deposito';
 })
 export class DepositoComponent extends TransacaoBase {
 
+  override redirecionar(): void {
+    this.router.navigate(["/cliente/home/" + this.usuario?.id]);
+  }
+
   dadosConfirmacao: any;
   mostrarConfirmacao: boolean = false;
 
@@ -45,6 +49,10 @@ export class DepositoComponent extends TransacaoBase {
   }
 
   confirmarEnvio(): void {
+    //const deposito = new Deposito(this.usuario!.id, Number(this.valorTransacao));
+    this.deposito.id = (this.usuario!.id);
+    this.deposito.valor = (Number(this.valorTransacao));
+    this.executarTransacaoServico(this.clienteService.deposito(this.deposito), 'depósito');
   }
 
   //*
