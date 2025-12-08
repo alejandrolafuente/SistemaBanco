@@ -46,7 +46,7 @@
                     </div>
                     <br>
                     <div class="d-flex justify-content-center">
-                        <button type="button" class="btn btn-primary" (click)="executarTransacao()"
+                        <button type="button" class="btn btn-primary" (click)="mostrarTelaConfirmacaoTransacao()"
                             [disabled]="!formDeposit.form.valid">
                             <i class="fa fa-save" aria-hidden="true"></i> Depositar
 
@@ -61,6 +61,6 @@
 </div>
 
 <!-- tela de confirmacao (visivel quando esta em confirmacao) -->
-<app-confirmacao-transacao *ngIf="mostrarConfirmacao" [dados]="dadosConfirmacao" (onConfirmar)="confirmarEnvio()"
+<app-confirmacao-transacao *ngIf="mostrarConfirmacao" [dados]="dadosConfirmacao" (onConfirmar)="executarTransacao()"
     (onEditar)="voltarParaEdicao()" (onCancelar)="voltarParaEdicao()">
 </app-confirmacao-transacao>

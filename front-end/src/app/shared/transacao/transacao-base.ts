@@ -23,6 +23,8 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
     valorTransacao!: number;
     usuario: Usuario | null = null;
     erroMensagem: string = '';
+    dadosConfirmacao: any;
+    mostrarConfirmacao: boolean = false;
 
     protected abstract get entidade(): Transacao;
 
@@ -54,7 +56,10 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
         });
     }
 
-    abstract mostrarTelaConfirmacaoTransacao(): void
+    mostrarTelaConfirmacaoTransacao(): void {
+        this.mostrarConfirmacao = true;
+        this.dadosConfirmacao = this.obterDadosConfirmacao();
+    }
 
     obterDadosConfirmacao(): any {
 
@@ -104,7 +109,7 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
     redirecionar(): void {
         this.router.navigate(["/cliente/home/" + this.usuario?.id]);
     };
-    //************************************** MÉTODOS CONCRETOS *************************************** */
+    //************************************** MÉTODOS PROPRIOS *************************************** */
 
 
 
@@ -119,6 +124,7 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
             }
         });
     }
+
 
 
 }

@@ -18,9 +18,6 @@ import { Deposito } from '../../../models/deposito/deposito';
 export class DepositoComponent extends TransacaoBase {
 
 
-  dadosConfirmacao: any;
-  mostrarConfirmacao: boolean = false;
-
   deposito: Deposito = {
     id: 0,
     valor: 0
@@ -31,26 +28,15 @@ export class DepositoComponent extends TransacaoBase {
   }
 
   depositar(): void {
-    //const deposito = new Deposito(this.usuario!.id, Number(this.valorTransacao));
-    // this.executarTransacaoServico(this.clienteService.deposito(deposito), 'depósito');
-  }
-
-  override executarTransacao(): void {
-    //this.depositar();
-    this.mostrarTelaConfirmacaoTransacao();
-  }
-
-  override mostrarTelaConfirmacaoTransacao(): void {
-    this.mostrarConfirmacao = true;
-    this.dadosConfirmacao = this.obterDadosConfirmacao();
-  }
-
-  confirmarEnvio(): void {
-    //const deposito = new Deposito(this.usuario!.id, Number(this.valorTransacao));
     this.deposito.id = (this.usuario!.id);
     this.deposito.valor = (Number(this.valorTransacao));
     this.executarTransacaoServico(this.clienteService.deposito(this.deposito), 'depósito');
   }
+
+  override executarTransacao(): void {
+    this.depositar();
+  }
+
 
   //*
   voltarParaEdicao(): void {
