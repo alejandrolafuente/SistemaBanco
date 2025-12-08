@@ -25,7 +25,7 @@ export class SaqueComponent extends TransacaoBase {
 
   retirar(): void {
     const saque = new Saque(this.usuario!.id, Number(this.valorTransacao));
-    this.executarTransacaoServico(this.clienteService.saque(saque), 'saque');
+    this.finalizarTransacao(this.clienteService.saque(saque), 'saque');
   }
 
   override executarTransacao(): void {

@@ -35,6 +35,8 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
         protected router: Router
     ) { }
 
+    //**************************************************** */ metodos herdados
+
     ngOnInit(): void {
         this.usuario = this.loginService.usuarioLogado;
         this.buscaSaldo();
@@ -56,51 +58,13 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
         });
     }
 
+    validarTransacao(): boolean {
+        return this.formTransacao.form.valid && this.usuario != null;
+    }
+
     mostrarTelaConfirmacaoTransacao(): void {
         this.mostrarConfirmacao = true;
         this.dadosConfirmacao = this.obterDadosConfirmacao();
-    }
-
-    obterDadosConfirmacao(): any {
-
-        const dadosBasicos = {
-            // cpf: this.entidade.cpf,
-            // email: this.entidade.email,
-            // nome: this.entidade.nome,
-            // telefone: this.entidade.telefone
-            id: this.usuario?.id,
-            valor: Number(this.valorTransacao)
-        };
-        // // se for Cliente (tem salario e endereco), inclui dados extras
-        // if ('salario' in this.entidade) {
-        //     return {
-        //         ...dadosBasicos,
-        //         salario: (this.entidade as any).salario,
-        //         endereco: (this.entidade as any).endereco,
-        //         tipo: 'cliente'
-        //     };
-        if ('contaDestino' in this.entidade) {
-            return {
-                ...dadosBasicos,
-                contaDestino: (this.entidade as any).contaDestino,
-                tipo: 'transferencia'
-            };
-        }
-        // para admin e gerente so dados basicos
-        // return {
-        //     ...dadosBasicos,
-        //     tipo: this.entidade.hasOwnProperty('nivelAcesso') ? 'administrador' : 'gerente'
-        // };
-
-        // para deposito e saque so dados basicos
-        return {
-            ...dadosBasicos,
-            tipo: this.entidade.hasOwnProperty('nivelAcesso') ? 'saque' : 'deposito'
-        };
-    }
-
-    validarTransacao(): boolean {
-        return this.formTransacao.form.valid && this.usuario != null;
     }
 
     // template method
@@ -109,11 +73,29 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
     redirecionar(): void {
         this.router.navigate(["/cliente/home/" + this.usuario?.id]);
     };
-    //************************************** MÉTODOS PROPRIOS *************************************** */
 
+    //******************************************************************************************************* */
 
+    obterDadosConfirmacao(): any {
 
-    protected executarTransacaoServico<T>(operacao: Observable<T>, nomeOperacao: string): void {
+        const dadosBasicos = {
+            id: this.usuario?.id,
+            valor: Number(this.valorTransacao)
+        };
+        if ('contaDestino' in this.entidade) {
+            return {
+                ...dadosBasicos,
+                contaDestino: (this.entidade as any).contaDestino,
+                tipo: 'transferencia'
+            };
+        }
+        return {
+            ...dadosBasicos,
+            tipo: this.entidade.hasOwnProperty('nivelAcesso') ? 'saque' : 'deposito'
+        };
+    }
+
+    protected finalizarTransacao<T>(operacao: Observable<T>, nomeOperacao: string): void {
         operacao.subscribe({
             next: () => {
                 this.redirecionar()

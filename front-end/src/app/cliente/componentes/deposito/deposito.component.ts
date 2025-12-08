@@ -27,16 +27,17 @@ export class DepositoComponent extends TransacaoBase {
     return this.deposito;
   }
 
-  depositar(): void {
-    this.deposito.id = (this.usuario!.id);
-    this.deposito.valor = (Number(this.valorTransacao));
-    this.executarTransacaoServico(this.clienteService.deposito(this.deposito), 'depósito');
-  }
-
+  // template method
   override executarTransacao(): void {
     this.depositar();
   }
 
+
+  depositar(): void {
+    this.deposito.id = (this.usuario!.id);
+    this.deposito.valor = (Number(this.valorTransacao));
+    this.finalizarTransacao(this.clienteService.deposito(this.deposito), 'depósito');
+  }
 
   //*
   voltarParaEdicao(): void {
