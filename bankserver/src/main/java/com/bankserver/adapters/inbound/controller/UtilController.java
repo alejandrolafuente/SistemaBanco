@@ -1,4 +1,4 @@
-package com.bankserver.controller;
+package com.bankserver.adapters.inbound.controller;
 
 import java.util.Map;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bankserver.repository.UsuarioRep;
+import com.bankserver.adapters.outbound.repository.UsuarioRep;
 
 @RestController
 @RequestMapping("/api/usuarios")

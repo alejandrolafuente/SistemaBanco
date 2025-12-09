@@ -10,8 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.bankserver.adapters.outbound.repository.UsuarioRep;
 import com.bankserver.model.Usuario;
-import com.bankserver.repository.UsuarioRep;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-package com.bankserver.controller;
+package com.bankserver.adapters.inbound.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

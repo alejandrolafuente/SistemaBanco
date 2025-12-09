@@ -1,4 +1,4 @@
-package com.bankserver.servicos;
+package com.bankserver.application.servicos;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,6 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bankserver.adapters.outbound.repository.ClienteRep;
+import com.bankserver.adapters.outbound.repository.ContaRepository;
+import com.bankserver.adapters.outbound.repository.EnderecoRep;
+import com.bankserver.adapters.outbound.repository.GerenteRep;
+import com.bankserver.adapters.outbound.repository.SaldoRepository;
+import com.bankserver.adapters.outbound.repository.TransacaoRepository;
+import com.bankserver.adapters.outbound.repository.UsuarioRep;
 import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.dto.request.DepositoDTO;
 import com.bankserver.dto.request.SaqueDTO;
@@ -30,13 +37,6 @@ import com.bankserver.model.TipoTransacao;
 import com.bankserver.model.TipoUsuario;
 import com.bankserver.model.Transacao;
 import com.bankserver.model.Usuario;
-import com.bankserver.repository.ClienteRep;
-import com.bankserver.repository.ContaRepository;
-import com.bankserver.repository.EnderecoRep;
-import com.bankserver.repository.GerenteRep;
-import com.bankserver.repository.SaldoRepository;
-import com.bankserver.repository.TransacaoRepository;
-import com.bankserver.repository.UsuarioRep;
 import com.bankserver.seguranca.UserDetailsImpl;
 
 @Service

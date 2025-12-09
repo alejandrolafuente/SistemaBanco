@@ -1,4 +1,4 @@
-package com.bankserver.repository;
+package com.bankserver.adapters.outbound.repository;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.bankserver.controller;
+package com.bankserver.adapters.inbound.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

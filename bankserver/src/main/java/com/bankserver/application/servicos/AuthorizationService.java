@@ -1,4 +1,4 @@
-package com.bankserver.servicos;
+package com.bankserver.application.servicos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.bankserver.adapters.outbound.repository.UsuarioRep;
 import com.bankserver.model.Usuario;
-import com.bankserver.repository.UsuarioRep;
 import com.bankserver.seguranca.UserDetailsImpl;
 
 @Service

@@ -1,4 +1,4 @@
-package com.bankserver.servicos;
+package com.bankserver.application.servicos;
 
 import org.springframework.http.ResponseEntity;
 

@@ -1,4 +1,4 @@
-package com.bankserver.servicos;
+package com.bankserver.application.servicos;
 
 import java.security.SecureRandom;
 
@@ -8,15 +8,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bankserver.adapters.outbound.repository.AdministradorRep;
+import com.bankserver.adapters.outbound.repository.GerenteRep;
+import com.bankserver.adapters.outbound.repository.UsuarioRep;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
 import com.bankserver.model.Administrador;
 import com.bankserver.model.Gerente;
 import com.bankserver.model.StatusUsuario;
 import com.bankserver.model.TipoUsuario;
-import com.bankserver.repository.AdministradorRep;
-import com.bankserver.repository.GerenteRep;
-import com.bankserver.repository.UsuarioRep;
 import com.bankserver.utils.ServicoEmail;
 
 @Service

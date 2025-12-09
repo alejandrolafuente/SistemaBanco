@@ -1,4 +1,4 @@
-package com.bankserver.config;
+package com.bankserver.infrastructure.config;
 
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 import org.springframework.context.annotation.Bean;
