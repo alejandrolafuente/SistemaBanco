@@ -14,7 +14,7 @@ export interface ITransacao {
 
     // busca saldo e limite para a tela inicial da transacao 
     // preciso buscar alem do saldo e limite o numero da conta
-    buscaSaldo(): void;
+    buscaDados(): void;
 
     // temos que validar transacao,
     // relacao saldo-transacao no saque e transferencia
@@ -25,7 +25,7 @@ export interface ITransacao {
     // dados da conta destino para transferencia: nome, numero da conta, cpf
     mostrarTelaConfirmacaoTransacao(): void;
 
-    // template method - metodo chave do design pattern template method
+    // template method - metodo chave
     executarTransacao(): void;
 
     redirecionar(): void

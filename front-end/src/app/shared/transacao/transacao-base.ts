@@ -39,10 +39,10 @@ export abstract class TransacaoBase implements ITransacao, OnInit {
 
     ngOnInit(): void {
         this.usuario = this.loginService.usuarioLogado;
-        this.buscaSaldo();
+        this.buscaDados();
     }
 
-    buscaSaldo(): void {
+    buscaDados(): void {
         if (!this.usuario?.id) {
             console.error('Usuário não logado ou sem ID');
             return;
