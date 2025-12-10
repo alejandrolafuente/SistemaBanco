@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bankserver.application.servicos.ClienteService;
+import com.bankserver.application.usecases.ClienteService;
 import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.dto.request.DepositoDTO;
 import com.bankserver.dto.request.SaqueDTO;

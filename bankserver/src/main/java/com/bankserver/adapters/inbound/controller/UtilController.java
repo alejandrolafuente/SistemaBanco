@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bankserver.adapters.outbound.repository.UsuarioRep;
+import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -18,7 +18,7 @@ import com.bankserver.adapters.outbound.repository.UsuarioRep;
 public class UtilController {
 
     @Autowired
-    private UsuarioRep usuarioRepository;
+    private JpaUsuarioRepository usuarioRepository;
 
     @GetMapping("/verificar-email/{email}")
     public ResponseEntity<Map<String, Boolean>> verificarEmail(@PathVariable String email) {

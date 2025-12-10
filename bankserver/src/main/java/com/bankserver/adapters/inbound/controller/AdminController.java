@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bankserver.application.servicos.AdminService;
+import com.bankserver.application.usecases.AdminService;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
 

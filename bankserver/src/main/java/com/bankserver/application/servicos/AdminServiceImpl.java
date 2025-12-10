@@ -10,7 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.adapters.outbound.repository.AdministradorRep;
 import com.bankserver.adapters.outbound.repository.GerenteRep;
-import com.bankserver.adapters.outbound.repository.UsuarioRep;
+import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
+import com.bankserver.application.usecases.AdminService;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
 import com.bankserver.model.Administrador;
@@ -23,7 +24,7 @@ import com.bankserver.utils.ServicoEmail;
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
-    private UsuarioRep usuarioRep;
+    private JpaUsuarioRepository usuarioRep;
 
     @Autowired
     private AdministradorRep administradorRep;

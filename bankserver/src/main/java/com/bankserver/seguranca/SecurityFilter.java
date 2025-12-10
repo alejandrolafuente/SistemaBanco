@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.bankserver.adapters.outbound.repository.UsuarioRep;
+import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
 import com.bankserver.model.Usuario;
 
 import jakarta.servlet.FilterChain;
@@ -26,7 +26,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Autowired
-    private UsuarioRep usuarioRep;
+    private JpaUsuarioRepository usuarioRep;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,

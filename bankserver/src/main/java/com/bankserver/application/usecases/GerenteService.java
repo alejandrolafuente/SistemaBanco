@@ -1,4 +1,4 @@
-package com.bankserver.application.servicos;
+package com.bankserver.application.usecases;
 
 import org.springframework.http.ResponseEntity;
 

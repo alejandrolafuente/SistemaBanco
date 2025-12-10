@@ -5,12 +5,15 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.bankserver.adapters.outbound.entidades.JpaUsuarioEntidade;
 import com.bankserver.model.Usuario;
 
 @Repository
-public interface UsuarioRep extends JpaRepository<Usuario, Long> {
+public interface JpaUsuarioRepository extends JpaRepository<JpaUsuarioEntidade, Long> {
 
     boolean existsByLogin(String login);
-    boolean existsByCpf(String cpf); 
+
+    boolean existsByCpf(String cpf);
+
     Optional<Usuario> findByLogin(String login);
 }

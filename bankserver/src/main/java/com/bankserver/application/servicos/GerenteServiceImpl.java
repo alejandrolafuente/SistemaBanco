@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.adapters.outbound.repository.ContaRepository;
+import com.bankserver.application.usecases.GerenteService;
 import com.bankserver.dto.response.R09ResDTO;
 import com.bankserver.model.Cliente;
 import com.bankserver.model.Conta;

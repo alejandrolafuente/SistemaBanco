@@ -19,7 +19,8 @@ import com.bankserver.adapters.outbound.repository.EnderecoRep;
 import com.bankserver.adapters.outbound.repository.GerenteRep;
 import com.bankserver.adapters.outbound.repository.SaldoRepository;
 import com.bankserver.adapters.outbound.repository.TransacaoRepository;
-import com.bankserver.adapters.outbound.repository.UsuarioRep;
+import com.bankserver.application.usecases.ClienteService;
+import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
 import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.dto.request.DepositoDTO;
 import com.bankserver.dto.request.SaqueDTO;
@@ -43,7 +44,7 @@ import com.bankserver.seguranca.UserDetailsImpl;
 public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
-    private UsuarioRep usuarioRep;
+    private JpaUsuarioRepository usuarioRep;
 
     @Autowired
     private ClienteRep clienteRep;
