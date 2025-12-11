@@ -45,4 +45,10 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     }
 
+    @Override
+    public boolean existsByLogin(String email) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'existsByLogin'");
+    }
+
 }

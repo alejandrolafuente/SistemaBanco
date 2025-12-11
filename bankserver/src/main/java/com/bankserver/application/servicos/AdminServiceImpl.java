@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.adapters.outbound.repository.AdministradorRep;
 import com.bankserver.adapters.outbound.repository.GerenteRep;
-import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
 import com.bankserver.application.usecases.AdminService;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
@@ -18,13 +17,16 @@ import com.bankserver.model.Administrador;
 import com.bankserver.model.Gerente;
 import com.bankserver.model.StatusUsuario;
 import com.bankserver.model.TipoUsuario;
+import com.bankserver.model.UsuarioRepository;
 import com.bankserver.utils.ServicoEmail;
 
 @Service
 public class AdminServiceImpl implements AdminService {
 
-    @Autowired
-    private JpaUsuarioRepository usuarioRep;
+    // @Autowired
+    // private JpaUsuarioRepository usuarioRep;
+
+    private final UsuarioRepository usuarioRepository = null;
 
     @Autowired
     private AdministradorRep administradorRep;
@@ -40,7 +42,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public ResponseEntity<Void> insertGerente(GerenteRegistrationDTO data) {
 
-        if (this.usuarioRep.existsByLogin(data.email())) {
+        if (this.usuarioRepository.existsByLogin(data.email())) {
             // return ResponseEntity.badRequest().body("Gerente já cadastrado");
             return ResponseEntity.badRequest().build();
         }
@@ -78,7 +80,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public ResponseEntity<Void> insertAdmin(AdminRegistrationDTO data) {
 
-        if (this.usuarioRep.existsByLogin(data.email())) {
+        if (this.usuarioRepository.existsByLogin(data.email())) {
             // return ResponseEntity.badRequest().body("Administrador já cadastrado!");
             return ResponseEntity.badRequest().build(); // remove o body por enquanto
         }

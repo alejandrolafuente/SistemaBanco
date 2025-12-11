@@ -2,7 +2,7 @@ package com.bankserver.model;
 
 import java.util.List;
 
-public interface UsuarioRepository {
+public interface UsuarioRepository {// * PORTA!
 
     Usuario save(Usuario usuario);
 
@@ -11,5 +11,7 @@ public interface UsuarioRepository {
     List<Usuario> findAll();
 
     void deleteById(Long id);
+
+    boolean existsByLogin(String email);
 
 }
