@@ -89,4 +89,21 @@ public abstract class Usuario {
         this.status = status;
     }
 
+    // * metodos de dominio
+    public void ativar() {
+        this.status = StatusUsuario.ATIVO;
+    }
+
+    public void bloquear() {
+        this.status = StatusUsuario.BLOQUEADO;
+    }
+
+    public void alterarSenha(String novaSenha) {
+        this.senha = novaSenha;
+    }
+
+    public boolean isAtivo() {
+        return StatusUsuario.ATIVO.equals(this.status);
+    }
+
 }
