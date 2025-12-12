@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
-import com.bankserver.model.Usuario;
+import com.bankserver.application.domain.Usuario;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

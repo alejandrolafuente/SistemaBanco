@@ -1,4 +1,7 @@
-package com.bankserver.model;
+package com.bankserver.application.domain;
+
+import com.bankserver.model.StatusUsuario;
+import com.bankserver.model.TipoUsuario;
 
 public abstract class Usuario {
     private Long id;

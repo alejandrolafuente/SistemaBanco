@@ -1,10 +1,11 @@
-package com.bankserver.adapters.outbound.repository;
+package com.bankserver.adapters.outbound.adapters;
 
 import java.util.List;
 
 
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
-import com.bankserver.model.Usuario;
+import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
+import com.bankserver.application.domain.Usuario;
 
 public class UsuarioRepositoryImpl implements UsuarioRepository {
 

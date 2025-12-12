@@ -19,6 +19,7 @@ import com.bankserver.adapters.outbound.repository.EnderecoRep;
 import com.bankserver.adapters.outbound.repository.GerenteRep;
 import com.bankserver.adapters.outbound.repository.SaldoRepository;
 import com.bankserver.adapters.outbound.repository.TransacaoRepository;
+import com.bankserver.application.domain.Usuario;
 import com.bankserver.application.usecases.ClienteService;
 import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
 import com.bankserver.dto.request.ClienteRegistrationDTO;
@@ -37,7 +38,6 @@ import com.bankserver.model.StatusUsuario;
 import com.bankserver.model.TipoTransacao;
 import com.bankserver.model.TipoUsuario;
 import com.bankserver.model.Transacao;
-import com.bankserver.model.Usuario;
 import com.bankserver.seguranca.UserDetailsImpl;
 
 @Service

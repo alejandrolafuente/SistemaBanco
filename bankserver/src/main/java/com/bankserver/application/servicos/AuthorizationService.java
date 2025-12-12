@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
-import com.bankserver.model.Usuario;
+import com.bankserver.application.domain.Usuario;
 import com.bankserver.seguranca.UserDetailsImpl;
 
 @Service

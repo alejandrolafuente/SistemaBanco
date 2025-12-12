@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bankserver.application.domain.Usuario;
 import com.bankserver.dto.request.AuthenticationDTO;
 import com.bankserver.dto.response.LoginResponseDTO;
-import com.bankserver.model.Usuario;
 import com.bankserver.seguranca.TokenService;
 import com.bankserver.seguranca.UserDetailsImpl;
 

@@ -7,8 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.bankserver.application.domain.Usuario;
 import com.bankserver.model.StatusUsuario;
-import com.bankserver.model.Usuario;
 
 public class UserDetailsImpl implements UserDetails {
 

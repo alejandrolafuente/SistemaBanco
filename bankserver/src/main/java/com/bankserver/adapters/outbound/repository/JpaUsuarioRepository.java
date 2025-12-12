@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.bankserver.adapters.outbound.entidades.JpaUsuarioEntidade;
-import com.bankserver.model.Usuario;
+import com.bankserver.application.domain.Usuario;
 
 @Repository
 public interface JpaUsuarioRepository extends JpaRepository<JpaUsuarioEntidade, Long> {

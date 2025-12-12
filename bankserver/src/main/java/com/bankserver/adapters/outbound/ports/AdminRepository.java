@@ -1,6 +1,6 @@
 package com.bankserver.adapters.outbound.ports;
 
-import com.bankserver.model.Administrador;
+import com.bankserver.application.domain.Administrador;
 
 public interface AdminRepository {
 
