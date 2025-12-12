@@ -16,7 +16,11 @@ public class AdminRepositoryImpl implements AdminRepository {
     @Override
     public Administrador save(Administrador administrador) {
         JpaAdministradorEntidade jpaAdministradorEntidade = new JpaAdministradorEntidade(administrador);
-        return null;
+
+        // Salva no banco
+        JpaAdministradorEntidade entidadeSalva = this.jpaAdminRepository.save(jpaAdministradorEntidade);
+
+        return entidadeSalva.toDomain();
     }
 
 }

@@ -19,4 +19,18 @@ public class JpaAdministradorEntidade extends JpaUsuarioEntidade {
         super(administrador);
     }
 
+    public Administrador toDomain() {
+        // onverte para o objeto de dominio administrador
+        return new Administrador(
+            this.getId(),
+            this.getCpf(),
+            this.getLogin(),
+            this.getNome(),
+            this.getTelefone(),
+            this.getSenha(),
+            this.getPerfil(),
+            this.getStatus()
+            // adicionar aqui os atributos especificos do admin, se houver
+        );
+    }
 }
