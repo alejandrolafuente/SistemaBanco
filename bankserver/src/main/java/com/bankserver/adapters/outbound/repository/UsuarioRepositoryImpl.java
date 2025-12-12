@@ -2,9 +2,9 @@ package com.bankserver.adapters.outbound.repository;
 
 import java.util.List;
 
-import com.bankserver.adapters.outbound.entidades.JpaUsuarioEntidade;
+
+import com.bankserver.adapters.outbound.ports.UsuarioRepository;
 import com.bankserver.model.Usuario;
-import com.bankserver.model.UsuarioRepository;
 
 public class UsuarioRepositoryImpl implements UsuarioRepository {
 
@@ -16,8 +16,9 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     @Override
     public Usuario save(Usuario usuario) {
-        JpaUsuarioEntidade jpaUsuarioEntidade = new JpaUsuarioEntidade(usuario);
-        this.jpaUsuarioRepository.save(jpaUsuarioEntidade);
+
+        // JpaUsuarioEntidade jpaUsuarioEntidade = new JpaUsuarioEntidade(usuario);
+        // this.jpaUsuarioRepository.save(jpaUsuarioEntidade);
         return null;
         // return new Usuario(
         //         jpaUsuarioEntidade.getId(),

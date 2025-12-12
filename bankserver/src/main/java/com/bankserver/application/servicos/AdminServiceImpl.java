@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bankserver.adapters.outbound.ports.AdminRepository;
+import com.bankserver.adapters.outbound.ports.UsuarioRepository;
 import com.bankserver.adapters.outbound.repository.AdministradorRep;
 import com.bankserver.adapters.outbound.repository.GerenteRep;
 import com.bankserver.application.usecases.AdminService;
@@ -17,7 +19,6 @@ import com.bankserver.model.Administrador;
 import com.bankserver.model.Gerente;
 import com.bankserver.model.StatusUsuario;
 import com.bankserver.model.TipoUsuario;
-import com.bankserver.model.UsuarioRepository;
 import com.bankserver.utils.ServicoEmail;
 
 @Service
@@ -28,8 +29,10 @@ public class AdminServiceImpl implements AdminService {
 
     private final UsuarioRepository usuarioRepository = null;
 
-    @Autowired
-    private AdministradorRep administradorRep;
+    // @Autowired
+    // private AdministradorRep administradorRep;
+
+    private final AdminRepository adminRepository = null;
 
     @Autowired
     private GerenteRep gerenteRep;
@@ -96,7 +99,7 @@ public class AdminServiceImpl implements AdminService {
         administrador.setPerfil(TipoUsuario.ADMIN);
         administrador.setStatus(StatusUsuario.ATIVO);
 
-        administradorRep.save(administrador);
+        adminRepository.save(administrador);
 
         String subject = "BANTADS: CADASTRO DE ADMINISTADOR APROVADO";
 

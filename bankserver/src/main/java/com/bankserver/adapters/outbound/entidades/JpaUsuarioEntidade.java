@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public class JpaUsuarioEntidade {
+public abstract class JpaUsuarioEntidade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -7,6 +7,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JpaAdministradorEntidade extends JpaUsuarioEntidade{
-    
+public class JpaAdministradorEntidade extends JpaUsuarioEntidade {
+
 }

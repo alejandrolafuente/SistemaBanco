@@ -1,6 +1,8 @@
-package com.bankserver.model;
+package com.bankserver.adapters.outbound.ports;
 
 import java.util.List;
+
+import com.bankserver.model.Usuario;
 
 public interface UsuarioRepository {// * PORTA!
 
