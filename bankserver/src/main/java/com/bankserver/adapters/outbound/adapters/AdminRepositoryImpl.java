@@ -20,7 +20,7 @@ public class AdminRepositoryImpl implements AdminRepository {
         // Salva no banco
         JpaAdministradorEntidade entidadeSalva = this.jpaAdminRepository.save(jpaAdministradorEntidade);
 
-        return entidadeSalva.toDomain();
+        return (Administrador) entidadeSalva.toDomain();
     }
 
 }

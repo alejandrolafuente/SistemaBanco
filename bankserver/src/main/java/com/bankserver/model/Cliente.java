@@ -3,6 +3,7 @@ package com.bankserver.model;
 import java.math.BigDecimal;
 
 import com.bankserver.adapters.outbound.entidades.JpaUsuarioEntidade;
+import com.bankserver.application.domain.Usuario;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -24,4 +25,10 @@ public class Cliente extends JpaUsuarioEntidade {
 
     @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
     private Conta conta;
+
+    @Override
+    public Usuario toDomain() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toDomain'");
+    }
 }

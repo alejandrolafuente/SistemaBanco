@@ -1,5 +1,6 @@
 package com.bankserver.adapters.outbound.entidades;
 
+import com.bankserver.application.domain.Administrador;
 import com.bankserver.application.domain.Usuario;
 import com.bankserver.model.StatusUsuario;
 import com.bankserver.model.TipoUsuario;
@@ -45,5 +46,24 @@ public abstract class JpaUsuarioEntidade {
         this.perfil = usuario.getPerfil();
         this.status = usuario.getStatus();
     }
+
+    // metodo fabrica para criar a entidade JPA correta
+    public static JpaUsuarioEntidade fromDomain(Usuario usuario) {
+        if (usuario instanceof Administrador) {
+            return new JpaAdministradorEntidade((Administrador) usuario);
+        }
+
+        // else if (usuario instanceof Gerente) {
+        // return new JpaGerenteEntidade((Gerente) usuario);
+        // }
+        // else if (usuario instanceof Cliente) {
+        // return new JpaClienteEntidade((Cliente) usuario);
+        // }
+
+        throw new IllegalArgumentException("Tipo de usuário não suportado: " + usuario.getClass().getName());
+    }
+
+    // metodo abstrato para converter de volta para o dominio
+    public abstract Usuario toDomain();
 
 }
