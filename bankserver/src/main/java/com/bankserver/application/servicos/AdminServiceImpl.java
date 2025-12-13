@@ -23,18 +23,23 @@ import com.bankserver.utils.ServicoEmail;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-    // @Autowired
-    // private JpaUsuarioRepository usuarioRep;
+    private final UsuarioRepository usuarioRepository;
 
-    private final UsuarioRepository usuarioRepository = null;
-
-    private final AdminRepository adminRepository = null;
+    private final AdminRepository adminRepository;
 
     @Autowired
     private GerenteRep gerenteRep;
 
     @Autowired
     private ServicoEmail servicoEmail;
+
+    // injecao via construtor - seguindo Hexagonal
+    public AdminServiceImpl(
+            UsuarioRepository usuarioRepository,
+            AdminRepository adminRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.adminRepository = adminRepository;
+    }
 
     // R17
     @Override

@@ -2,11 +2,14 @@ package com.bankserver.adapters.outbound.adapters;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.bankserver.adapters.outbound.entidades.JpaUsuarioEntidade;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
 import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
 import com.bankserver.application.domain.Usuario;
 
+@Repository
 public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     private final JpaUsuarioRepository jpaUsuarioRepository;
@@ -44,8 +47,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     @Override
     public boolean existsByLogin(String email) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'existsByLogin'");
+        
+        return this.jpaUsuarioRepository.existsByLogin(email);
     }
 
 }

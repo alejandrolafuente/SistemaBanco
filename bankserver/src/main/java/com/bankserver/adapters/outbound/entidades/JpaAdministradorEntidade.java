@@ -4,10 +4,14 @@ import com.bankserver.application.domain.Administrador;
 import com.bankserver.application.domain.Usuario;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
+@Table(name = "administrador")
+@PrimaryKeyJoinColumn(name = "id")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class JpaAdministradorEntidade extends JpaUsuarioEntidade {

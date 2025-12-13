@@ -31,6 +31,7 @@ public class AdminController {
     // R21 - Cadastrar ADMIN
     @PostMapping
     public ResponseEntity<Void> register(@RequestBody AdminRegistrationDTO dto) {
+        
         System.out.println("REQUEST DE CADASTRO ADMIN: => " + dto);
 
         return adminService.insertAdmin(dto);
