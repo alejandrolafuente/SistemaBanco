@@ -51,13 +51,6 @@ public class AuthenticationController {
 
         var token = tokenService.generateToken(usuario);
 
-        // criar cookie HttpOnly
-        // Cookie cookie = new Cookie("jwt", token);
-        // cookie.setHttpOnly(true);
-        // cookie.setSecure(true); // apenas HTTPS em produção
-        // cookie.setPath("/");
-        // cookie.setMaxAge(2 * 60 * 60); // 2 horas em segundos
-        // cookie.setAttribute("SameSite", "Lax");
         boolean isProduction = System.getenv("RENDER") != null;
 
         Cookie cookie = new Cookie("jwt", token);

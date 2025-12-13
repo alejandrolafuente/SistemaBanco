@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.bankserver.adapters.outbound.entidades.JpaUsuarioEntidade;
 import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
 import com.bankserver.application.domain.Usuario;
 
@@ -38,8 +39,12 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (token != null) {
             var login = tokenService.validateToken(token);
 
-            Usuario usuario = usuarioRep.findByLogin(login)
+            // retorna JpaUsuarioEntidade
+            JpaUsuarioEntidade jpaUsuario = usuarioRep.findByLogin(login)
                     .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+
+            // converte ao dominio
+            Usuario usuario = jpaUsuario.toDomain();
 
             // UserDetails user = new UserDetailsImpl(usuario);
             UserDetails userDetails = new UserDetailsImpl(usuario);
