@@ -2,8 +2,8 @@ package com.bankserver.adapters.outbound.entidades;
 
 import com.bankserver.application.domain.Administrador;
 import com.bankserver.application.domain.Usuario;
-import com.bankserver.model.StatusUsuario;
-import com.bankserver.model.TipoUsuario;
+import com.bankserver.application.domain.enums.StatusUsuario;
+import com.bankserver.application.domain.enums.TipoUsuario;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

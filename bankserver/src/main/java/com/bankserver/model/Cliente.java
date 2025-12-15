@@ -3,6 +3,7 @@ package com.bankserver.model;
 import java.math.BigDecimal;
 
 import com.bankserver.adapters.outbound.entidades.JpaUsuarioEntidade;
+import com.bankserver.application.domain.Conta;
 import com.bankserver.application.domain.Usuario;
 
 import jakarta.persistence.CascadeType;

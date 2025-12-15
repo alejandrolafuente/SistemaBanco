@@ -3,6 +3,9 @@ package com.bankserver.model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.bankserver.application.domain.Conta;
+import com.bankserver.application.domain.enums.TipoTransacao;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -26,7 +29,7 @@ public class Transacao {
     private String contaDestino;
     @Enumerated(EnumType.STRING)
     private TipoTransacao tipo; // DEPOSITO,SAQUE, TRANSFERENCIA
-    @ManyToOne
-    @JoinColumn(name = "conta_id")
-    private Conta conta;
+    // @ManyToOne
+    // @JoinColumn(name = "conta_id")
+    // private Conta conta;
 }

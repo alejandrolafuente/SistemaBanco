@@ -1,4 +1,4 @@
-package com.bankserver.model;
+package com.bankserver.application.domain.enums;
 
 public enum StatusUsuario {
 

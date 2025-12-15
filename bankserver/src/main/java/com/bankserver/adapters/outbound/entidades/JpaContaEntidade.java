@@ -5,10 +5,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.bankserver.application.domain.Conta;
+import com.bankserver.application.domain.enums.StatusConta;
 import com.bankserver.model.Cliente;
-import com.bankserver.model.Gerente;
+
 import com.bankserver.model.Saldo;
-import com.bankserver.model.StatusConta;
 import com.bankserver.model.Transacao;
 
 import jakarta.persistence.CascadeType;
@@ -56,7 +56,7 @@ public class JpaContaEntidade {
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "gerente_id")
-    private Gerente gerente; // vai mudar para entidade jpa
+    private JpaGerenteEntidade gerente; // vai mudar para entidade jpa
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
     private List<Transacao> transacoes; // vai mudar para entidade jpa

@@ -3,6 +3,8 @@ package com.bankserver.model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.bankserver.application.domain.Conta;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +21,7 @@ public class Saldo {
     private Long id;
     private LocalDateTime data;
     private BigDecimal valor;
-    @ManyToOne
-    @JoinColumn(name = "conta_id")
-    private Conta conta;
+    // @ManyToOne
+    // @JoinColumn(name = "conta_id")
+    // private Conta conta;
 }

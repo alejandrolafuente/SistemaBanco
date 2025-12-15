@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.bankserver.model.Gerente;
+import com.bankserver.adapters.outbound.entidades.JpaGerenteEntidade;
 
 @Repository
-public interface GerenteRep extends JpaRepository<Gerente, Long> {
+public interface GerenteRep extends JpaRepository<JpaGerenteEntidade, Long> {
 
     // encontra gerentes ordenados pela quantidade de contas
     @Query("SELECT g FROM Gerente g ORDER BY SIZE(g.contasGerenciadas) ASC")
-    List<Gerente> findAllOrderByQuantidadeContas(Pageable pageable);
+    List<JpaGerenteEntidade> findAllOrderByQuantidadeContas(Pageable pageable);
 }

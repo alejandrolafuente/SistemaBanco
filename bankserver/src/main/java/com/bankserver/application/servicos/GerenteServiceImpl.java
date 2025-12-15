@@ -16,9 +16,9 @@ import com.bankserver.adapters.outbound.repository.ContaRepository;
 import com.bankserver.application.usecases.GerenteService;
 import com.bankserver.dto.response.R09ResDTO;
 import com.bankserver.model.Cliente;
-import com.bankserver.model.Conta;
+import com.bankserver.application.domain.Conta;
+import com.bankserver.application.domain.enums.StatusUsuario;
 import com.bankserver.model.Saldo;
-import com.bankserver.model.StatusUsuario;
 import com.bankserver.utils.ServicoEmail;
 
 @Service
@@ -34,19 +34,20 @@ public class GerenteServiceImpl implements GerenteService {
     @Override
     public ResponseEntity<?> solicitacoesPendentes(Long id) {
 
-        List<Conta> contasPendentes = contaRepository.findContasPendentesByGerenteId(id);
+        // List<Conta> contasPendentes = contaRepository.findContasPendentesByGerenteId(id);
 
-        List<R09ResDTO> solicitacoes = contasPendentes.stream()
-                .map(conta -> new R09ResDTO(
-                        conta.getId(),
-                        conta.getCliente().getCpf(),
-                        conta.getCliente().getNome(),
-                        conta.getCliente().getSalario()
+        // List<R09ResDTO> solicitacoes = contasPendentes.stream()
+        //         .map(conta -> new R09ResDTO(
+        //                 conta.getId(),
+        //                 conta.getCliente().getCpf(),
+        //                 conta.getCliente().getNome(),
+        //                 conta.getCliente().getSalario()
 
-                ))
-                .collect(Collectors.toList());
+        //         ))
+        //         .collect(Collectors.toList());
 
-        return ResponseEntity.ok(solicitacoes);
+        //return ResponseEntity.ok(solicitacoes);
+        return ResponseEntity.ok().build();
 
     }
 
@@ -59,33 +60,33 @@ public class GerenteServiceImpl implements GerenteService {
         // Conta conta = contaRep.findById(contaId)
         // .orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada"));
 
-        Conta conta = contaRepository.findById(contaId)
-                .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+        // Conta conta = contaRepository.findById(contaId)
+        //         .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
 
-        conta.aprovar();
-        conta.setSaldo(BigDecimal.ZERO);
+        // conta.aprovar();
+        // conta.setSaldo(BigDecimal.ZERO);
 
-        // REGISTRA PRIMEIRO SALDO NO HISTÓRICO
-        Saldo saldoInicial = new Saldo();
-        saldoInicial.setData(LocalDateTime.now());
-        saldoInicial.setValor(BigDecimal.ZERO);
-        saldoInicial.setConta(conta);
-        conta.getHistoricoSaldos().add(saldoInicial);
+        // // REGISTRA PRIMEIRO SALDO NO HISTÓRICO
+        // Saldo saldoInicial = new Saldo();
+        // saldoInicial.setData(LocalDateTime.now());
+        // saldoInicial.setValor(BigDecimal.ZERO);
+        // saldoInicial.setConta(conta);
+        // conta.getHistoricoSaldos().add(saldoInicial);
 
-        Cliente cliente = conta.getCliente();
-        cliente.setStatus(StatusUsuario.ATIVO);
+        // Cliente cliente = conta.getCliente();
+        // cliente.setStatus(StatusUsuario.ATIVO);
 
-        String senha = generateRamdomPassword();
+        // String senha = generateRamdomPassword();
 
-        cliente.setSenha(new BCryptPasswordEncoder().encode(senha));
+        // cliente.setSenha(new BCryptPasswordEncoder().encode(senha));
 
-        System.out.println("SENHA CLIENTE: " + senha);
+        // System.out.println("SENHA CLIENTE: " + senha);
 
-        String subject = "BANTADS: CADASTRO DE CLIENTE APROVADO";
+        // String subject = "BANTADS: CADASTRO DE CLIENTE APROVADO";
 
-        String message = "Seu cadastro foi aprovado, sua senha é " + senha;
+        // String message = "Seu cadastro foi aprovado, sua senha é " + senha;
 
-        servicoEmail.sendApproveEmail(cliente.getLogin(), subject, message);
+        // servicoEmail.sendApproveEmail(cliente.getLogin(), subject, message);
 
        // return ResponseEntity.ok(new R10ResDTO(conta.getId(), cliente.getCpf(), cliente.getNome()));
        return ResponseEntity.ok().build();

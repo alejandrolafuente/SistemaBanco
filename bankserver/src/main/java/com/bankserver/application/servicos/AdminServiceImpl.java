@@ -15,9 +15,10 @@ import com.bankserver.application.domain.Administrador;
 import com.bankserver.application.usecases.AdminService;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
-import com.bankserver.model.Gerente;
-import com.bankserver.model.StatusUsuario;
-import com.bankserver.model.TipoUsuario;
+
+import com.bankserver.application.domain.Gerente;
+import com.bankserver.application.domain.enums.StatusUsuario;
+import com.bankserver.application.domain.enums.TipoUsuario;
 import com.bankserver.utils.ServicoEmail;
 
 @Service
@@ -63,7 +64,7 @@ public class AdminServiceImpl implements AdminService {
         gerente.setPerfil(TipoUsuario.GERENTE);
         gerente.setStatus(StatusUsuario.ATIVO);
 
-        gerente = gerenteRep.save(gerente);
+        //gerente = gerenteRep.save(gerente);
 
         String subject = "BANTADS: CADASTRO DE GERENTE APROVADO";
 

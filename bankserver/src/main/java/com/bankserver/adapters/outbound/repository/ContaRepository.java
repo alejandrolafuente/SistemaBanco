@@ -8,17 +8,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.bankserver.model.Conta;
+import com.bankserver.adapters.outbound.entidades.JpaContaEntidade;
 
 @Repository
-public interface ContaRepository extends JpaRepository<Conta, Long> {
+public interface ContaRepository extends JpaRepository<JpaContaEntidade, Long> {
 
     @Query("SELECT c FROM Conta c " +
             "WHERE c.gerente.id = :gerenteId " +
             "AND c.statusConta = 'PENDENTE' " +
             "AND c.cliente IS NOT NULL")
-    List<Conta> findContasPendentesByGerenteId(@Param("gerenteId") Long gerenteId);
+    List<JpaContaEntidade> findContasPendentesByGerenteId(@Param("gerenteId") Long gerenteId);
 
-    Optional<Conta> findByNumeroConta(String contaDestino);
+    Optional<JpaContaEntidade> findByNumeroConta(String contaDestino);
 
 }

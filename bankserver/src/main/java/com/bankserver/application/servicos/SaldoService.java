@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.adapters.outbound.repository.ContaRepository;
 import com.bankserver.adapters.outbound.repository.SaldoRepository;
-import com.bankserver.model.Conta;
+import com.bankserver.application.domain.Conta;
 import com.bankserver.model.Saldo;
 
 @Service
@@ -29,15 +29,15 @@ public class SaldoService {
     @Transactional
     @Scheduled(cron = "0 0 23 * * *") // Todo dia às 23:00
     public void registrarSaldoDiario() {
-        List<Conta> contas = contaRepository.findAll();
+        // List<Conta> contas = contaRepository.findAll();
 
-        for (Conta conta : contas) {
-            Saldo saldoDiario = new Saldo();
-            saldoDiario.setData(LocalDateTime.now());
-            saldoDiario.setValor(conta.getSaldo());
-            saldoDiario.setConta(conta);
-            saldoRep.save(saldoDiario);
-        }
+        // for (Conta conta : contas) {
+        //     Saldo saldoDiario = new Saldo();
+        //     saldoDiario.setData(LocalDateTime.now());
+        //     saldoDiario.setValor(conta.getSaldo());
+        //     saldoDiario.setConta(conta);
+        //     saldoRep.save(saldoDiario);
+        // }
     }
 
     // método para consulta (R8.4 - Extrato)

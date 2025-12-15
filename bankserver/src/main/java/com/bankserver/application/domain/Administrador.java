@@ -1,7 +1,7 @@
 package com.bankserver.application.domain;
 
-import com.bankserver.model.StatusUsuario;
-import com.bankserver.model.TipoUsuario;
+import com.bankserver.application.domain.enums.StatusUsuario;
+import com.bankserver.application.domain.enums.TipoUsuario;
 
 public class Administrador extends Usuario {
 
