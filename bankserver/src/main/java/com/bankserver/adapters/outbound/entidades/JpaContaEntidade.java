@@ -1,8 +1,15 @@
-package com.bankserver.model;
+package com.bankserver.adapters.outbound.entidades;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.bankserver.application.domain.Conta;
+import com.bankserver.model.Cliente;
+import com.bankserver.model.Gerente;
+import com.bankserver.model.Saldo;
+import com.bankserver.model.StatusConta;
+import com.bankserver.model.Transacao;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -15,6 +22,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +33,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Conta {
+@Table(name = "conta")
+public class JpaContaEntidade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,49 +48,34 @@ public class Conta {
     private StatusConta statusConta; // APROVADA, PENDENTE, REJEITADA
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
-    private List<Saldo> historicoSaldos;
+    private List<Saldo> historicoSaldos; // vai mudar para entidade jpa
 
     @OneToOne
     @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    private Cliente cliente; // vai mudar para entidade jpa
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "gerente_id")
-    private Gerente gerente;
+    private Gerente gerente; // vai mudar para entidade jpa
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
-    private List<Transacao> transacoes;
+    private List<Transacao> transacoes; // vai mudar para entidade jpa
 
-    //******************************************************* */
+    // Métodos de conversão simples
+    public static JpaContaEntidade fromDomain(Conta conta) {
+        if (conta == null)
+            return null;
 
-    public void aprovar() {
-        this.statusConta = StatusConta.APROVADA;
-        this.dataAprovacao = LocalDateTime.now();
+        return JpaContaEntidade.builder()
+                .id(conta.getId())
+                .numeroConta(conta.getNumeroConta())
+                .dataCriacao(conta.getDataCriacao())
+                .dataAprovacao(conta.getDataAprovacao())
+                .saldo(conta.getSaldo())
+                .limite(conta.getLimite())
+                .statusConta(conta.getStatusConta())
+                // As listas e relacionamentos serão mapeados separadamente
+                .build();
     }
 
-    public void depositar(BigDecimal valor) {
-        this.saldo = this.saldo.add(valor);
-        // Opcional: registrar no histórico de saldos
-        // Opcional: criar uma transação do tipo DEPÓSITO
-    }
-
-    public void retirar(BigDecimal valor) {
-        this.saldo = this.saldo.subtract(valor);
-        // Opcional: registrar no histórico de saldos
-        // Opcional: criar uma transação do tipo DEPÓSITO
-    }
-
-    public void transferir(BigDecimal valor, Conta contaDestino) {
-
-        // verifica se o saldo suficiente considerando limite
-        BigDecimal saldoDisponivel = this.saldo.add(this.limite);
-        if (valor.compareTo(saldoDisponivel) > 0) {
-            throw new RuntimeException("Saldo insuficiente!");
-        }
-
-        // debita da conta de origem
-        this.retirar(valor);
-
-        contaDestino.depositar(valor);
-    }
 }
