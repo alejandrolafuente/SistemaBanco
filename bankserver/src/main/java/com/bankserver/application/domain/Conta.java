@@ -44,6 +44,13 @@ public class Conta {
         this.transacoes = transacoes;
     }
 
+    // metodo gerado somente para nao dar erro, adaptar depois
+    public Conta(Long id2, String numeroConta2, LocalDateTime dataCriacao2, LocalDateTime dataAprovacao2,
+            BigDecimal saldo2, BigDecimal limite2, StatusConta statusConta2, Object object, Object object2,
+            Object object3, Object object4) {
+        //TODO Auto-generated constructor stub
+    }
+
     // Métodos de negócio (EXATAMENTE como no original)
     public void aprovar() {
         this.statusConta = StatusConta.APROVADA;

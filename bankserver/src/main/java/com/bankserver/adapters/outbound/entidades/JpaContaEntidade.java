@@ -78,4 +78,20 @@ public class JpaContaEntidade {
                 .build();
     }
 
+    public Conta toDomain() {
+        return new Conta(
+                this.id,
+                this.numeroConta,
+                this.dataCriacao,
+                this.dataAprovacao,
+                this.saldo,
+                this.limite,
+                this.statusConta,
+                null, // historicoSaldos - pode ser convertido depois
+                this.cliente != null ? this.cliente.toDomain() : null,
+                this.gerente != null ? this.gerente.toDomain() : null,
+                null // transacoes - pode ser convertido depois
+        );
+    }
+
 }
