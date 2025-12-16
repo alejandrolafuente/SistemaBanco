@@ -1,6 +1,8 @@
 package com.bankserver.adapters.outbound.entidades;
 
 import com.bankserver.application.domain.Administrador;
+import com.bankserver.application.domain.Cliente;
+import com.bankserver.application.domain.Gerente;
 import com.bankserver.application.domain.Usuario;
 import com.bankserver.application.domain.enums.StatusUsuario;
 import com.bankserver.application.domain.enums.TipoUsuario;
@@ -55,12 +57,11 @@ public abstract class JpaUsuarioEntidade {
             return new JpaAdministradorEntidade((Administrador) usuario);
         }
 
-        // else if (usuario instanceof Gerente) {
-        // return new JpaGerenteEntidade((Gerente) usuario);
-        // }
-        // else if (usuario instanceof Cliente) {
-        // return new JpaClienteEntidade((Cliente) usuario);
-        // }
+        else if (usuario instanceof Gerente) {
+            return new JpaGerenteEntidade((Gerente) usuario);
+        } else if (usuario instanceof Cliente) {
+            return new JpaClienteEntidade((Cliente) usuario);
+        }
 
         throw new IllegalArgumentException("Tipo de usuário não suportado: " + usuario.getClass().getName());
     }

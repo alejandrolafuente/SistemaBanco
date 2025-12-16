@@ -2,6 +2,7 @@ package com.bankserver.adapters.outbound.entidades;
 
 import java.util.List;
 
+import com.bankserver.application.domain.Gerente;
 import com.bankserver.application.domain.Usuario;
 
 import jakarta.persistence.Entity;
@@ -21,10 +22,26 @@ public class JpaGerenteEntidade extends JpaUsuarioEntidade {
     @OneToMany(mappedBy = "gerente")
     private List<JpaContaEntidade> contasGerenciadas;
 
+    public JpaGerenteEntidade() {
+        super();
+    }
+
+    public JpaGerenteEntidade(Gerente gerente) {
+        super(gerente);
+    }
+
     @Override
     public Usuario toDomain() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toDomain'");
+        // converte para o objeto de dominio gerente
+        return new Gerente(
+                this.getId(),
+                this.getCpf(),
+                this.getLogin(),
+                this.getNome(),
+                this.getTelefone(),
+                this.getSenha(),
+                this.getPerfil(),
+                this.getStatus());
     }
 
 }
