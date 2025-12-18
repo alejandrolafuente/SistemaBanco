@@ -7,8 +7,6 @@ import java.util.List;
 import com.bankserver.application.domain.Conta;
 import com.bankserver.application.domain.enums.StatusConta;
 
-import com.bankserver.model.Transacao;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -57,7 +55,7 @@ public class JpaContaEntidade {
     private JpaGerenteEntidade gerente; // vai mudar para entidade jpa
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
-    private List<Transacao> transacoes; // vai mudar para entidade jpa
+    private List<JpaTransacaoEntidade> transacoes; // vai mudar para entidade jpa
 
     // Métodos de conversão simples
     public static JpaContaEntidade fromDomain(Conta conta) {
