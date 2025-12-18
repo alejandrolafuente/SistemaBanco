@@ -10,10 +10,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bankserver.adapters.outbound.entidades.JpaSaldoEntidade;
 import com.bankserver.adapters.outbound.repository.ContaRepository;
 import com.bankserver.adapters.outbound.repository.SaldoRepository;
 import com.bankserver.application.domain.Conta;
-import com.bankserver.model.Saldo;
 
 @Service
 @EnableScheduling
@@ -41,7 +41,7 @@ public class SaldoService {
     }
 
     // método para consulta (R8.4 - Extrato)
-    public List<Saldo> getHistoricoSaldos(Long contaId, LocalDate inicio, LocalDate fim) {
+    public List<JpaSaldoEntidade> getHistoricoSaldos(Long contaId, LocalDate inicio, LocalDate fim) {
         return saldoRep.findByContaIdAndDataBetween(contaId, inicio, fim);
     }
 }

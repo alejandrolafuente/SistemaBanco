@@ -6,9 +6,7 @@ import java.util.List;
 
 import com.bankserver.application.domain.Conta;
 import com.bankserver.application.domain.enums.StatusConta;
-import com.bankserver.model.Cliente;
 
-import com.bankserver.model.Saldo;
 import com.bankserver.model.Transacao;
 
 import jakarta.persistence.CascadeType;
@@ -48,11 +46,11 @@ public class JpaContaEntidade {
     private StatusConta statusConta; // APROVADA, PENDENTE, REJEITADA
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
-    private List<Saldo> historicoSaldos; // vai mudar para entidade jpa
+    private List<JpaSaldoEntidade> historicoSaldos; // vai mudar para entidade jpa
 
     @OneToOne
     @JoinColumn(name = "cliente_id")
-    private Cliente cliente; // vai mudar para entidade jpa
+    private JpaClienteEntidade cliente; // vai mudar para entidade jpa
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "gerente_id")

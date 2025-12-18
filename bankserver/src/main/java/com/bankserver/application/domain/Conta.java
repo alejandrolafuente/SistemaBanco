@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.bankserver.application.domain.enums.StatusConta;
-import com.bankserver.model.Cliente;
-import com.bankserver.model.Saldo;
 import com.bankserver.model.Transacao;
 
 public class Conta {

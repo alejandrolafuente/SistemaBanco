@@ -20,8 +20,30 @@ public class Cliente extends Usuario {
         this.salario = salario;
     }
 
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
     public BigDecimal getSalario() {
         return salario;
     }
+
+    public void setSalario(BigDecimal salario) {
+        this.salario = salario;
+    }
+
+    public Conta getConta() {
+        return conta;
+    }
+
+    public void setConta(Conta conta) {
+        this.conta = conta;
+    }
+
+    
 
 }

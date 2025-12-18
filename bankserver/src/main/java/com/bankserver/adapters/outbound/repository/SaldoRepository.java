@@ -7,12 +7,12 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.bankserver.model.Saldo;
+import com.bankserver.adapters.outbound.entidades.JpaSaldoEntidade;
 
 @Repository
-public interface SaldoRepository extends JpaRepository<Saldo, Long> {
+public interface SaldoRepository extends JpaRepository<JpaSaldoEntidade, Long> {
 
-    List<Saldo> findByContaIdAndDataBetween(Long contaId, LocalDate inicio, LocalDate fim);
+    List<JpaSaldoEntidade> findByContaIdAndDataBetween(Long contaId, LocalDate inicio, LocalDate fim);
 
-    Optional<Saldo> findTopByContaIdOrderByDataDesc(Long contaId);
+    Optional<JpaSaldoEntidade> findTopByContaIdOrderByDataDesc(Long contaId);
 }
