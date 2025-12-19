@@ -32,11 +32,15 @@ public class GerenteRepositoryImpl implements GerenteRepository {
     }
 
     @Override
-    public List<Gerente> findAllOrderByQuantidadeContas() {
-        
+    public Gerente findAllOrderByQuantidadeContas() {
+
         Pageable limit = PageRequest.of(0, 1);
 
-        return null;
+        List<JpaGerenteEntidade> list = this.jpaGerenteRepository.findAllOrderByQuantidadeContas(limit);
+
+        Gerente gerente = list.get(0).toDomain();
+
+        return gerente;
     }
-    
+
 }

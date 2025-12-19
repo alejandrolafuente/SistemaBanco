@@ -13,11 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bankserver.adapters.outbound.ports.ClienteRepository;
+import com.bankserver.adapters.outbound.ports.ContaRepository;
 import com.bankserver.adapters.outbound.ports.EnderecoRepository;
 import com.bankserver.adapters.outbound.ports.GerenteRepository;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
 import com.bankserver.adapters.outbound.repository.ClienteRep;
-import com.bankserver.adapters.outbound.repository.ContaRepository;
+import com.bankserver.adapters.outbound.repository.JpaContaRepository;
 import com.bankserver.adapters.outbound.repository.JpaEnderecoRepository;
 import com.bankserver.adapters.outbound.repository.SaldoRepository;
 import com.bankserver.adapters.outbound.repository.TransacaoRepository;
@@ -42,17 +44,15 @@ import com.bankserver.seguranca.UserDetailsImpl;
 @Service
 public class ClienteServiceImpl implements ClienteService {
 
-    @Autowired
-    private ClienteRep clienteRep;
-
-    @Autowired
-    private ContaRepository contaRepository;
-
     private final UsuarioRepository usuarioRepository;
 
     private final GerenteRepository gerenteRepository;
 
     private final EnderecoRepository enderecoRepository;
+
+    private final ClienteRepository clienteRepository;
+
+    private final ContaRepository contaRepository;
 
     @Autowired
     private TransacaoRepository transacaoRepository;
@@ -60,10 +60,14 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     private SaldoRepository saldoRepository;
 
-    public ClienteServiceImpl(GerenteRepository gerenteRepository, UsuarioRepository usuarioRepository, EnderecoRepository enderecoRepository) {
+    public ClienteServiceImpl(GerenteRepository gerenteRepository,
+            UsuarioRepository usuarioRepository, EnderecoRepository enderecoRepository,
+            ClienteRepository clienteRepository, ContaRepository contaRepository) {
         this.usuarioRepository = usuarioRepository;
         this.gerenteRepository = gerenteRepository;
         this.enderecoRepository = enderecoRepository;
+        this.clienteRepository = clienteRepository;
+        this.contaRepository = contaRepository;
     }
 
     // R01
@@ -97,16 +101,14 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setSalario(data.salario());
         cliente.setEndereco(endereco); // associa o endereço salvo
 
-
-
         // Conta conta = Conta.builder()
-        //         .numeroConta(gerarNumeroConta())
-        //         .dataCriacao(LocalDateTime.now())
-        //         .limite(calcularLimite(data.salario()))
-        //         .statusConta(StatusConta.PENDENTE)
-        //         .cliente(cliente)
-        //         .gerente(encontrarGerenteComMenosContas())
-        //         .build();
+        // .numeroConta(gerarNumeroConta())
+        // .dataCriacao(LocalDateTime.now())
+        // .limite(calcularLimite(data.salario()))
+        // .statusConta(StatusConta.PENDENTE)
+        // .cliente(cliente)
+        // .gerente(encontrarGerenteComMenosContas())
+        // .build();
 
         // clienteRep.save(cliente);
 
@@ -231,14 +233,10 @@ public class ClienteServiceImpl implements ClienteService {
     // }
 
     private Gerente encontrarGerenteComMenosContas() {
-        
-        List<Gerente> gerentes = gerenteRepository.findAllOrderByQuantidadeContas();
 
-        if (gerentes.isEmpty()) {
-            throw new IllegalStateException("Não há gerentes cadastrados no sistema");
-        }
+        Gerente gerente = gerenteRepository.findAllOrderByQuantidadeContas();
 
-        return gerentes.get(0); // SEMPRE retorna um gerente, mesmo que seja o único
+        return gerente; // SEMPRE retorna um gerente, mesmo que seja o único
     }
 
     private BigDecimal calcularLimite(BigDecimal salario) {
@@ -248,7 +246,7 @@ public class ClienteServiceImpl implements ClienteService {
         return BigDecimal.ZERO;
     }
 
-    // Método auxiliar para gerar número de conta aleatório
+    // metodo auxiliar para gerar numero de conta aleatorio
     private String gerarNumeroConta() {
         Random random = new Random();
         return String.format("%08d", random.nextInt(100000000));

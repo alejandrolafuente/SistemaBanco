@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.adapters.outbound.entidades.JpaSaldoEntidade;
-import com.bankserver.adapters.outbound.repository.ContaRepository;
+import com.bankserver.adapters.outbound.repository.JpaContaRepository;
 import com.bankserver.adapters.outbound.repository.SaldoRepository;
 import com.bankserver.application.domain.Conta;
 
@@ -20,7 +20,7 @@ import com.bankserver.application.domain.Conta;
 public class SaldoService {
 
     @Autowired
-    private ContaRepository contaRepository;
+    private JpaContaRepository contaRepository;
 
     @Autowired
     private SaldoRepository saldoRep;

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.bankserver.adapters.outbound.entidades.JpaContaEntidade;
 
 @Repository
-public interface ContaRepository extends JpaRepository<JpaContaEntidade, Long> {
+public interface JpaContaRepository extends JpaRepository<JpaContaEntidade, Long> {
 
     @Query("SELECT c FROM Conta c " +
             "WHERE c.gerente.id = :gerenteId " +

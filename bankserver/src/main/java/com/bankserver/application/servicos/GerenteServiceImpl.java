@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bankserver.adapters.outbound.repository.ContaRepository;
+import com.bankserver.adapters.outbound.repository.JpaContaRepository;
 import com.bankserver.application.usecases.GerenteService;
 import com.bankserver.dto.response.R09ResDTO;
 import com.bankserver.application.domain.Conta;
@@ -23,7 +23,7 @@ import com.bankserver.utils.ServicoEmail;
 public class GerenteServiceImpl implements GerenteService {
 
     @Autowired
-    private ContaRepository contaRepository;
+    private JpaContaRepository contaRepository;
 
     @Autowired
     private ServicoEmail servicoEmail;

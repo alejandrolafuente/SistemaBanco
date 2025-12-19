@@ -3,7 +3,6 @@ package com.bankserver.adapters.outbound.entidades;
 import java.util.List;
 
 import com.bankserver.application.domain.Gerente;
-import com.bankserver.application.domain.Usuario;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -31,7 +30,7 @@ public class JpaGerenteEntidade extends JpaUsuarioEntidade {
     }
 
     @Override
-    public Usuario toDomain() {
+    public Gerente toDomain() {
         // converte para o objeto de dominio gerente
         return new Gerente(
                 this.getId(),
