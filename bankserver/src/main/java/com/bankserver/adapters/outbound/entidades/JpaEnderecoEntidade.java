@@ -1,5 +1,7 @@
 package com.bankserver.adapters.outbound.entidades;
 
+import com.bankserver.application.domain.Endereco;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,5 +26,20 @@ public class JpaEnderecoEntidade {
 
     public JpaEnderecoEntidade() {
         // Construtor padrão exigido pelo Hibernate
+    }
+
+    public JpaEnderecoEntidade(Endereco endereco) {
+        this.id = endereco.getId();
+        this.cep = endereco.getCep();
+        this.uf = endereco.getUf();
+        this.cidade = endereco.getCidade();
+        this.bairro = endereco.getBairro();
+        this.rua = endereco.getRua();
+        this.numero = endereco.getNumero();
+        this.complemento = endereco.getComplemento();
+    }
+
+    public Endereco toDomain(){
+        return new Endereco(id, cep, uf, cidade, bairro, rua, numero, complemento);
     }
 }

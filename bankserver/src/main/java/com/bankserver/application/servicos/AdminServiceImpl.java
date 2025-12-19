@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.adapters.outbound.ports.AdminRepository;
 import com.bankserver.adapters.outbound.ports.GerenteRepository;
@@ -35,9 +34,7 @@ public class AdminServiceImpl implements AdminService {
     private ServicoEmail servicoEmail;
 
     // injecao via construtor - seguindo Hexagonal
-    public AdminServiceImpl(
-            UsuarioRepository usuarioRepository,
-            AdminRepository adminRepository,
+    public AdminServiceImpl(UsuarioRepository usuarioRepository, AdminRepository adminRepository,
             GerenteRepository gerenteRepository) {
         this.usuarioRepository = usuarioRepository;
         this.adminRepository = adminRepository;

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.bankserver.adapters.outbound.entidades.JpaEnderecoEntidade;
 
 @Repository
-public interface EnderecoRep extends JpaRepository<JpaEnderecoEntidade, Long> {
+public interface JpaEnderecoRepository extends JpaRepository<JpaEnderecoEntidade, Long> {
 
 }

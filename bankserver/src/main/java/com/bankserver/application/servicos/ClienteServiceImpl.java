@@ -1,252 +1,280 @@
-// package com.bankserver.application.servicos;
+package com.bankserver.application.servicos;
 
-// import java.math.BigDecimal;
-// import java.math.RoundingMode;
-// import java.time.LocalDateTime;
-// import java.util.List;
-// import java.util.Random;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Random;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.data.domain.PageRequest;
-// import org.springframework.data.domain.Pageable;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.stereotype.Service;
-// import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-// import com.bankserver.adapters.outbound.repository.ClienteRep;
-// import com.bankserver.adapters.outbound.repository.ContaRepository;
-// import com.bankserver.adapters.outbound.repository.EnderecoRep;
-// import com.bankserver.adapters.outbound.repository.GerenteRep;
-// import com.bankserver.adapters.outbound.repository.SaldoRepository;
-// import com.bankserver.adapters.outbound.repository.TransacaoRepository;
-// import com.bankserver.application.domain.Usuario;
-// import com.bankserver.application.usecases.ClienteService;
-// import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
-// import com.bankserver.dto.request.ClienteRegistrationDTO;
-// import com.bankserver.dto.request.DepositoDTO;
-// import com.bankserver.dto.request.SaqueDTO;
-// import com.bankserver.dto.request.TransferDTO;
-// import com.bankserver.dto.response.R03ResDTO;
-// import com.bankserver.exceptions.ClientNotFoundException;
-// import com.bankserver.model.Cliente;
-// import com.bankserver.application.domain.Conta;
-// import com.bankserver.model.Endereco;
-// import com.bankserver.application.domain.Gerente;
-// import com.bankserver.model.Saldo;
-// import com.bankserver.model.StatusConta;
-// import com.bankserver.model.StatusUsuario;
-// import com.bankserver.model.TipoTransacao;
-// import com.bankserver.model.TipoUsuario;
-// import com.bankserver.model.Transacao;
-// import com.bankserver.seguranca.UserDetailsImpl;
+import com.bankserver.adapters.outbound.ports.GerenteRepository;
+import com.bankserver.adapters.outbound.ports.UsuarioRepository;
+import com.bankserver.adapters.outbound.repository.ClienteRep;
+import com.bankserver.adapters.outbound.repository.ContaRepository;
+import com.bankserver.adapters.outbound.repository.EnderecoRep;
+import com.bankserver.adapters.outbound.repository.SaldoRepository;
+import com.bankserver.adapters.outbound.repository.TransacaoRepository;
+import com.bankserver.application.domain.Usuario;
+import com.bankserver.application.domain.enums.StatusConta;
+import com.bankserver.application.domain.enums.StatusUsuario;
+import com.bankserver.application.domain.enums.TipoUsuario;
+import com.bankserver.application.usecases.ClienteService;
+import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
+import com.bankserver.dto.request.ClienteRegistrationDTO;
+import com.bankserver.dto.request.DepositoDTO;
+import com.bankserver.dto.request.SaqueDTO;
+import com.bankserver.dto.request.TransferDTO;
+import com.bankserver.dto.response.R03ResDTO;
+import com.bankserver.exceptions.ClientNotFoundException;
+import com.bankserver.application.domain.Cliente;
+import com.bankserver.application.domain.Conta;
+import com.bankserver.application.domain.Endereco;
+import com.bankserver.application.domain.Gerente;
+import com.bankserver.seguranca.UserDetailsImpl;
 
-// @Service
-// public class ClienteServiceImpl implements ClienteService {
+@Service
+public class ClienteServiceImpl implements ClienteService {
 
-//     @Autowired
-//     private JpaUsuarioRepository usuarioRep;
+    @Autowired
+    private ClienteRep clienteRep;
 
-//     @Autowired
-//     private ClienteRep clienteRep;
+    @Autowired
+    private EnderecoRep enderecoRep;
 
-//     @Autowired
-//     private EnderecoRep enderecoRep;
+    @Autowired
+    private ContaRepository contaRepository;
 
-//     @Autowired
-//     private ContaRepository contaRepository;
+    private final UsuarioRepository usuarioRepository;
 
-//     @Autowired
-//     private GerenteRep gerenteRep;
+    private final GerenteRepository gerenteRepository;
 
-//     @Autowired
-//     private TransacaoRepository transacaoRepository;
+    @Autowired
+    private TransacaoRepository transacaoRepository;
 
-//     @Autowired
-//     private SaldoRepository saldoRepository;
+    @Autowired
+    private SaldoRepository saldoRepository;
 
-//     // R01
-//     @Override
-//     @Transactional
-//     public ResponseEntity<Void> insertClient(ClienteRegistrationDTO data) {
+    public ClienteServiceImpl(GerenteRepository gerenteRepository, UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.gerenteRepository = gerenteRepository;
+    }
 
-//         if (this.usuarioRep.existsByLogin(data.email())) {
-//             // return ResponseEntity.badRequest().body("Cliente já cadastrado");
-//             return ResponseEntity.badRequest().build();
-//         }
+    // R01
+    @Override
+    @Transactional
+    public ResponseEntity<Void> insertClient(ClienteRegistrationDTO data) {
 
-//         Endereco endereco = new Endereco();
-//         endereco.setCep(data.endereco().cep());
-//         endereco.setUf(data.endereco().uf());
-//         endereco.setCidade(data.endereco().cidade());
-//         endereco.setBairro(data.endereco().bairro());
-//         endereco.setRua(data.endereco().rua());
-//         endereco.setNumero(data.endereco().numero());
-//         endereco.setComplemento(data.endereco().complemento());
+        if (this.usuarioRepository.existsByLogin(data.email())) {
+            // return ResponseEntity.badRequest().body("Cliente já cadastrado");
+            return ResponseEntity.badRequest().build();
+        }
 
-//         enderecoRep.save(endereco);
+        Endereco endereco = new Endereco();
+        
+        endereco.setCep(data.endereco().cep());
+        endereco.setUf(data.endereco().uf());
+        endereco.setCidade(data.endereco().cidade());
+        endereco.setBairro(data.endereco().bairro());
+        endereco.setRua(data.endereco().rua());
+        endereco.setNumero(data.endereco().numero());
+        endereco.setComplemento(data.endereco().complemento());
 
-//         Cliente cliente = new Cliente();
-//         cliente.setCpf(data.cpf());
-//         cliente.setLogin(data.email());
-//         cliente.setNome(data.nome());
-//         cliente.setTelefone(data.telefone());
-//         cliente.setPerfil(TipoUsuario.CLIENTE);
-//         cliente.setStatus(StatusUsuario.PENDENTE);
-//         cliente.setSalario(data.salario());
-//         cliente.setEndereco(endereco); // associa o endereço salvo
+        enderecoRep.save(endereco);
 
-//         Conta conta = Conta.builder()
-//                 .numeroConta(gerarNumeroConta())
-//                 .dataCriacao(LocalDateTime.now())
-//                 .limite(calcularLimite(data.salario()))
-//                 .statusConta(StatusConta.PENDENTE)
-//                 .cliente(cliente)
-//                 .gerente(encontrarGerenteComMenosContas())
-//                 .build();
+        Cliente cliente = new Cliente();
+        cliente.setCpf(data.cpf());
+        cliente.setLogin(data.email());
+        cliente.setNome(data.nome());
+        cliente.setTelefone(data.telefone());
+        cliente.setPerfil(TipoUsuario.CLIENTE);
+        cliente.setStatus(StatusUsuario.PENDENTE);
+        cliente.setSalario(data.salario());
+        cliente.setEndereco(endereco); // associa o endereço salvo
 
-//         clienteRep.save(cliente);
+        Conta conta = Conta.builder()
+                .numeroConta(gerarNumeroConta())
+                .dataCriacao(LocalDateTime.now())
+                .limite(calcularLimite(data.salario()))
+                .statusConta(StatusConta.PENDENTE)
+                .cliente(cliente)
+                .gerente(encontrarGerenteComMenosContas())
+                .build();
 
-//         contaRepository.save(conta);
+        clienteRep.save(cliente);
 
-//         // return ResponseEntity.ok().body("Cliente cadastrado com sucesso! Status da
-//         // conta: PENDENTE");
-//         return ResponseEntity.ok().build();
-//     }
+        contaRepository.save(conta);
 
-//     // R03
-//     @Override
-//     public ResponseEntity<R03ResDTO> buscaSaldo(Long userId) {
+        // return ResponseEntity.ok().body("Cliente cadastrado com sucesso! Status da
+        // conta: PENDENTE");
+        return ResponseEntity.ok().build();
+    }
 
-//         Cliente cliente = clienteRep.findById(userId)
-//                 .orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado para o id = " + userId));
+    // // R03
+    // @Override
+    // public ResponseEntity<R03ResDTO> buscaSaldo(Long userId) {
 
-//         BigDecimal saldo = cliente.getConta().getSaldo();
-//         BigDecimal limite = cliente.getConta().getLimite();
+    // Cliente cliente = clienteRep.findById(userId)
+    // .orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado para o
+    // id = " + userId));
 
-//         R03ResDTO response = new R03ResDTO(saldo, limite);
+    // BigDecimal saldo = cliente.getConta().getSaldo();
+    // BigDecimal limite = cliente.getConta().getLimite();
 
-//         return ResponseEntity.ok(response);
-//     }
+    // R03ResDTO response = new R03ResDTO(saldo, limite);
 
-//     // R05
-//     @Override
-//     @Transactional
-//     public ResponseEntity<?> realizarDeposito(DepositoDTO dto) {
+    // return ResponseEntity.ok(response);
+    // }
 
-//         Cliente cliente = clienteRep.findById(dto.id())
-//                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+    // // R05
+    // @Override
+    // @Transactional
+    // public ResponseEntity<?> realizarDeposito(DepositoDTO dto) {
 
-//         Conta conta = cliente.getConta();
+    // Cliente cliente = clienteRep.findById(dto.id())
+    // .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-//         conta.depositar(dto.valor());
+    // Conta conta = cliente.getConta();
 
-//         // Registra histórico
-//         Saldo historicoSaldo = new Saldo();
-//         historicoSaldo.setData(LocalDateTime.now());
-//         historicoSaldo.setValor(conta.getSaldo());
-//         historicoSaldo.setConta(conta);
+    // conta.depositar(dto.valor());
 
-//         contaRepository.save(conta);
+    // // Registra histórico
+    // Saldo historicoSaldo = new Saldo();
+    // historicoSaldo.setData(LocalDateTime.now());
+    // historicoSaldo.setValor(conta.getSaldo());
+    // historicoSaldo.setConta(conta);
 
-//         return ResponseEntity.ok().build();
-//     }
+    // contaRepository.save(conta);
 
-//     // R06
-//     @Override
-//     public ResponseEntity<?> realizarSaque(SaqueDTO dto) {
+    // return ResponseEntity.ok().build();
+    // }
 
-//         Cliente cliente = clienteRep.findById(dto.id())
-//                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+    // // R06
+    // @Override
+    // public ResponseEntity<?> realizarSaque(SaqueDTO dto) {
 
-//         Conta conta = cliente.getConta();
+    // Cliente cliente = clienteRep.findById(dto.id())
+    // .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-//         conta.retirar(dto.valor());
+    // Conta conta = cliente.getConta();
 
-//         // Registra histórico
-//         Saldo historicoSaldo = new Saldo();
-//         historicoSaldo.setData(LocalDateTime.now());
-//         historicoSaldo.setValor(conta.getSaldo());
-//         historicoSaldo.setConta(conta);
+    // conta.retirar(dto.valor());
 
-//         contaRepository.save(conta);
+    // // Registra histórico
+    // Saldo historicoSaldo = new Saldo();
+    // historicoSaldo.setData(LocalDateTime.now());
+    // historicoSaldo.setValor(conta.getSaldo());
+    // historicoSaldo.setConta(conta);
 
-//         return ResponseEntity.ok().build();
-//     }
+    // contaRepository.save(conta);
 
-//     // R07
-//     @Override
-//     public ResponseEntity<?> realizarTransferencia(TransferDTO dto, UserDetailsImpl userDetailsImpl) {
+    // return ResponseEntity.ok().build();
+    // }
 
-//         // extrai o id do cliente
-//         Usuario usuarioLogado = userDetailsImpl.getUsuario();
-//         Long userId = usuarioLogado.getId();
+    // // R07
+    // @Override
+    // public ResponseEntity<?> realizarTransferencia(TransferDTO dto,
+    // UserDetailsImpl userDetailsImpl) {
 
-//         // busca o cliente e sua conta (conta de origem)
-//         Cliente cliente = clienteRep.findById(userId)
-//                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+    // // extrai o id do cliente
+    // Usuario usuarioLogado = userDetailsImpl.getUsuario();
+    // Long userId = usuarioLogado.getId();
 
-//         Conta contaOrigem = cliente.getConta();
+    // // busca o cliente e sua conta (conta de origem)
+    // Cliente cliente = clienteRep.findById(userId)
+    // .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-//         // busca conta destino
-//         Conta contaDestino = contaRepository.findByNumeroConta(dto.contaDestino())
-//                 .orElseThrow(() -> new RuntimeException("Conta destino não encontrada"));
+    // Conta contaOrigem = cliente.getConta();
 
-//         // executa a transferência
-//         contaOrigem.transferir(dto.valor(), contaDestino);
+    // // busca conta destino
+    // Conta contaDestino = contaRepository.findByNumeroConta(dto.contaDestino())
+    // .orElseThrow(() -> new RuntimeException("Conta destino não encontrada"));
 
-//         // registra a transação
-//         Transacao transacao = new Transacao();
-//         transacao.setDataHora(LocalDateTime.now());
-//         transacao.setValor(dto.valor());
-//         transacao.setContaDestino(dto.contaDestino());
-//         transacao.setTipo(TipoTransacao.TRANSFERENCIA);
-//         transacao.setConta(contaOrigem);
-//         transacaoRepository.save(transacao);
+    // // executa a transferência
+    // contaOrigem.transferir(dto.valor(), contaDestino);
 
-//         // registra saldo da conta origem
-//         Saldo saldoOrigem = new Saldo();
-//         saldoOrigem.setData(LocalDateTime.now());
-//         saldoOrigem.setValor(contaOrigem.getSaldo());
-//         saldoOrigem.setConta(contaOrigem);
-//         saldoRepository.save(saldoOrigem);
+    // // registra a transação
+    // Transacao transacao = new Transacao();
+    // transacao.setDataHora(LocalDateTime.now());
+    // transacao.setValor(dto.valor());
+    // transacao.setContaDestino(dto.contaDestino());
+    // transacao.setTipo(TipoTransacao.TRANSFERENCIA);
+    // transacao.setConta(contaOrigem);
+    // transacaoRepository.save(transacao);
 
-//         // registra saldo da conta destino
-//         Saldo saldoDestino = new Saldo();
-//         saldoDestino.setData(LocalDateTime.now());
-//         saldoDestino.setValor(contaDestino.getSaldo());
-//         saldoDestino.setConta(contaDestino);
-//         saldoRepository.save(saldoDestino);
+    // // registra saldo da conta origem
+    // Saldo saldoOrigem = new Saldo();
+    // saldoOrigem.setData(LocalDateTime.now());
+    // saldoOrigem.setValor(contaOrigem.getSaldo());
+    // saldoOrigem.setConta(contaOrigem);
+    // saldoRepository.save(saldoOrigem);
 
-//         // atualiza as contas
-//         contaRepository.save(contaOrigem);
-//         contaRepository.save(contaDestino);
+    // // registra saldo da conta destino
+    // Saldo saldoDestino = new Saldo();
+    // saldoDestino.setData(LocalDateTime.now());
+    // saldoDestino.setValor(contaDestino.getSaldo());
+    // saldoDestino.setConta(contaDestino);
+    // saldoRepository.save(saldoDestino);
 
-//         return ResponseEntity.ok().build();
-//     }
+    // // atualiza as contas
+    // contaRepository.save(contaOrigem);
+    // contaRepository.save(contaDestino);
 
-//     private Gerente encontrarGerenteComMenosContas() {
+    // return ResponseEntity.ok().build();
+    // }
 
-//         Pageable limit = PageRequest.of(0, 1);
-//         List<Gerente> gerentes = gerenteRep.findAllOrderByQuantidadeContas(limit);
+    private Gerente encontrarGerenteComMenosContas() {
 
-//         if (gerentes.isEmpty()) {
-//             throw new IllegalStateException("Não há gerentes cadastrados no sistema");
-//         }
+        Pageable limit = PageRequest.of(0, 1);
+        List<Gerente> gerentes = gerenteRep.findAllOrderByQuantidadeContas(limit);
 
-//         return gerentes.get(0); // SEMPRE retorna um gerente, mesmo que seja o único
-//     }
+        if (gerentes.isEmpty()) {
+            throw new IllegalStateException("Não há gerentes cadastrados no sistema");
+        }
 
-//     private BigDecimal calcularLimite(BigDecimal salario) {
-//         if (salario.compareTo(new BigDecimal("2000.00")) >= 0) {
-//             return salario.divide(new BigDecimal("2"), 2, RoundingMode.HALF_UP);
-//         }
-//         return BigDecimal.ZERO;
-//     }
+        return gerentes.get(0); // SEMPRE retorna um gerente, mesmo que seja o único
+    }
 
-//     // Método auxiliar para gerar número de conta aleatório
-//     private String gerarNumeroConta() {
-//         Random random = new Random();
-//         return String.format("%08d", random.nextInt(100000000));
-//     }
+    private BigDecimal calcularLimite(BigDecimal salario) {
+        if (salario.compareTo(new BigDecimal("2000.00")) >= 0) {
+            return salario.divide(new BigDecimal("2"), 2, RoundingMode.HALF_UP);
+        }
+        return BigDecimal.ZERO;
+    }
 
-// }
+    // Método auxiliar para gerar número de conta aleatório
+    private String gerarNumeroConta() {
+        Random random = new Random();
+        return String.format("%08d", random.nextInt(100000000));
+    }
+
+    @Override
+    public ResponseEntity<R03ResDTO> buscaSaldo(Long userId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buscaSaldo'");
+    }
+
+    @Override
+    public ResponseEntity<?> realizarDeposito(DepositoDTO dto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'realizarDeposito'");
+    }
+
+    @Override
+    public ResponseEntity<?> realizarSaque(SaqueDTO dto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'realizarSaque'");
+    }
+
+    @Override
+    public ResponseEntity<?> realizarTransferencia(TransferDTO dto, UserDetailsImpl userDetailsImpl) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'realizarTransferencia'");
+    }
+
+}
