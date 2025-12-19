@@ -13,11 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bankserver.adapters.outbound.ports.EnderecoRepository;
 import com.bankserver.adapters.outbound.ports.GerenteRepository;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
 import com.bankserver.adapters.outbound.repository.ClienteRep;
 import com.bankserver.adapters.outbound.repository.ContaRepository;
-import com.bankserver.adapters.outbound.repository.EnderecoRep;
+import com.bankserver.adapters.outbound.repository.JpaEnderecoRepository;
 import com.bankserver.adapters.outbound.repository.SaldoRepository;
 import com.bankserver.adapters.outbound.repository.TransacaoRepository;
 import com.bankserver.application.domain.Usuario;
@@ -45,14 +46,13 @@ public class ClienteServiceImpl implements ClienteService {
     private ClienteRep clienteRep;
 
     @Autowired
-    private EnderecoRep enderecoRep;
-
-    @Autowired
     private ContaRepository contaRepository;
 
     private final UsuarioRepository usuarioRepository;
 
     private final GerenteRepository gerenteRepository;
+
+    private final EnderecoRepository enderecoRepository;
 
     @Autowired
     private TransacaoRepository transacaoRepository;
@@ -60,14 +60,14 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     private SaldoRepository saldoRepository;
 
-    public ClienteServiceImpl(GerenteRepository gerenteRepository, UsuarioRepository usuarioRepository) {
+    public ClienteServiceImpl(GerenteRepository gerenteRepository, UsuarioRepository usuarioRepository, EnderecoRepository enderecoRepository) {
         this.usuarioRepository = usuarioRepository;
         this.gerenteRepository = gerenteRepository;
+        this.enderecoRepository = enderecoRepository;
     }
 
     // R01
     @Override
-    @Transactional
     public ResponseEntity<Void> insertClient(ClienteRegistrationDTO data) {
 
         if (this.usuarioRepository.existsByLogin(data.email())) {
@@ -76,7 +76,7 @@ public class ClienteServiceImpl implements ClienteService {
         }
 
         Endereco endereco = new Endereco();
-        
+
         endereco.setCep(data.endereco().cep());
         endereco.setUf(data.endereco().uf());
         endereco.setCidade(data.endereco().cidade());
@@ -85,7 +85,7 @@ public class ClienteServiceImpl implements ClienteService {
         endereco.setNumero(data.endereco().numero());
         endereco.setComplemento(data.endereco().complemento());
 
-        enderecoRep.save(endereco);
+        enderecoRepository.save(endereco);
 
         Cliente cliente = new Cliente();
         cliente.setCpf(data.cpf());
@@ -97,18 +97,20 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setSalario(data.salario());
         cliente.setEndereco(endereco); // associa o endereço salvo
 
-        Conta conta = Conta.builder()
-                .numeroConta(gerarNumeroConta())
-                .dataCriacao(LocalDateTime.now())
-                .limite(calcularLimite(data.salario()))
-                .statusConta(StatusConta.PENDENTE)
-                .cliente(cliente)
-                .gerente(encontrarGerenteComMenosContas())
-                .build();
 
-        clienteRep.save(cliente);
 
-        contaRepository.save(conta);
+        // Conta conta = Conta.builder()
+        //         .numeroConta(gerarNumeroConta())
+        //         .dataCriacao(LocalDateTime.now())
+        //         .limite(calcularLimite(data.salario()))
+        //         .statusConta(StatusConta.PENDENTE)
+        //         .cliente(cliente)
+        //         .gerente(encontrarGerenteComMenosContas())
+        //         .build();
+
+        // clienteRep.save(cliente);
+
+        // contaRepository.save(conta);
 
         // return ResponseEntity.ok().body("Cliente cadastrado com sucesso! Status da
         // conta: PENDENTE");
@@ -229,9 +231,8 @@ public class ClienteServiceImpl implements ClienteService {
     // }
 
     private Gerente encontrarGerenteComMenosContas() {
-
-        Pageable limit = PageRequest.of(0, 1);
-        List<Gerente> gerentes = gerenteRep.findAllOrderByQuantidadeContas(limit);
+        
+        List<Gerente> gerentes = gerenteRepository.findAllOrderByQuantidadeContas();
 
         if (gerentes.isEmpty()) {
             throw new IllegalStateException("Não há gerentes cadastrados no sistema");

@@ -1,5 +1,9 @@
 package com.bankserver.adapters.outbound.adapters;
 
+import java.util.List;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.bankserver.adapters.outbound.entidades.JpaGerenteEntidade;
@@ -25,6 +29,14 @@ public class GerenteRepositoryImpl implements GerenteRepository {
         JpaGerenteEntidade entidadeSalva = this.jpaGerenteRepository.save(jpaGerenteEntidade);
 
         return (Gerente) entidadeSalva.toDomain();
+    }
+
+    @Override
+    public List<Gerente> findAllOrderByQuantidadeContas() {
+        
+        Pageable limit = PageRequest.of(0, 1);
+
+        return null;
     }
     
 }

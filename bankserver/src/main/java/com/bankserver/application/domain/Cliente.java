@@ -13,6 +13,9 @@ public class Cliente extends Usuario {
 
     private Conta conta;
 
+    public Cliente() {
+    }
+
     public Cliente(Long id, String cpf, String login, String nome, String telefone,
             String senha, TipoUsuario perfil, StatusUsuario status,
             BigDecimal salario) {
@@ -43,7 +46,5 @@ public class Cliente extends Usuario {
     public void setConta(Conta conta) {
         this.conta = conta;
     }
-
-    
 
 }

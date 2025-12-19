@@ -77,7 +77,7 @@ public class Conta {
         contaDestino.depositar(valor);
     }
 
-    // Getters e Setters (opcional, pode adicionar depois)
+    // getters e setters (opcional, pode adicionar depois)
 
     public Long getId() {
         return id;
