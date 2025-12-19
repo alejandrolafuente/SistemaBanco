@@ -12,6 +12,8 @@ import com.bankserver.application.usecases.AdminService;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("admin")
 @CrossOrigin
@@ -22,6 +24,7 @@ public class AdminController {
 
     // R17
     @PostMapping("/novo-gerente")
+    @Transactional
     public ResponseEntity<?> novoGerente(@RequestBody GerenteRegistrationDTO dto) {
 
         return adminService.insertGerente(dto);
@@ -30,8 +33,9 @@ public class AdminController {
 
     // R21 - Cadastrar ADMIN
     @PostMapping
+    @Transactional
     public ResponseEntity<Void> register(@RequestBody AdminRegistrationDTO dto) {
-        
+
         System.out.println("REQUEST DE CADASTRO ADMIN: => " + dto);
 
         return adminService.insertAdmin(dto);

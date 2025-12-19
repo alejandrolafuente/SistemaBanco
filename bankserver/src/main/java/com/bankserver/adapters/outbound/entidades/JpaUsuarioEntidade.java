@@ -53,6 +53,7 @@ public abstract class JpaUsuarioEntidade {
 
     // metodo fabrica para criar a entidade JPA correta
     public static JpaUsuarioEntidade fromDomain(Usuario usuario) {
+        
         if (usuario instanceof Administrador) {
             return new JpaAdministradorEntidade((Administrador) usuario);
         }

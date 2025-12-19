@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.adapters.outbound.ports.AdminRepository;
+import com.bankserver.adapters.outbound.ports.GerenteRepository;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
-import com.bankserver.adapters.outbound.repository.GerenteRep;
+
 import com.bankserver.application.domain.Administrador;
 import com.bankserver.application.usecases.AdminService;
 import com.bankserver.dto.request.AdminRegistrationDTO;
@@ -28,8 +29,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final AdminRepository adminRepository;
 
-    @Autowired
-    private GerenteRep gerenteRep;
+    private final GerenteRepository gerenteRepository;
 
     @Autowired
     private ServicoEmail servicoEmail;
@@ -37,14 +37,15 @@ public class AdminServiceImpl implements AdminService {
     // injecao via construtor - seguindo Hexagonal
     public AdminServiceImpl(
             UsuarioRepository usuarioRepository,
-            AdminRepository adminRepository) {
+            AdminRepository adminRepository,
+            GerenteRepository gerenteRepository) {
         this.usuarioRepository = usuarioRepository;
         this.adminRepository = adminRepository;
+        this.gerenteRepository = gerenteRepository;
     }
 
     // R17
     @Override
-    @Transactional
     public ResponseEntity<Void> insertGerente(GerenteRegistrationDTO data) {
 
         if (this.usuarioRepository.existsByLogin(data.email())) {
@@ -64,7 +65,7 @@ public class AdminServiceImpl implements AdminService {
         gerente.setPerfil(TipoUsuario.GERENTE);
         gerente.setStatus(StatusUsuario.ATIVO);
 
-        //gerente = gerenteRep.save(gerente);
+        gerenteRepository.save(gerente);
 
         String subject = "BANTADS: CADASTRO DE GERENTE APROVADO";
 
@@ -82,7 +83,6 @@ public class AdminServiceImpl implements AdminService {
 
     // R21 - Cadastrar ADMIN
     @Override
-    @Transactional
     public ResponseEntity<Void> insertAdmin(AdminRegistrationDTO data) {
 
         if (this.usuarioRepository.existsByLogin(data.email())) {
@@ -91,6 +91,7 @@ public class AdminServiceImpl implements AdminService {
         }
 
         Administrador administrador = new Administrador();
+
         String senha = generateRamdomPassword();
 
         administrador.setCpf(data.cpf());
