@@ -14,8 +14,8 @@ import com.bankserver.adapters.outbound.ports.ContaRepository;
 import com.bankserver.adapters.outbound.ports.EnderecoRepository;
 import com.bankserver.adapters.outbound.ports.GerenteRepository;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
-import com.bankserver.adapters.outbound.repository.SaldoRepository;
-import com.bankserver.adapters.outbound.repository.TransacaoRepository;
+import com.bankserver.adapters.outbound.repository.JpaSaldoRepository;
+import com.bankserver.adapters.outbound.repository.JpaTransacaoRepository;
 import com.bankserver.application.domain.Usuario;
 import com.bankserver.application.domain.enums.StatusConta;
 import com.bankserver.application.domain.enums.StatusUsuario;
@@ -47,10 +47,10 @@ public class ClienteServiceImpl implements ClienteService {
     private final ContaRepository contaRepository;
 
     @Autowired
-    private TransacaoRepository transacaoRepository;
+    private JpaTransacaoRepository transacaoRepository;
 
     @Autowired
-    private SaldoRepository saldoRepository;
+    private JpaSaldoRepository saldoRepository;
 
     public ClienteServiceImpl(GerenteRepository gerenteRepository,
             UsuarioRepository usuarioRepository, EnderecoRepository enderecoRepository,

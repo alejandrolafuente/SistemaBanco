@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.adapters.outbound.entidades.JpaSaldoEntidade;
 import com.bankserver.adapters.outbound.repository.JpaContaRepository;
-import com.bankserver.adapters.outbound.repository.SaldoRepository;
+import com.bankserver.adapters.outbound.repository.JpaSaldoRepository;
 import com.bankserver.application.domain.Conta;
 
 @Service
@@ -23,7 +23,7 @@ public class SaldoService {
     private JpaContaRepository contaRepository;
 
     @Autowired
-    private SaldoRepository saldoRep;
+    private JpaSaldoRepository saldoRep;
 
     // método agendado
     @Transactional

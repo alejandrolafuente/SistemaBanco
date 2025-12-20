@@ -10,4 +10,16 @@ public class Saldo {
     private BigDecimal valor;
     private Conta conta;
 
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
+    public void setConta(Conta conta) {
+        this.conta = conta;
+    }
+
 }

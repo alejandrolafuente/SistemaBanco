@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.bankserver.adapters.outbound.entidades.JpaSaldoEntidade;
 
 @Repository
-public interface SaldoRepository extends JpaRepository<JpaSaldoEntidade, Long> {
+public interface JpaSaldoRepository extends JpaRepository<JpaSaldoEntidade, Long> {
 
     List<JpaSaldoEntidade> findByContaIdAndDataBetween(Long contaId, LocalDate inicio, LocalDate fim);
 
