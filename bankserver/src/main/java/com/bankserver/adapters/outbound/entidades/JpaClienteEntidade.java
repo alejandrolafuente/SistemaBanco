@@ -3,7 +3,6 @@ package com.bankserver.adapters.outbound.entidades;
 import java.math.BigDecimal;
 
 import com.bankserver.application.domain.Cliente;
-import com.bankserver.application.domain.Usuario;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -40,7 +39,7 @@ public class JpaClienteEntidade extends JpaUsuarioEntidade {
     }
 
     @Override
-    public Usuario toDomain() {
+    public Cliente toDomain() {
 
         return new Cliente(
                 this.getId(),

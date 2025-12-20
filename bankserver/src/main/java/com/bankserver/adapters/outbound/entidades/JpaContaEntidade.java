@@ -44,18 +44,22 @@ public class JpaContaEntidade {
     private StatusConta statusConta; // APROVADA, PENDENTE, REJEITADA
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
-    private List<JpaSaldoEntidade> historicoSaldos; // vai mudar para entidade jpa
+    private List<JpaSaldoEntidade> historicoSaldos; 
 
     @OneToOne
     @JoinColumn(name = "cliente_id")
-    private JpaClienteEntidade cliente; // vai mudar para entidade jpa
+    private JpaClienteEntidade cliente; 
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "gerente_id")
-    private JpaGerenteEntidade gerente; // vai mudar para entidade jpa
+    private JpaGerenteEntidade gerente; 
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
-    private List<JpaTransacaoEntidade> transacoes; // vai mudar para entidade jpa
+    private List<JpaTransacaoEntidade> transacoes;
+    
+    public JpaContaEntidade(Conta conta) {
+        //TODO Auto-generated constructor stub
+    }
 
     // Métodos de conversão simples
     public static JpaContaEntidade fromDomain(Conta conta) {
@@ -70,7 +74,7 @@ public class JpaContaEntidade {
                 .saldo(conta.getSaldo())
                 .limite(conta.getLimite())
                 .statusConta(conta.getStatusConta())
-                // As listas e relacionamentos serão mapeados separadamente
+                // as listas e relacionamentos serao mapeados separadamente
                 .build();
     }
 
@@ -89,5 +93,6 @@ public class JpaContaEntidade {
                 null // transacoes - pode ser convertido depois
         );
     }
+
 
 }
