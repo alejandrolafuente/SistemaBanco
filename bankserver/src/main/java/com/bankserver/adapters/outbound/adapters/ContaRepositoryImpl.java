@@ -20,10 +20,8 @@ public class ContaRepositoryImpl implements ContaRepository {
     public Conta save(Conta conta) {
 
         JpaContaEntidade jpaContaEntidade = new JpaContaEntidade(conta);
-        // JpaClienteEntidade jpaClienteEntidade = new JpaClienteEntidade();
-        // JpaClienteEntidade entidadeSalva = this.jpaClienteRepository.save(jpaClienteEntidade);
-        // return entidadeSalva.toDomain();
-        return null;
+        JpaContaEntidade contaJpaSalva = this.jpaContaRepository.save(jpaContaEntidade);
+        return contaJpaSalva.toDomain();
     }
 
 }

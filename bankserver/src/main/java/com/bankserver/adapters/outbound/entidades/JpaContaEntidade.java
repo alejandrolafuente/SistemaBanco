@@ -44,21 +44,26 @@ public class JpaContaEntidade {
     private StatusConta statusConta; // APROVADA, PENDENTE, REJEITADA
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
-    private List<JpaSaldoEntidade> historicoSaldos; 
+    private List<JpaSaldoEntidade> historicoSaldos;
 
     @OneToOne
     @JoinColumn(name = "cliente_id")
-    private JpaClienteEntidade cliente; 
+    private JpaClienteEntidade cliente;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "gerente_id")
-    private JpaGerenteEntidade gerente; 
+    private JpaGerenteEntidade gerente;
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
     private List<JpaTransacaoEntidade> transacoes;
-    
+
     public JpaContaEntidade(Conta conta) {
-        //TODO Auto-generated constructor stub
+        this.numeroConta = conta.getNumeroConta();
+        this.dataCriacao = conta.getDataCriacao();
+        this.dataAprovacao = conta.getDataAprovacao();
+        this.saldo = conta.getSaldo();
+        this.limite = conta.getLimite();
+        this.statusConta = conta.getStatusConta();
     }
 
     // Métodos de conversão simples
@@ -93,6 +98,5 @@ public class JpaContaEntidade {
                 null // transacoes - pode ser convertido depois
         );
     }
-
 
 }

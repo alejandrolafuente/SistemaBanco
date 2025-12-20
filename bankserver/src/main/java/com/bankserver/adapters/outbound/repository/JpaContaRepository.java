@@ -13,7 +13,7 @@ import com.bankserver.adapters.outbound.entidades.JpaContaEntidade;
 @Repository
 public interface JpaContaRepository extends JpaRepository<JpaContaEntidade, Long> {
 
-    @Query("SELECT c FROM Conta c " +
+    @Query("SELECT c FROM JpaContaEntidade c " +
             "WHERE c.gerente.id = :gerenteId " +
             "AND c.statusConta = 'PENDENTE' " +
             "AND c.cliente IS NOT NULL")
