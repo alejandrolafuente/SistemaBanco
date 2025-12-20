@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.bankserver.adapters.outbound.entidades.JpaClienteEntidade;
 
 @Repository
-public interface ClienteRep extends JpaRepository<JpaClienteEntidade, Long> {
+public interface JpaClienteRepository extends JpaRepository<JpaClienteEntidade, Long> {
 
 }

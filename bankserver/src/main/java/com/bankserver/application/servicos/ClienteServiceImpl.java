@@ -7,20 +7,13 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.bankserver.adapters.outbound.ports.ClienteRepository;
 import com.bankserver.adapters.outbound.ports.ContaRepository;
 import com.bankserver.adapters.outbound.ports.EnderecoRepository;
 import com.bankserver.adapters.outbound.ports.GerenteRepository;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
-import com.bankserver.adapters.outbound.repository.ClienteRep;
-import com.bankserver.adapters.outbound.repository.JpaContaRepository;
-import com.bankserver.adapters.outbound.repository.JpaEnderecoRepository;
 import com.bankserver.adapters.outbound.repository.SaldoRepository;
 import com.bankserver.adapters.outbound.repository.TransacaoRepository;
 import com.bankserver.application.domain.Usuario;
@@ -28,7 +21,6 @@ import com.bankserver.application.domain.enums.StatusConta;
 import com.bankserver.application.domain.enums.StatusUsuario;
 import com.bankserver.application.domain.enums.TipoUsuario;
 import com.bankserver.application.usecases.ClienteService;
-import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
 import com.bankserver.dto.request.ClienteRegistrationDTO;
 import com.bankserver.dto.request.DepositoDTO;
 import com.bankserver.dto.request.SaqueDTO;
@@ -101,18 +93,16 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setSalario(data.salario());
         cliente.setEndereco(endereco); // associa o endereço salvo
 
-        // Conta conta = Conta.builder()
-        // .numeroConta(gerarNumeroConta())
-        // .dataCriacao(LocalDateTime.now())
-        // .limite(calcularLimite(data.salario()))
-        // .statusConta(StatusConta.PENDENTE)
-        // .cliente(cliente)
-        // .gerente(encontrarGerenteComMenosContas())
-        // .build();
+        Conta conta = new Conta();
+        conta.setNumeroConta(gerarNumeroConta());
+        conta.setDataCriacao(LocalDateTime.now());
+        conta.setLimite(calcularLimite(data.salario()));
+        conta.setStatusConta(StatusConta.PENDENTE);
+        conta.setCliente(cliente);
+        conta.setGerente(gerenteRepository.findAllOrderByQuantidadeContas());
 
-        // clienteRep.save(cliente);
-
-        // contaRepository.save(conta);
+        clienteRepository.save(cliente);
+        contaRepository.save(conta);
 
         // return ResponseEntity.ok().body("Cliente cadastrado com sucesso! Status da
         // conta: PENDENTE");
@@ -231,13 +221,6 @@ public class ClienteServiceImpl implements ClienteService {
 
     // return ResponseEntity.ok().build();
     // }
-
-    private Gerente encontrarGerenteComMenosContas() {
-
-        Gerente gerente = gerenteRepository.findAllOrderByQuantidadeContas();
-
-        return gerente; // SEMPRE retorna um gerente, mesmo que seja o único
-    }
 
     private BigDecimal calcularLimite(BigDecimal salario) {
         if (salario.compareTo(new BigDecimal("2000.00")) >= 0) {

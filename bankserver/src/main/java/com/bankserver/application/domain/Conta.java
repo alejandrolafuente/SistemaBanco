@@ -7,6 +7,7 @@ import java.util.List;
 import com.bankserver.application.domain.enums.StatusConta;
 
 public class Conta {
+    
     private Long id;
     private String numeroConta;
     private LocalDateTime dataCriacao;
