@@ -8,5 +8,7 @@ public interface ContaRepository {
 
     Conta save(Conta conta);
 
+     Conta update(Conta conta);
+
     Optional<Conta> findById(Long contaId);
 }

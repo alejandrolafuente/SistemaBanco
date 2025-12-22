@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bankserver.adapters.outbound.ports.ContaRepository;
-import com.bankserver.adapters.outbound.repository.JpaContaRepository;
 import com.bankserver.application.usecases.GerenteService;
 import com.bankserver.dto.response.R09ResDTO;
 import com.bankserver.application.domain.Cliente;
@@ -64,17 +62,20 @@ public class GerenteServiceImpl implements GerenteService {
         // Conta conta = contaRepository.findById(contaId)
         // .orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada"));
 
+        //  1 obter conta
         Conta conta = contaRepository.findById(contaId)
                 .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
 
         conta.aprovar();
+        
         conta.setSaldo(BigDecimal.ZERO);
 
-        // REGISTRA PRIMEIRO SALDO NO HISTÓRICO
+        // precisamos registrar primeiro saldo com valor zero no historico
         Saldo saldoInicial = new Saldo();
         saldoInicial.setData(LocalDateTime.now());
         saldoInicial.setValor(BigDecimal.ZERO);
         saldoInicial.setConta(conta);
+
         conta.getHistoricoSaldos().add(saldoInicial);
 
         Cliente cliente = conta.getCliente();

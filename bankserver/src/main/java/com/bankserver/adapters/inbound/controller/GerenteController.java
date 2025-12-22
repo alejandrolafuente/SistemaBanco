@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bankserver.application.usecases.GerenteService;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("gerentes")
 @CrossOrigin
@@ -27,6 +29,7 @@ public class GerenteController {
 
     // R10 - Aprovar Cliente
     @PutMapping("/aprovar-conta/{contaId}")
+    @Transactional
     public ResponseEntity<?> aprovarConta(@PathVariable Long contaId) {
         return gerenteService.aprovarCliente(contaId);
 
