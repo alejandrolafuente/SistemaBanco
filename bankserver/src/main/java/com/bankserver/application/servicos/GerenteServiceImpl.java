@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bankserver.adapters.outbound.ports.ContaRepository;
+import com.bankserver.adapters.outbound.ports.SaldoRepository;
 import com.bankserver.application.usecases.GerenteService;
 import com.bankserver.dto.response.R09ResDTO;
 import com.bankserver.application.domain.Cliente;
@@ -25,8 +26,13 @@ public class GerenteServiceImpl implements GerenteService {
 
     private final ContaRepository contaRepository;
 
-    public GerenteServiceImpl(ContaRepository contaRepository) {
+    private final SaldoRepository saldoRepository;
+
+    public GerenteServiceImpl(
+            ContaRepository contaRepository,
+            SaldoRepository saldoRepository) {
         this.contaRepository = contaRepository;
+        this.saldoRepository = saldoRepository;
     }
 
     @Autowired
@@ -62,21 +68,23 @@ public class GerenteServiceImpl implements GerenteService {
         // Conta conta = contaRepository.findById(contaId)
         // .orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada"));
 
-        //  1 obter conta
+        // 1 obter conta
         Conta conta = contaRepository.findById(contaId)
                 .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
 
         conta.aprovar();
-        
-        conta.setSaldo(BigDecimal.ZERO);
+
+        contaRepository.update(conta);
 
         // precisamos registrar primeiro saldo com valor zero no historico
+        // lembrar de atualizar este saldo a cada 24h
         Saldo saldoInicial = new Saldo();
+
         saldoInicial.setData(LocalDateTime.now());
         saldoInicial.setValor(BigDecimal.ZERO);
         saldoInicial.setConta(conta);
 
-        conta.getHistoricoSaldos().add(saldoInicial);
+        saldoRepository.save(saldoInicial);
 
         Cliente cliente = conta.getCliente();
         cliente.setStatus(StatusUsuario.ATIVO);

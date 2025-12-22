@@ -7,7 +7,7 @@ import java.util.List;
 import com.bankserver.application.domain.enums.StatusConta;
 
 public class Conta {
-    
+
     private Long id;
     private String numeroConta;
     private LocalDateTime dataCriacao;
@@ -45,13 +45,13 @@ public class Conta {
     public Conta(Long id2, String numeroConta2, LocalDateTime dataCriacao2, LocalDateTime dataAprovacao2,
             BigDecimal saldo2, BigDecimal limite2, StatusConta statusConta2, Object object, Object object2,
             Object object3, Object object4) {
-        //TODO Auto-generated constructor stub
     }
 
-    // Métodos de negócio (EXATAMENTE como no original)
+    // metodos de negocio
     public void aprovar() {
         this.statusConta = StatusConta.APROVADA;
         this.dataAprovacao = LocalDateTime.now();
+        this.saldo = BigDecimal.ZERO;
     }
 
     public void depositar(BigDecimal valor) {
@@ -167,5 +167,5 @@ public class Conta {
     public void setTransacoes(List<Transacao> transacoes) {
         this.transacoes = transacoes;
     }
-    
+
 }

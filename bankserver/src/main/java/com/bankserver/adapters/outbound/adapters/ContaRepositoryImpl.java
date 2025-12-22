@@ -40,12 +40,14 @@ public class ContaRepositoryImpl implements ContaRepository {
         jpaConta.setSaldo(conta.getSaldo());
 
         JpaContaEntidade atualizada = jpaContaRepository.save(jpaConta);
+
         return atualizada.toDomain();
     }
 
     @Override
     public Optional<Conta> findById(Long contaId) {
-        return null;
+        return jpaContaRepository.findById(contaId)
+                .map(JpaContaEntidade::toDomain);
     }
 
 }
