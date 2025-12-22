@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bankserver.adapters.outbound.ports.ClienteRepository;
 import com.bankserver.adapters.outbound.ports.ContaRepository;
 import com.bankserver.adapters.outbound.ports.SaldoRepository;
 import com.bankserver.application.usecases.GerenteService;
@@ -28,11 +29,15 @@ public class GerenteServiceImpl implements GerenteService {
 
     private final SaldoRepository saldoRepository;
 
+    private final ClienteRepository clienteRepository;
+
     public GerenteServiceImpl(
             ContaRepository contaRepository,
-            SaldoRepository saldoRepository) {
+            SaldoRepository saldoRepository,
+            ClienteRepository clienteRepository) {
         this.contaRepository = contaRepository;
         this.saldoRepository = saldoRepository;
+        this.clienteRepository = clienteRepository;
     }
 
     @Autowired
@@ -84,10 +89,13 @@ public class GerenteServiceImpl implements GerenteService {
         saldoInicial.setValor(BigDecimal.ZERO);
         saldoInicial.setConta(conta);
 
-        saldoRepository.save(saldoInicial);
+        saldoInicial = saldoRepository.save(saldoInicial);
 
-        Cliente cliente = conta.getCliente();
+        Cliente cliente = saldoInicial.getConta().getCliente();
+
         cliente.setStatus(StatusUsuario.ATIVO);
+
+        cliente = this.clienteRepository.update(cliente);
 
         String senha = generateRamdomPassword();
 

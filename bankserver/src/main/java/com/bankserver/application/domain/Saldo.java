@@ -10,6 +10,8 @@ public class Saldo {
     private BigDecimal valor;
     private Conta conta;
 
+    public Saldo() {
+    }
 
     public Saldo(Long id, LocalDateTime data, BigDecimal valor, Conta conta) {
         this.id = id;
