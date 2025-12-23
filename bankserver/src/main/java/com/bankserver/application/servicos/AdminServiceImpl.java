@@ -16,7 +16,7 @@ import com.bankserver.application.domain.Administrador;
 import com.bankserver.application.usecases.AdminService;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
-
+import com.bankserver.utils.GeradorSenha;
 import com.bankserver.application.domain.Gerente;
 import com.bankserver.application.domain.enums.StatusUsuario;
 import com.bankserver.application.domain.enums.TipoUsuario;
@@ -32,13 +32,19 @@ public class AdminServiceImpl implements AdminService {
 
     private final EmailServicePort emailServicePort;
 
+    private final GeradorSenha geradorSenha;
+
     // injecao via construtor - seguindo Hexagonal
-    public AdminServiceImpl(UsuarioRepository usuarioRepository, AdminRepository adminRepository,
-            GerenteRepository gerenteRepository, EmailServicePort emailServicePort) {
+    public AdminServiceImpl(UsuarioRepository usuarioRepository,
+            AdminRepository adminRepository,
+            GerenteRepository gerenteRepository,
+            EmailServicePort emailServicePort,
+            GeradorSenha geradorSenha) {
         this.usuarioRepository = usuarioRepository;
         this.adminRepository = adminRepository;
         this.gerenteRepository = gerenteRepository;
         this.emailServicePort = emailServicePort;
+        this.geradorSenha = geradorSenha;
     }
 
     // R17
@@ -52,7 +58,7 @@ public class AdminServiceImpl implements AdminService {
 
         Gerente gerente = new Gerente();
 
-        String senha = generateRamdomPassword();
+        String senha = geradorSenha.gerarSenhaAleatoria();
 
         gerente.setCpf(data.cpf());
         gerente.setLogin(data.email());
@@ -89,7 +95,7 @@ public class AdminServiceImpl implements AdminService {
 
         Administrador administrador = new Administrador();
 
-        String senha = generateRamdomPassword();
+        String senha = geradorSenha.gerarSenhaAleatoria();
 
         administrador.setCpf(data.cpf());
         administrador.setLogin(data.email());
@@ -113,25 +119,6 @@ public class AdminServiceImpl implements AdminService {
         // .body("Administrador cadastrado com sucesso! Veja seu email: " +
         // administrador.getLogin());
         return ResponseEntity.ok().build();
-    }
-
-    private String generateRamdomPassword() {
-
-        String CHARACTERS = "0123456789";
-
-        int STRING_LENGTH = 4;
-
-        SecureRandom random = new SecureRandom();
-
-        StringBuilder sb = new StringBuilder(STRING_LENGTH);
-
-        for (int i = 0; i < STRING_LENGTH; i++) {
-            int index = random.nextInt(CHARACTERS.length());
-            sb.append(CHARACTERS.charAt(index));
-        }
-
-        return sb.toString();
-
     }
 
 }

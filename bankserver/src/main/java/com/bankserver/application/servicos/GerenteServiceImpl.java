@@ -17,6 +17,7 @@ import com.bankserver.adapters.outbound.ports.EmailServicePort;
 import com.bankserver.adapters.outbound.ports.SaldoRepository;
 import com.bankserver.application.usecases.GerenteService;
 import com.bankserver.dto.response.R09ResDTO;
+import com.bankserver.utils.GeradorSenha;
 import com.bankserver.application.domain.Cliente;
 import com.bankserver.application.domain.Conta;
 import com.bankserver.application.domain.Saldo;
@@ -33,15 +34,19 @@ public class GerenteServiceImpl implements GerenteService {
 
     private final EmailServicePort emailService;
 
+    private final GeradorSenha geradorSenha;
+
     public GerenteServiceImpl(
             ContaRepository contaRepository,
             SaldoRepository saldoRepository,
             ClienteRepository clienteRepository,
-            EmailServicePort emailService) {
+            EmailServicePort emailService,
+            GeradorSenha geradorSenha) {
         this.contaRepository = contaRepository;
         this.saldoRepository = saldoRepository;
         this.clienteRepository = clienteRepository;
         this.emailService = emailService;
+        this.geradorSenha = geradorSenha;
     }
 
     // R09
@@ -103,7 +108,7 @@ public class GerenteServiceImpl implements GerenteService {
         // cria senha e envia por email ao cliente
         // estou aqui!
 
-        String senha = generateRamdomPassword();
+        String senha = geradorSenha.gerarSenhaAleatoria();
 
         cliente.setSenha(new BCryptPasswordEncoder().encode(senha));
 
@@ -116,25 +121,6 @@ public class GerenteServiceImpl implements GerenteService {
         // return ResponseEntity.ok(new R10ResDTO(conta.getId(), cliente.getCpf(),
         // cliente.getNome()));
         return ResponseEntity.ok().build();
-
-    }
-
-    private String generateRamdomPassword() {
-
-        String CHARACTERS = "0123456789";
-
-        int STRING_LENGTH = 4;
-
-        SecureRandom random = new SecureRandom();
-
-        StringBuilder sb = new StringBuilder(STRING_LENGTH);
-
-        for (int i = 0; i < STRING_LENGTH; i++) {
-            int index = random.nextInt(CHARACTERS.length());
-            sb.append(CHARACTERS.charAt(index));
-        }
-
-        return sb.toString();
 
     }
 
