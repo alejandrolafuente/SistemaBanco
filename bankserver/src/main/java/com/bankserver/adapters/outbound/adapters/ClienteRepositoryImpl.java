@@ -25,4 +25,9 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         
     }
 
+    @Override
+    public Cliente update(Cliente cliente) {
+        return null;
+    }
+
 }

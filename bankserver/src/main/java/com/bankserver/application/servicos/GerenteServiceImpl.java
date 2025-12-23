@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.bankserver.adapters.outbound.ports.ClienteRepository;
 import com.bankserver.adapters.outbound.ports.ContaRepository;
+import com.bankserver.adapters.outbound.ports.EmailServicePort;
 import com.bankserver.adapters.outbound.ports.SaldoRepository;
 import com.bankserver.application.usecases.GerenteService;
 import com.bankserver.dto.response.R09ResDTO;
@@ -20,7 +21,6 @@ import com.bankserver.application.domain.Cliente;
 import com.bankserver.application.domain.Conta;
 import com.bankserver.application.domain.Saldo;
 import com.bankserver.application.domain.enums.StatusUsuario;
-import com.bankserver.utils.ServicoEmail;
 
 @Service
 public class GerenteServiceImpl implements GerenteService {
@@ -31,17 +31,18 @@ public class GerenteServiceImpl implements GerenteService {
 
     private final ClienteRepository clienteRepository;
 
+    private final EmailServicePort emailService;
+
     public GerenteServiceImpl(
             ContaRepository contaRepository,
             SaldoRepository saldoRepository,
-            ClienteRepository clienteRepository) {
+            ClienteRepository clienteRepository,
+            EmailServicePort emailService) {
         this.contaRepository = contaRepository;
         this.saldoRepository = saldoRepository;
         this.clienteRepository = clienteRepository;
+        this.emailService = emailService;
     }
-
-    @Autowired
-    private ServicoEmail servicoEmail;
 
     // R09
     @Override
@@ -93,21 +94,24 @@ public class GerenteServiceImpl implements GerenteService {
 
         Cliente cliente = saldoInicial.getConta().getCliente();
 
+        // update no cliente
+
         cliente.setStatus(StatusUsuario.ATIVO);
 
         cliente = this.clienteRepository.update(cliente);
+
+        // cria senha e envia por email ao cliente
+        // estou aqui!
 
         String senha = generateRamdomPassword();
 
         cliente.setSenha(new BCryptPasswordEncoder().encode(senha));
 
-        System.out.println("SENHA CLIENTE: " + senha);
-
         String subject = "BANTADS: CADASTRO DE CLIENTE APROVADO";
 
         String message = "Seu cadastro foi aprovado, sua senha é " + senha;
 
-        servicoEmail.sendApproveEmail(cliente.getLogin(), subject, message);
+        emailService.sendApproveEmail(cliente.getLogin(), subject, message);
 
         // return ResponseEntity.ok(new R10ResDTO(conta.getId(), cliente.getCpf(),
         // cliente.getNome()));

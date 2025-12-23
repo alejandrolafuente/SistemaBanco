@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bankserver.adapters.outbound.ports.AdminRepository;
+import com.bankserver.adapters.outbound.ports.EmailServicePort;
 import com.bankserver.adapters.outbound.ports.GerenteRepository;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
 
@@ -19,7 +20,6 @@ import com.bankserver.dto.request.GerenteRegistrationDTO;
 import com.bankserver.application.domain.Gerente;
 import com.bankserver.application.domain.enums.StatusUsuario;
 import com.bankserver.application.domain.enums.TipoUsuario;
-import com.bankserver.utils.ServicoEmail;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -30,15 +30,15 @@ public class AdminServiceImpl implements AdminService {
 
     private final GerenteRepository gerenteRepository;
 
-    @Autowired
-    private ServicoEmail servicoEmail;
+    private final EmailServicePort emailServicePort;
 
     // injecao via construtor - seguindo Hexagonal
     public AdminServiceImpl(UsuarioRepository usuarioRepository, AdminRepository adminRepository,
-            GerenteRepository gerenteRepository) {
+            GerenteRepository gerenteRepository, EmailServicePort emailServicePort) {
         this.usuarioRepository = usuarioRepository;
         this.adminRepository = adminRepository;
         this.gerenteRepository = gerenteRepository;
+        this.emailServicePort = emailServicePort;
     }
 
     // R17
@@ -70,7 +70,7 @@ public class AdminServiceImpl implements AdminService {
 
         System.out.println("SENHA NO CADASTRO GERENTE: " + senha);
 
-        servicoEmail.sendApproveEmail(gerente.getLogin(), subject, message);
+        emailServicePort.sendApproveEmail(gerente.getLogin(), subject, message);
 
         // return ResponseEntity.ok(new GerRegResDTO(gerente.getId(), gerente.getCpf(),
         // gerente.getLogin(), gerente.getNome(), gerente.getTelefone()));
@@ -107,7 +107,7 @@ public class AdminServiceImpl implements AdminService {
 
         System.out.println("SENHA NO CADASTRO ADMIN: " + senha);
 
-        servicoEmail.sendApproveEmail(administrador.getLogin(), subject, message);
+        emailServicePort.sendApproveEmail(administrador.getLogin(), subject, message);
 
         // return ResponseEntity.ok()
         // .body("Administrador cadastrado com sucesso! Veja seu email: " +

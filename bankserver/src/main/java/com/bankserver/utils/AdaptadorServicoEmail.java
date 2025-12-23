@@ -2,23 +2,28 @@ package com.bankserver.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.bankserver.adapters.outbound.ports.EmailServicePort;
+
 @Service
-public class ServicoEmail {
+public class AdaptadorServicoEmail implements EmailServicePort {
 
-    @Autowired
-    private JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender;
+    private final String sender;
+    private static final Logger logger = LoggerFactory.getLogger(AdaptadorServicoEmail.class);
 
-    @Value("${spring.mail.username}")
-    private String sender;
-
-    private static final Logger logger = LoggerFactory.getLogger(ServicoEmail.class);
+    // injecao via construtor, melhor pratica
+    public AdaptadorServicoEmail(
+            JavaMailSender javaMailSender,
+            @Value("${spring.mail.username}") String sender) {
+        this.javaMailSender = javaMailSender;
+        this.sender = sender;
+    }
 
     public String sendApproveEmail(String receiver, String subject, String message) {
         try {
