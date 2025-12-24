@@ -21,13 +21,13 @@ public class GerenteController {
     @Autowired
     private GerenteService gerenteService;
 
-    // R09 - Tela Inicial do Gerente
+    // R09 - tela inicial gerente
     @GetMapping("/{id}/solicitacoes-pendentes")
     public ResponseEntity<?> solicitacoesPendentes(@PathVariable Long id) {
         return gerenteService.solicitacoesPendentes(id);
     }
 
-    // R10 - Aprovar Cliente
+    // R10 - aprovar cliente (aprovar conta)
     @PutMapping("/aprovar-conta/{contaId}")
     @Transactional
     public ResponseEntity<?> aprovarConta(@PathVariable Long contaId) {

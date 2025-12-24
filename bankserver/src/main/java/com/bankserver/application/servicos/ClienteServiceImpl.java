@@ -62,14 +62,10 @@ public class ClienteServiceImpl implements ClienteService {
         this.contaRepository = contaRepository;
     }
 
-    // R01
+    // R01 - autocadastro cliente
+    // registra endereco, cliente e conta
     @Override
     public ResponseEntity<Void> insertClient(ClienteRegistrationDTO data) {
-
-        if (this.usuarioRepository.existsByLogin(data.email())) {
-            // return ResponseEntity.badRequest().body("Cliente já cadastrado");
-            return ResponseEntity.badRequest().build();
-        }
 
         Endereco endereco = new Endereco();
 
@@ -81,7 +77,9 @@ public class ClienteServiceImpl implements ClienteService {
         endereco.setNumero(data.endereco().numero());
         endereco.setComplemento(data.endereco().complemento());
 
-        enderecoRepository.save(endereco);
+        endereco = enderecoRepository.save(endereco);
+
+        // estamos aqui -->
 
         Cliente cliente = new Cliente();
         cliente.setCpf(data.cpf());
@@ -91,7 +89,9 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setPerfil(TipoUsuario.CLIENTE);
         cliente.setStatus(StatusUsuario.PENDENTE);
         cliente.setSalario(data.salario());
-        cliente.setEndereco(endereco); // associa o endereço salvo
+        cliente.setEndereco(endereco); // associa o endereco salvo
+
+        clienteRepository.save(cliente);
 
         Conta conta = new Conta();
         conta.setNumeroConta(gerarNumeroConta());
@@ -101,7 +101,6 @@ public class ClienteServiceImpl implements ClienteService {
         conta.setCliente(cliente);
         conta.setGerente(gerenteRepository.findAllOrderByQuantidadeContas());
 
-        clienteRepository.save(cliente);
         contaRepository.save(conta);
 
         // return ResponseEntity.ok().body("Cliente cadastrado com sucesso! Status da

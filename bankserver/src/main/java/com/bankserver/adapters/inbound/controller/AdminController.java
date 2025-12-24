@@ -22,7 +22,7 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    // R17
+    // R17 - cadastrar gerente
     @PostMapping("/novo-gerente")
     @Transactional
     public ResponseEntity<?> novoGerente(@RequestBody GerenteRegistrationDTO dto) {
@@ -31,12 +31,10 @@ public class AdminController {
 
     }
 
-    // R21 - Cadastrar ADMIN
+    // R21 - cadastrar admin
     @PostMapping
     @Transactional
     public ResponseEntity<Void> register(@RequestBody AdminRegistrationDTO dto) {
-
-        System.out.println("REQUEST DE CADASTRO ADMIN: => " + dto);
 
         return adminService.insertAdmin(dto);
 

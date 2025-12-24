@@ -49,25 +49,23 @@ public class GerenteServiceImpl implements GerenteService {
         this.geradorSenha = geradorSenha;
     }
 
-    // R09
+    // R09 - tela inicial gerente
     @Override
-    public ResponseEntity<?> solicitacoesPendentes(Long id) {
+    public ResponseEntity<?> solicitacoesPendentes(Long gerenteId) {
 
-        // List<Conta> contasPendentes =
-        // contaRepository.findContasPendentesByGerenteId(id);
+        List<Conta> contasPendentes = contaRepository.findContasPendentesByGerenteId(gerenteId);
 
-        // List<R09ResDTO> solicitacoes = contasPendentes.stream()
-        // .map(conta -> new R09ResDTO(
-        // conta.getId(),
-        // conta.getCliente().getCpf(),
-        // conta.getCliente().getNome(),
-        // conta.getCliente().getSalario()
+        List<R09ResDTO> solicitacoes = contasPendentes.stream()
+                .map(conta -> new R09ResDTO(
+                        conta.getId(),
+                        conta.getCliente().getCpf(),
+                        conta.getCliente().getNome(),
+                        conta.getCliente().getSalario()
 
-        // ))
-        // .collect(Collectors.toList());
+                ))
+                .collect(Collectors.toList());
 
-        // return ResponseEntity.ok(solicitacoes);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(solicitacoes);
 
     }
 

@@ -20,6 +20,15 @@ public class Saldo {
         this.conta = conta;
     }
 
+    @Override
+    public String toString() {
+        return "Saldo{" +
+                "id=" + id +
+                ", data=" + data +
+                ", valor=" + valor +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }

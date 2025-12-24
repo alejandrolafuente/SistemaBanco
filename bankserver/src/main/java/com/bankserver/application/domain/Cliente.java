@@ -23,6 +23,16 @@ public class Cliente extends Usuario {
         this.salario = salario;
     }
 
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "id=" + getId() +
+                ", nome='" + getNome() + '\'' +
+                ", cpf='" + getCpf() + '\'' +
+                ", salario=" + salario +
+                '}';
+    }
+
     public Endereco getEndereco() {
         return endereco;
     }

@@ -28,7 +28,7 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    // R01
+    // R01 - autocadastro cliente
     @PostMapping("/register")
     @Transactional
     public ResponseEntity<?> register(@RequestBody ClienteRegistrationDTO dto) {

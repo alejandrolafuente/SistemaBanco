@@ -18,17 +18,17 @@ import com.bankserver.adapters.outbound.repository.JpaUsuarioRepository;
 public class UtilController {
 
     @Autowired
-    private JpaUsuarioRepository usuarioRepository;
+    private JpaUsuarioRepository jpaUsuarioRepository;
 
     @GetMapping("/verificar-email/{email}")
     public ResponseEntity<Map<String, Boolean>> verificarEmail(@PathVariable String email) {
-        boolean existe = usuarioRepository.existsByLogin(email);
+        boolean existe = jpaUsuarioRepository.existsByLogin(email);
         return ResponseEntity.ok(Map.of("existe", existe));
     }
 
     @GetMapping("/verificar-cpf/{cpf}")
     public ResponseEntity<Map<String, Boolean>> verificarCpf(@PathVariable String cpf) {
-        boolean existe = usuarioRepository.existsByCpf(cpf);
+        boolean existe = jpaUsuarioRepository.existsByCpf(cpf);
         return ResponseEntity.ok(Map.of("existe", existe));
     }
 }

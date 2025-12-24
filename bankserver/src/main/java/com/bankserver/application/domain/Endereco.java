@@ -9,7 +9,7 @@ public class Endereco {
     private String rua; // Rua, Avenida, etc.
     private String numero;
     private String complemento;
-    
+
     public Endereco() {
     }
 
@@ -23,6 +23,16 @@ public class Endereco {
         this.rua = rua;
         this.numero = numero;
         this.complemento = complemento;
+    }
+
+    @Override
+    public String toString() {
+        return "Endereco{" +
+                "id=" + id +
+                ", cidade='" + cidade + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", rua='" + rua + '\'' +
+                '}';
     }
 
     public Long getId() {
@@ -89,5 +99,4 @@ public class Endereco {
         this.complemento = complemento;
     }
 
-    
 }

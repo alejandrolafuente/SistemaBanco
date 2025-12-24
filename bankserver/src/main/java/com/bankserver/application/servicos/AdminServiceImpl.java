@@ -1,8 +1,5 @@
 package com.bankserver.application.servicos;
 
-import java.security.SecureRandom;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -47,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
         this.geradorSenha = geradorSenha;
     }
 
-    // R17
+    // R17 - cadastrar gerente
     @Override
     public ResponseEntity<Void> insertGerente(GerenteRegistrationDTO data) {
 
@@ -84,7 +81,7 @@ public class AdminServiceImpl implements AdminService {
 
     }
 
-    // R21 - Cadastrar ADMIN
+    // R21 - cadastrar admin
     @Override
     public ResponseEntity<Void> insertAdmin(AdminRegistrationDTO data) {
 

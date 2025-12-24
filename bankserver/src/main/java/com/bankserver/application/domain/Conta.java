@@ -41,10 +41,20 @@ public class Conta {
         this.transacoes = transacoes;
     }
 
-    // metodo gerado somente para nao dar erro, adaptar depois
+    // construtor gerado somente para nao dar erro, adaptar depois
     public Conta(Long id2, String numeroConta2, LocalDateTime dataCriacao2, LocalDateTime dataAprovacao2,
             BigDecimal saldo2, BigDecimal limite2, StatusConta statusConta2, Object object, Object object2,
             Object object3, Object object4) {
+    }
+
+    @Override
+    public String toString() {
+        return "Conta{" +
+                "id=" + id +
+                ", numeroConta='" + numeroConta + '\'' +
+                ", saldo=" + saldo +
+                ", statusConta=" + statusConta +
+                '}';
     }
 
     // metodos de negocio

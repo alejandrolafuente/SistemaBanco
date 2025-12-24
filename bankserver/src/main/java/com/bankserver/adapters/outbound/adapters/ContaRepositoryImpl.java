@@ -1,5 +1,6 @@
 package com.bankserver.adapters.outbound.adapters;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,13 @@ public class ContaRepositoryImpl implements ContaRepository {
         JpaContaEntidade jpaContaEntidade = new JpaContaEntidade(conta);
         JpaContaEntidade contaJpaSalva = this.jpaContaRepository.save(jpaContaEntidade);
         return contaJpaSalva.toDomain();
+    }
+
+    // R09 - tela inicial gerente
+    @Override
+    public List<Conta> findContasPendentesByGerenteId(Long gerenteId) {
+
+        return null;
     }
 
     // R10

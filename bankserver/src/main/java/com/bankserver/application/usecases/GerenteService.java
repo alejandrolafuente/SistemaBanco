@@ -4,9 +4,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface GerenteService {
 
-    // R09
-    ResponseEntity<?> solicitacoesPendentes(Long id);
+    // R09 - tela inicial gerente
+    ResponseEntity<?> solicitacoesPendentes(Long gerenteId);
 
-    // R10
+    // R10 - aprovar cliente (aprovar conta)
     ResponseEntity<Void> aprovarCliente(Long contaId);
 }

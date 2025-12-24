@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import com.bankserver.application.domain.enums.TipoTransacao;
 
 public class Transacao {
+
     private Long id;
     private LocalDateTime dataHora;
     private BigDecimal valor;
@@ -13,4 +14,14 @@ public class Transacao {
     private String contaDestino;
     private TipoTransacao tipo; // Enum: DEPOSITO,SAQUE,TRANSFERENCIA
     private Conta conta;
+
+    @Override
+    public String toString() {
+        return "Transacao{" +
+                "id=" + id +
+                ", dataHora=" + dataHora +
+                ", valor=" + valor +
+                ", tipo=" + tipo +
+                '}';
+    }
 }
