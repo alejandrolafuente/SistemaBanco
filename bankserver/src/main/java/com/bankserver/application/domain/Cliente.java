@@ -26,10 +26,21 @@ public class Cliente extends Usuario {
     @Override
     public String toString() {
         return "Cliente{" +
-                "id=" + getId() +
+                "cpf='" + getCpf() + '\'' +
+                ", email='" + getLogin() + '\'' + // login eh o email
                 ", nome='" + getNome() + '\'' +
-                ", cpf='" + getCpf() + '\'' +
+                ", telefone='" + getTelefone() + '\'' +
                 ", salario=" + salario +
+                ", endereco=" + (endereco != null ? "Endereco{" +
+                        "cep='" + endereco.getCep() + '\'' +
+                        ", uf='" + endereco.getUf() + '\'' +
+                        ", cidade='" + endereco.getCidade() + '\'' +
+                        ", bairro='" + endereco.getBairro() + '\'' +
+                        ", rua='" + endereco.getRua() + '\'' +
+                        ", numero='" + endereco.getNumero() + '\'' +
+                        ", complemento='" + endereco.getComplemento() + '\'' +
+                        '}' : "null")
+                +
                 '}';
     }
 
