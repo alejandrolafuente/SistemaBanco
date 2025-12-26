@@ -23,8 +23,6 @@ public class EnderecoRepositoryImpl implements EnderecoRepository {
 
         JpaEnderecoEntidade enderecoSalvo = this.jpaEnderecoRepository.save(jpaEnderecoEntidade);
 
-        System.out.println("entidade jpa: " + enderecoSalvo);
-
         return enderecoSalvo.toDomain();
 
     }

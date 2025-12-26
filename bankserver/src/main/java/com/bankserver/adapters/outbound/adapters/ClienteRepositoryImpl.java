@@ -18,6 +18,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 
     @Override
     public Cliente save(Cliente cliente) {
+        System.out.println(" *** OBJETO CLIENTE NO ADAPTER ->" + cliente);
         JpaClienteEntidade jpaClienteEntidade = new JpaClienteEntidade(cliente);
         JpaClienteEntidade entidadeSalva = this.jpaClienteRepository.save(jpaClienteEntidade);
         return entidadeSalva.toDomain();
