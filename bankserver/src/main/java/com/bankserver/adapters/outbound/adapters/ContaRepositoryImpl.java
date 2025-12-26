@@ -2,6 +2,7 @@ package com.bankserver.adapters.outbound.adapters;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -49,7 +50,7 @@ public class ContaRepositoryImpl implements ContaRepository {
         jpaContaEntidade.setGerente(gerenteExistente);
 
         JpaContaEntidade contaJpaSalva = this.jpaContaRepository.save(jpaContaEntidade);
-        
+
         return contaJpaSalva.toDomain();
     }
 
@@ -57,7 +58,10 @@ public class ContaRepositoryImpl implements ContaRepository {
     @Override
     public List<Conta> findContasPendentesByGerenteId(Long gerenteId) {
 
-        return null;
+        List<JpaContaEntidade> lista1 = this.jpaContaRepository.findContasPendentesByGerenteId(gerenteId);
+
+        return lista1.stream().map(JpaContaEntidade::toDomain).collect(Collectors.toList());
+
     }
 
     // R10
