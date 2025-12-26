@@ -79,6 +79,8 @@ public class ClienteServiceImpl implements ClienteService {
 
         endereco = enderecoRepository.save(endereco);
 
+        System.out.println("jpa -> endereco: " + endereco);
+
         // estamos aqui -->
 
         Cliente cliente = new Cliente();

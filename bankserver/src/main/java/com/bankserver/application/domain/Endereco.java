@@ -29,9 +29,13 @@ public class Endereco {
     public String toString() {
         return "Endereco{" +
                 "id=" + id +
+                ", cep='" + cep + '\'' +
+                ", uf='" + uf + '\'' +
                 ", cidade='" + cidade + '\'' +
                 ", bairro='" + bairro + '\'' +
                 ", rua='" + rua + '\'' +
+                ", numero='" + numero + '\'' +
+                ", complemento='" + complemento + '\'' +
                 '}';
     }
 
