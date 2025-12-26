@@ -41,7 +41,7 @@ public class JpaClienteEntidade extends JpaUsuarioEntidade {
     @Override
     public Cliente toDomain() {
 
-        return new Cliente(
+        Cliente cliente = new Cliente(
                 this.getId(),
                 this.getCpf(),
                 this.getLogin(),
@@ -51,6 +51,10 @@ public class JpaClienteEntidade extends JpaUsuarioEntidade {
                 this.getPerfil(),
                 this.getStatus(),
                 this.getSalario());
+
+        cliente.setEndereco(this.endereco.toDomain());
+
+        return cliente;
 
     }
 

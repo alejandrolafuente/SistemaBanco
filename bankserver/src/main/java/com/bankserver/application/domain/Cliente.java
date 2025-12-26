@@ -35,7 +35,7 @@ public class Cliente extends Usuario {
                 ", status=" + getStatus() +
                 ", salario=" + salario +
                 ", endereco=" + endereco +
-                '}';
+                '}'; //incluir conta depois
     }
 
     public Endereco getEndereco() {
