@@ -31,14 +31,13 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         JpaClienteEntidade jpaClienteEntidade = new JpaClienteEntidade(cliente);
 
         // carrega o endereco jah salvo no bd
-        JpaEnderecoEntidade enderecoExistente = jpaEnderecoRepository
-                .findById(cliente.getEndereco().getId())
+        JpaEnderecoEntidade enderecoExistente = jpaEnderecoRepository.findById(cliente.getEndereco().getId())
                 .get();
 
         jpaClienteEntidade.setEndereco(enderecoExistente);
 
         JpaClienteEntidade entidadeSalva = this.jpaClienteRepository.save(jpaClienteEntidade);
-        
+
         return entidadeSalva.toDomain();
 
     }
