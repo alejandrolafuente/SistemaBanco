@@ -33,7 +33,7 @@ public class Cliente extends Usuario {
                 ", telefone='" + getTelefone() + '\'' +
                 ", perfil=" + getPerfil() +
                 ", status=" + getStatus() +
-                ", salario=" + salario +
+                ", salario=" + getSalario() +
                 ", endereco=" + endereco +
                 '}'; //incluir conta depois
     }

@@ -60,7 +60,6 @@ public class JpaContaEntidade {
     public JpaContaEntidade(Conta conta) {
         this.numeroConta = conta.getNumeroConta();
         this.dataCriacao = conta.getDataCriacao();
-        this.dataAprovacao = conta.getDataAprovacao();
         this.saldo = conta.getSaldo();
         this.limite = conta.getLimite();
         this.statusConta = conta.getStatusConta();

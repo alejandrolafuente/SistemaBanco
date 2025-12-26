@@ -5,9 +5,13 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
+import com.bankserver.adapters.outbound.entidades.JpaClienteEntidade;
 import com.bankserver.adapters.outbound.entidades.JpaContaEntidade;
+import com.bankserver.adapters.outbound.entidades.JpaGerenteEntidade;
 import com.bankserver.adapters.outbound.ports.ContaRepository;
+import com.bankserver.adapters.outbound.repository.JpaClienteRepository;
 import com.bankserver.adapters.outbound.repository.JpaContaRepository;
+import com.bankserver.adapters.outbound.repository.JpaGerenteRepository;
 import com.bankserver.application.domain.Conta;
 
 @Repository
@@ -15,8 +19,18 @@ public class ContaRepositoryImpl implements ContaRepository {
 
     private final JpaContaRepository jpaContaRepository;
 
-    public ContaRepositoryImpl(JpaContaRepository jpaContaRepository) {
+    private final JpaClienteRepository jpaClienteRepository;
+
+    private final JpaGerenteRepository jpaGerenteRepository;
+
+    public ContaRepositoryImpl(
+            JpaContaRepository jpaContaRepository,
+            JpaClienteRepository jpaClienteRepository,
+            JpaGerenteRepository jpaGerenteRepository) {
         this.jpaContaRepository = jpaContaRepository;
+        this.jpaClienteRepository = jpaClienteRepository;
+        this.jpaGerenteRepository = jpaGerenteRepository;
+
     }
 
     // R01
@@ -24,7 +38,18 @@ public class ContaRepositoryImpl implements ContaRepository {
     public Conta save(Conta conta) {
 
         JpaContaEntidade jpaContaEntidade = new JpaContaEntidade(conta);
+
+        JpaClienteEntidade clienteExistente = jpaClienteRepository.findById(conta.getCliente()
+                .getId()).get();
+
+        JpaGerenteEntidade gerenteExistente = jpaGerenteRepository.findById(conta.getGerente()
+                .getId()).get();
+
+        jpaContaEntidade.setCliente(clienteExistente);
+        jpaContaEntidade.setGerente(gerenteExistente);
+
         JpaContaEntidade contaJpaSalva = this.jpaContaRepository.save(jpaContaEntidade);
+        
         return contaJpaSalva.toDomain();
     }
 

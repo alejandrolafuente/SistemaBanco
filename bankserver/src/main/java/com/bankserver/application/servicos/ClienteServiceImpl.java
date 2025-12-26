@@ -63,7 +63,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     // R01 - autocadastro cliente
-    // registra endereco, cliente e conta
+    // registra endereco, cliente e conta, nessa ordem
     @Override
     public ResponseEntity<Void> insertClient(ClienteRegistrationDTO data) {
 
@@ -79,7 +79,6 @@ public class ClienteServiceImpl implements ClienteService {
 
         endereco = enderecoRepository.save(endereco);
 
-        // estamos aqui -->
         Cliente cliente = new Cliente();
         cliente.setCpf(data.cpf());
         cliente.setLogin(data.email());
@@ -90,20 +89,19 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setSalario(data.salario());
         cliente.setEndereco(endereco); // associa o endereco salvo
 
-        clienteRepository.save(cliente);
+        cliente = clienteRepository.save(cliente);
 
         Conta conta = new Conta();
         conta.setNumeroConta(gerarNumeroConta());
         conta.setDataCriacao(LocalDateTime.now());
+        conta.setSaldo(BigDecimal.ZERO);
         conta.setLimite(calcularLimite(data.salario()));
         conta.setStatusConta(StatusConta.PENDENTE);
         conta.setCliente(cliente);
         conta.setGerente(gerenteRepository.findAllOrderByQuantidadeContas());
 
-        contaRepository.save(conta);
+        conta = contaRepository.save(conta);
 
-        // return ResponseEntity.ok().body("Cliente cadastrado com sucesso! Status da
-        // conta: PENDENTE");
         return ResponseEntity.ok().build();
     }
 
@@ -220,17 +218,17 @@ public class ClienteServiceImpl implements ClienteService {
     // return ResponseEntity.ok().build();
     // }
 
+    // metodo auxiliar para gerar numero de conta aleatorio
+    private String gerarNumeroConta() {
+        Random random = new Random();
+        return String.format("%08d", random.nextInt(100000000));
+    }
+
     private BigDecimal calcularLimite(BigDecimal salario) {
         if (salario.compareTo(new BigDecimal("2000.00")) >= 0) {
             return salario.divide(new BigDecimal("2"), 2, RoundingMode.HALF_UP);
         }
         return BigDecimal.ZERO;
-    }
-
-    // metodo auxiliar para gerar numero de conta aleatorio
-    private String gerarNumeroConta() {
-        Random random = new Random();
-        return String.format("%08d", random.nextInt(100000000));
     }
 
     @Override
