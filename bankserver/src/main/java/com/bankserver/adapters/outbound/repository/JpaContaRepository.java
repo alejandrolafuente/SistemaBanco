@@ -16,7 +16,7 @@ public interface JpaContaRepository extends JpaRepository<JpaContaEntidade, Long
     @Query("SELECT c FROM JpaContaEntidade c " +
             "WHERE c.gerente.id = :gerenteId " +
             "AND c.statusConta = 'PENDENTE' " +
-            "AND c.cliente IS NOT NULL")
+            "AND c.cliente IS NOT NULL")//verificar possivel redundancia
     List<JpaContaEntidade> findContasPendentesByGerenteId(@Param("gerenteId") Long gerenteId);
 
     Optional<JpaContaEntidade> findByNumeroConta(String contaDestino);
