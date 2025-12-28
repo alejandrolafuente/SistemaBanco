@@ -1,0 +1,90 @@
+package com.bankserver.adapters.outbound.adapters;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Repository;
+
+import com.bankserver.adapters.outbound.entidades.JpaClienteEntidade;
+import com.bankserver.adapters.outbound.entidades.JpaContaEntidade;
+import com.bankserver.adapters.outbound.entidades.JpaGerenteEntidade;
+import com.bankserver.adapters.outbound.ports.ContaRepository;
+import com.bankserver.adapters.outbound.repository.JpaClienteRepository;
+import com.bankserver.adapters.outbound.repository.JpaContaRepository;
+import com.bankserver.adapters.outbound.repository.JpaGerenteRepository;
+import com.bankserver.application.domain.Conta;
+
+@Repository
+public class ContaRepositoryImpl implements ContaRepository {
+
+    private final JpaContaRepository jpaContaRepository;
+
+    private final JpaClienteRepository jpaClienteRepository;
+
+    private final JpaGerenteRepository jpaGerenteRepository;
+
+    public ContaRepositoryImpl(
+            JpaContaRepository jpaContaRepository,
+            JpaClienteRepository jpaClienteRepository,
+            JpaGerenteRepository jpaGerenteRepository) {
+        this.jpaContaRepository = jpaContaRepository;
+        this.jpaClienteRepository = jpaClienteRepository;
+        this.jpaGerenteRepository = jpaGerenteRepository;
+
+    }
+
+    // R01
+    @Override
+    public Conta save(Conta conta) {
+
+        JpaContaEntidade jpaContaEntidade = new JpaContaEntidade(conta);
+
+        JpaClienteEntidade clienteExistente = jpaClienteRepository.findById(conta.getCliente()
+                .getId()).get();
+
+        JpaGerenteEntidade gerenteExistente = jpaGerenteRepository.findById(conta.getGerente()
+                .getId()).get();
+
+        jpaContaEntidade.setCliente(clienteExistente);
+        jpaContaEntidade.setGerente(gerenteExistente);
+
+        JpaContaEntidade contaJpaSalva = this.jpaContaRepository.save(jpaContaEntidade);
+
+        return contaJpaSalva.toDomain();
+    }
+
+    // R09 - tela inicial gerente
+    @Override
+    public List<Conta> findContasPendentesByGerenteId(Long gerenteId) {
+
+        List<JpaContaEntidade> lista1 = this.jpaContaRepository.findContasPendentesByGerenteId(gerenteId);
+
+        return lista1.stream().map(JpaContaEntidade::toDomain).collect(Collectors.toList());
+
+    }
+
+    // R10
+    @Override
+    public Conta update(Conta conta) {
+
+        JpaContaEntidade jpaConta = jpaContaRepository.findById(conta.getId())
+                .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+
+        // atualiza apenas campos necessarios
+        jpaConta.setStatusConta(conta.getStatusConta());
+        jpaConta.setDataAprovacao(conta.getDataAprovacao());
+        jpaConta.setSaldo(conta.getSaldo());
+
+        JpaContaEntidade atualizada = jpaContaRepository.save(jpaConta);
+
+        return atualizada.toDomain();
+    }
+
+    @Override
+    public Optional<Conta> findById(Long contaId) {
+        return jpaContaRepository.findById(contaId)
+                .map(JpaContaEntidade::toDomain);
+    }
+
+}
