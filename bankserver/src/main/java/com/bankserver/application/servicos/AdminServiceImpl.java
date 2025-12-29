@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.bankserver.adapters.outbound.ports.AdminRepository;
 import com.bankserver.adapters.outbound.ports.EmailServicePort;
 import com.bankserver.adapters.outbound.ports.GerenteRepository;
+import com.bankserver.adapters.outbound.ports.HashSenhaPort;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
 import com.bankserver.application.commands.CriarAdminCommand;
 import com.bankserver.application.domain.Administrador;
@@ -30,17 +31,21 @@ public class AdminServiceImpl implements AdminServicePort {
 
     private final GeradorSenha geradorSenha;
 
+    private final HashSenhaPort hashSenhaPort;
+
     // injecao via construtor - seguindo Hexagonal
     public AdminServiceImpl(UsuarioRepository usuarioRepository,
             AdminRepository adminRepository,
             GerenteRepository gerenteRepository,
             EmailServicePort emailServicePort,
-            GeradorSenha geradorSenha) {
+            GeradorSenha geradorSenha,
+            HashSenhaPort hashSenhaPort) {
         this.usuarioRepository = usuarioRepository;
         this.adminRepository = adminRepository;
         this.gerenteRepository = gerenteRepository;
         this.emailServicePort = emailServicePort;
         this.geradorSenha = geradorSenha;
+        this.hashSenhaPort = hashSenhaPort;
     }
 
     // R17 - cadastrar gerente
@@ -60,7 +65,7 @@ public class AdminServiceImpl implements AdminServicePort {
         gerente.setLogin(data.email());
         gerente.setNome(data.nome());
         gerente.setTelefone(data.telefone());
-        gerente.setSenha(new BCryptPasswordEncoder().encode(senha));
+        gerente.setSenha(hashSenhaPort.hash(senha));
         gerente.setPerfil(TipoUsuario.GERENTE);
         gerente.setStatus(StatusUsuario.ATIVO);
 

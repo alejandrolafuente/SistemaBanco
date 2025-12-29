@@ -3,6 +3,7 @@ package com.bankserver.adapters.outbound.adapters;
 import org.springframework.stereotype.Repository;
 
 import com.bankserver.adapters.outbound.entidades.JpaAdministradorEntidade;
+import com.bankserver.adapters.outbound.entidades.JpaUsuarioEntidade;
 import com.bankserver.adapters.outbound.ports.AdminRepository;
 import com.bankserver.adapters.outbound.repository.JpaAdminRepository;
 import com.bankserver.application.domain.Administrador;
