@@ -11,7 +11,6 @@ import com.bankserver.adapters.outbound.ports.UsuarioRepository;
 import com.bankserver.application.commands.CriarAdminCommand;
 import com.bankserver.application.domain.Administrador;
 import com.bankserver.application.usecases.AdminServicePort;
-import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
 import com.bankserver.utils.GeradorSenha;
 import com.bankserver.application.domain.Gerente;
