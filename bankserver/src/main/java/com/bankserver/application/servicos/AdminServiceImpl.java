@@ -8,7 +8,7 @@ import com.bankserver.adapters.outbound.ports.AdminRepository;
 import com.bankserver.adapters.outbound.ports.EmailServicePort;
 import com.bankserver.adapters.outbound.ports.GerenteRepository;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
-
+import com.bankserver.application.commands.CriarAdminCommand;
 import com.bankserver.application.domain.Administrador;
 import com.bankserver.application.usecases.AdminServicePort;
 import com.bankserver.dto.request.AdminRegistrationDTO;
@@ -83,9 +83,9 @@ public class AdminServiceImpl implements AdminServicePort {
 
     // R21 - cadastrar admin
     @Override
-    public ResponseEntity<Void> insertAdmin(AdminRegistrationDTO data) {
+    public ResponseEntity<Void> criarAdmin(CriarAdminCommand data) {
 
-        if (this.usuarioRepository.existsByLogin(data.email())) {
+        if (this.usuarioRepository.existsByLogin(data.getEmail())) {
             // return ResponseEntity.badRequest().body("Administrador já cadastrado!");
             return ResponseEntity.badRequest().build(); // remove o body por enquanto
         }

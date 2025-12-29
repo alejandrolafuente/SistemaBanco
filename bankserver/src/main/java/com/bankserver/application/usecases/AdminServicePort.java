@@ -2,7 +2,8 @@ package com.bankserver.application.usecases;
 
 import org.springframework.http.ResponseEntity;
 
-import com.bankserver.dto.request.AdminRegistrationDTO;
+import com.bankserver.application.commands.CriarAdminCommand;
+import com.bankserver.application.domain.Administrador;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
 
 public interface AdminServicePort {
@@ -11,6 +12,6 @@ public interface AdminServicePort {
     ResponseEntity<Void> insertGerente(GerenteRegistrationDTO data);
 
     // R21 - Cadastrar ADMIN
-    ResponseEntity<Void> insertAdmin(AdminRegistrationDTO data);
+    Administrador criarAdmin(CriarAdminCommand command);
 
 }

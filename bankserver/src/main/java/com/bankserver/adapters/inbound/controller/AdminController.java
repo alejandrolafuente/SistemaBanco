@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bankserver.application.commands.CriarAdminCommand;
+import com.bankserver.application.domain.Administrador;
 import com.bankserver.application.usecases.AdminServicePort;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
+import com.bankserver.dto.response.AdminResponseDTO;
 
 import jakarta.transaction.Transactional;
 
@@ -19,8 +22,11 @@ import jakarta.transaction.Transactional;
 @CrossOrigin
 public class AdminController {
 
-    @Autowired
-    private AdminServicePort adminServicePort;
+    private final AdminServicePort adminServicePort;
+
+    public AdminController(AdminServicePort adminServicePort) {
+        this.adminServicePort = adminServicePort;
+    }
 
     // R17 - cadastrar gerente
     @PostMapping("/novo-gerente")
@@ -33,10 +39,26 @@ public class AdminController {
 
     // R21 - cadastrar admin
     @PostMapping
-    @Transactional
-    public ResponseEntity<Void> register(@RequestBody AdminRegistrationDTO dto) {
+    public ResponseEntity<AdminResponseDTO> criarAdmin(@RequestBody AdminRegistrationDTO request) {
 
-        return adminServicePort.insertAdmin(dto);
+        // 1. converte dto da api para command do core
+        CriarAdminCommand command = new CriarAdminCommand(
+                request.cpf(),
+                request.email(),
+                request.nome(),
+                request.telefone());
+
+        // 2. Chama a PORTA do core
+        Administrador adminCriado = adminServicePort.criarAdmin(command);
+
+        // 3. Converte resultado para DTO da API (MANUAL)
+        AdminResponseDTO response = new AdminResponseDTO(
+                adminCriado.getId(),
+                adminCriado.getCpf(),
+                adminCriado.getNome(),
+                adminCriado.getLogin());
+
+        return ResponseEntity.status(201).body(response);
 
     }
 
