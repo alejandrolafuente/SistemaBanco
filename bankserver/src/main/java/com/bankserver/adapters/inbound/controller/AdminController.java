@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bankserver.application.usecases.AdminService;
+import com.bankserver.application.usecases.AdminServicePort;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
 
@@ -20,14 +20,14 @@ import jakarta.transaction.Transactional;
 public class AdminController {
 
     @Autowired
-    private AdminService adminService;
+    private AdminServicePort adminServicePort;
 
     // R17 - cadastrar gerente
     @PostMapping("/novo-gerente")
     @Transactional
     public ResponseEntity<?> novoGerente(@RequestBody GerenteRegistrationDTO dto) {
 
-        return adminService.insertGerente(dto);
+        return adminServicePort.insertGerente(dto);
 
     }
 
@@ -36,7 +36,7 @@ public class AdminController {
     @Transactional
     public ResponseEntity<Void> register(@RequestBody AdminRegistrationDTO dto) {
 
-        return adminService.insertAdmin(dto);
+        return adminServicePort.insertAdmin(dto);
 
     }
 

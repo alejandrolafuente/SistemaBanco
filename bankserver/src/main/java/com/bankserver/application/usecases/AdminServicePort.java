@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
 
-public interface AdminService {
+public interface AdminServicePort {
 
     // R17
     ResponseEntity<Void> insertGerente(GerenteRegistrationDTO data);

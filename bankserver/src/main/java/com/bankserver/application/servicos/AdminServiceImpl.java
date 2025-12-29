@@ -10,7 +10,7 @@ import com.bankserver.adapters.outbound.ports.GerenteRepository;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
 
 import com.bankserver.application.domain.Administrador;
-import com.bankserver.application.usecases.AdminService;
+import com.bankserver.application.usecases.AdminServicePort;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
 import com.bankserver.utils.GeradorSenha;
@@ -19,7 +19,7 @@ import com.bankserver.application.domain.enums.StatusUsuario;
 import com.bankserver.application.domain.enums.TipoUsuario;
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class AdminServiceImpl implements AdminServicePort {
 
     private final UsuarioRepository usuarioRepository;
 
