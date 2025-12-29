@@ -83,26 +83,27 @@ public class AdminServiceImpl implements AdminServicePort {
 
     // R21 - cadastrar admin
     @Override
-    public ResponseEntity<Void> criarAdmin(CriarAdminCommand data) {
+    public Administrador criarAdmin(CriarAdminCommand command) {
 
-        if (this.usuarioRepository.existsByLogin(data.getEmail())) {
-            // return ResponseEntity.badRequest().body("Administrador já cadastrado!");
-            return ResponseEntity.badRequest().build(); // remove o body por enquanto
+        // validação jah feita no controller, mas mantemos para ver
+        // um caso de lancamento de excecao
+        if (this.usuarioRepository.existsByLogin(command.getEmail())) {
+            throw new RuntimeException("Administrador já cadastrado!");
         }
 
         Administrador administrador = new Administrador();
 
         String senha = geradorSenha.gerarSenhaAleatoria();
 
-        administrador.setCpf(data.cpf());
-        administrador.setLogin(data.email());
-        administrador.setNome(data.nome());
-        administrador.setTelefone(data.telefone());
+        administrador.setCpf(command.getCpf());
+        administrador.setLogin(command.getEmail());
+        administrador.setNome(command.getNome());
+        administrador.setTelefone(command.getTelefone());
         administrador.setSenha(new BCryptPasswordEncoder().encode(senha));
         administrador.setPerfil(TipoUsuario.ADMIN);
         administrador.setStatus(StatusUsuario.ATIVO);
 
-        adminRepository.save(administrador);
+        Administrador adminSalvo = adminRepository.save(administrador);
 
         String subject = "BANTADS: CADASTRO DE ADMINISTADOR APROVADO";
 
@@ -112,10 +113,7 @@ public class AdminServiceImpl implements AdminServicePort {
 
         emailServicePort.sendApproveEmail(administrador.getLogin(), subject, message);
 
-        // return ResponseEntity.ok()
-        // .body("Administrador cadastrado com sucesso! Veja seu email: " +
-        // administrador.getLogin());
-        return ResponseEntity.ok().build();
+        return adminSalvo;
     }
 
 }
