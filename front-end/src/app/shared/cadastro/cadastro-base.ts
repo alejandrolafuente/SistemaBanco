@@ -2,12 +2,17 @@ import { NgForm } from "@angular/forms";
 import { ICadastroStrategy } from "./icadastro-strategy";
 import { IEntidadeCadastravel } from "./ientidade-cadastravel";
 import { LoginService } from "../../autenticacao/servicos/login.service";
+import { Directive, ViewChild } from "@angular/core";
 
+@Directive()
 export abstract class CadastroBase implements ICadastroStrategy {
 
+    @ViewChild('formCadastro')
+    formCadastro!: NgForm;
+
+    erroMensagem: string = '';
     emailMessage: string = '';
     cpfMessage: string = '';
-    erroMensagem: string = '';
     mostrarConfirmacao: boolean = false;
 
     //*
@@ -17,7 +22,8 @@ export abstract class CadastroBase implements ICadastroStrategy {
 
     constructor(protected loginService: LoginService) { }
 
-    gerarCPF(): string {
+    // Método na base que todas as subclasses usarão
+    gerarCPFValido(): void {
         const randomDigit = () => Math.floor(Math.random() * 10);
 
         // gera 9 dígitos aleatórios
@@ -32,8 +38,7 @@ export abstract class CadastroBase implements ICadastroStrategy {
         soma = cpf.reduce((acc, digit, index) => acc + digit * (11 - index), 0);
         resto = soma % 11;
         cpf.push(resto < 2 ? 0 : 11 - resto);
-
-        return cpf.join('');
+        this.entidade.cpf = cpf.join('');
     }
 
     verificarCpf(cpf: string): void {

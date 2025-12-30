@@ -20,9 +20,6 @@ import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/component
   styleUrl: './registrar-admin.component.css'
 })
 export class RegistrarAdminComponent extends CadastroBase {
-  //*
-  @ViewChild('formCadastro')
-  formCadastro!: NgForm;
 
   dadosConfirmacao: any;
 
@@ -45,21 +42,6 @@ export class RegistrarAdminComponent extends CadastroBase {
   }
   protected override get entidade(): IEntidadeCadastravel {
     return this.administrador;
-  }
-
-  //*
-  gerarCPFValido(): void {
-    this.administrador.cpf = this.gerarCPF();
-  }
-
-  //*
-  executarVerificacaoCpf(): void {
-    this.verificarCpf(this.administrador.cpf);
-  }
-
-  //*
-  executarVerificacaoEmail(): void {
-    this.verificarEmail(this.administrador.email);
   }
 
   protected override processarCadastro(): void {

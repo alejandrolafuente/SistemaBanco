@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { CadastroBase } from '../../../shared/cadastro/cadastro-base';
 import { NgForm, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -22,11 +22,6 @@ import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/component
   styleUrl: './cadastro2.component.css'
 })
 export class Cadastro2Component extends CadastroBase {
-
-  //*
-  @ViewChild('formCadastro')
-  formCadastro!: NgForm;
-
   //*
   cepMessage: string = '';
 
@@ -66,12 +61,6 @@ export class Cadastro2Component extends CadastroBase {
   protected override get entidade(): IEntidadeCadastravel {
     return this.cliente;
   }
-
-  //*
-  gerarCPFValido(): void {
-    this.cliente.cpf = this.gerarCPF();
-  }
-
   //*
   executarVerificacaoCpf(): void {
     this.verificarCpf(this.cliente.cpf);

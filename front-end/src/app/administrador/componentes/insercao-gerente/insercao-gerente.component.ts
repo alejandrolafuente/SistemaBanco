@@ -22,9 +22,6 @@ import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/component
 })
 export class InsercaoGerenteComponent extends CadastroBase {
 
-  @ViewChild('formCadastro')
-  formCadastro!: NgForm;
-
   message: string = '';
   
   dadosConfirmacao: any;
@@ -49,12 +46,6 @@ export class InsercaoGerenteComponent extends CadastroBase {
   protected override get entidade(): IEntidadeCadastravel {
     return this.gerente
   }
-
-  //*
-  gerarCPFValido(): void {
-    this.gerente.cpf = this.gerarCPF();
-  }
-
   //*
   executarVerificacaoCpf(): void {
     this.verificarCpf(this.gerente.cpf);
