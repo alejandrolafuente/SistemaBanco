@@ -17,6 +17,7 @@ import com.bankserver.utils.GeradorSenha;
 import com.bankserver.application.domain.Gerente;
 import com.bankserver.application.domain.enums.StatusUsuario;
 import com.bankserver.application.domain.enums.TipoUsuario;
+import com.bankserver.application.domain.exceptions.UsuarioJaCadastradoException;
 
 @Service
 public class AdminServiceImpl implements AdminServicePort {
@@ -89,12 +90,11 @@ public class AdminServiceImpl implements AdminServicePort {
     @Override
     public Administrador criarAdmin(CriarAdminCommand command) {
 
-        // validação jah feita no controller, mas mantemos para ver
-        // um caso de lancamento de excecao
+        // execao especifica
         if (this.usuarioRepository.existsByLogin(command.getEmail())) {
-            throw new RuntimeException("Administrador já cadastrado!");
+            throw new UsuarioJaCadastradoException(command.getEmail(), "Administrador");
         }
-
+        
         Administrador administrador = new Administrador();
 
         String senha = geradorSenha.gerarSenhaAleatoria();
