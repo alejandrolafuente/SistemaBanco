@@ -26,7 +26,7 @@ export class InsercaoGerenteComponent extends CadastroBase {
   formCadastro!: NgForm;
 
   message: string = '';
-  mostrarConfirmacao: boolean = false;
+  
   dadosConfirmacao: any;
 
   gerente: Gerente = {

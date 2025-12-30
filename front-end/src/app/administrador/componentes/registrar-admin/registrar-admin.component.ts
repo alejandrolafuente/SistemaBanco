@@ -24,13 +24,6 @@ export class RegistrarAdminComponent extends CadastroBase {
   @ViewChild('formCadastro')
   formCadastro!: NgForm;
 
-  //*
-  message: string = '';
-
-  // campos para controle da tela de confirmacao
-  //*
-  mostrarConfirmacao: boolean = false;
-  //*
   dadosConfirmacao: any;
 
   administrador: Administrador = {

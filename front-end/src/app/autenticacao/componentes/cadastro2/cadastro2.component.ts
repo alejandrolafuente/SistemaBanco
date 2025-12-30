@@ -30,10 +30,6 @@ export class Cadastro2Component extends CadastroBase {
   //*
   cepMessage: string = '';
 
-  // campos para controle da tela de confirmacao
-  //*
-  mostrarConfirmacao: boolean = false;
-  //*
   dadosConfirmacao: any;
 
   //*

@@ -7,6 +7,8 @@ export abstract class CadastroBase implements ICadastroStrategy {
 
     emailMessage: string = '';
     cpfMessage: string = '';
+    erroMensagem: string = '';
+    mostrarConfirmacao: boolean = false;
 
     //*
     protected abstract get form(): NgForm;

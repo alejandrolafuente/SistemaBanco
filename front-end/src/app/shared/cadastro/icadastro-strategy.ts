@@ -2,8 +2,10 @@ import { NgForm } from "@angular/forms";
 
 export interface ICadastroStrategy {
 
+    erroMensagem: string;
     emailMessage: string;
     cpfMessage: string;
+    mostrarConfirmacao: boolean 
 
     gerarCPF(): string;
 

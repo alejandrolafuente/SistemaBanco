@@ -1,10 +1,27 @@
+<!-- VARIAVEIS/METODOS DO COMPONENTE (.TS) UTILIZADAS:
+
+- mostrarConfirmacao: boolean
+- erroMensagem (interface) 
+- formCadastro!: NgForm;
+- administrador.nome
+- gerarCPFValido()
+- executarVerificacaoCpf()
+- administrador.cpf
+- cpfMessage (interface)
+- administrador.email
+- executarVerificacaoEmail()
+- emailMessage (interface)
+- administrador.telefone
+- cadastrar() (base)
+-->
+
 <div *ngIf="!mostrarConfirmacao">
     <h1 class="text-center">Cadastro de Administrador</h1><br>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div *ngIf="message" class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{message}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="message = ''">
+            <div *ngIf="erroMensagem" class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{erroMensagem}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="erroMensagem = ''">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
