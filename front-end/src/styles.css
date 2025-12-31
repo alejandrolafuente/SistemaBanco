@@ -4,9 +4,15 @@
 
 /* Cor de fundo global para TODO o projeto */
 body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
+    background: linear-gradient(135deg, #d1fae5 0%, #86efac 100%);
     min-height: 100vh;
     margin: 0;
+}
+
+/* bordas dos forms*/
+.border {
+    border: 2px solid #166534 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 /* Usando fonte do Google Fonts */
