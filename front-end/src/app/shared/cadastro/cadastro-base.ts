@@ -14,7 +14,7 @@ export abstract class CadastroBase implements ICadastroStrategy {
     emailMessage: string = '';
     cpfMessage: string = '';
     mostrarConfirmacao: boolean = false;
-
+    dadosConfirmacao: any;
     //*
     protected abstract get form(): NgForm;
     //*
@@ -72,6 +72,14 @@ export abstract class CadastroBase implements ICadastroStrategy {
         }
     }
 
+    public cadastrar(): void {
+        if (this.validarAntesDoCadastro()) {
+            this.mostrarConfirmacao = true;
+            this.dadosConfirmacao = this.obterDadosConfirmacao();
+            //this.processarCadastro();
+        }
+    }
+
     validarAntesDoCadastro(): boolean {
         if (!this.form.valid) {
             this.marcarCamposComoSujos();
@@ -92,17 +100,7 @@ export abstract class CadastroBase implements ICadastroStrategy {
             this.form.controls[key].markAsTouched();
         });
     }
-
-    // !!!!!!!!!!
-
-
-    //*
-    public cadastrar(): void {
-        if (this.validarAntesDoCadastro()) {
-            this.processarCadastro();
-        }
-    }
-
+    
     // template method => as subclasses implementam o processo específico
     protected abstract processarCadastro(): void;
 

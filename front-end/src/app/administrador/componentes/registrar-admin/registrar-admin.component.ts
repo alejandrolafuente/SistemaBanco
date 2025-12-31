@@ -21,8 +21,6 @@ import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/component
 })
 export class RegistrarAdminComponent extends CadastroBase {
 
-  dadosConfirmacao: any;
-
   administrador: Administrador = {
     cpf: '',
     email: '',

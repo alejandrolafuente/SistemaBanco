@@ -22,11 +22,8 @@ import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/component
   styleUrl: './cadastro2.component.css'
 })
 export class Cadastro2Component extends CadastroBase {
-  //*
+  //dadosConfirmacao: any;
   cepMessage: string = '';
-
-  dadosConfirmacao: any;
-
   //*
   cliente: Cliente = {
     cpf: '', //2

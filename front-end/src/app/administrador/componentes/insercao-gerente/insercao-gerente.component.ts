@@ -23,8 +23,7 @@ import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/component
 export class InsercaoGerenteComponent extends CadastroBase {
 
   message: string = '';
-  
-  dadosConfirmacao: any;
+  //dadosConfirmacao: any;
 
   gerente: Gerente = {
     cpf: '',
