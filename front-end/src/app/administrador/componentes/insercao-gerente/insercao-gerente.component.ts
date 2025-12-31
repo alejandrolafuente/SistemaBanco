@@ -71,9 +71,4 @@ export class InsercaoGerenteComponent extends CadastroBase {
     });
   }
 
-  //*
-  voltarParaEdicao(): void {
-    this.mostrarConfirmacao = false;
-  }
-
 }

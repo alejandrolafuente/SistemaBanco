@@ -35,15 +35,10 @@ export class RegistrarAdminComponent extends CadastroBase {
     super(loginService);
   }
 
-  protected override get form(): NgForm {
-    return this.formCadastro;
-  }
   protected override get entidade(): IEntidadeCadastravel {
     return this.administrador;
   }
 
-
-  
   confirmarEnvio(): void {
     this.loginService.cadastrarAdmin(this.administrador).subscribe({
       next: () => {
@@ -54,11 +49,6 @@ export class RegistrarAdminComponent extends CadastroBase {
         this.mostrarConfirmacao = false;
       }
     });
-  }
-
-  //*
-  voltarParaEdicao(): void {
-    this.mostrarConfirmacao = false;
   }
 
 

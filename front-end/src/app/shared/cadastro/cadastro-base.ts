@@ -16,8 +16,12 @@ export abstract class CadastroBase implements ICadastroStrategy {
     mostrarConfirmacao: boolean = false;
     dadosConfirmacao: any;
     //*
-    protected abstract get form(): NgForm;
+    //protected abstract get form(): NgForm;
     //*
+    protected get form(): NgForm {
+        return this.formCadastro;
+    }
+    
     protected abstract get entidade(): IEntidadeCadastravel;
 
     constructor(protected loginService: LoginService) { }
@@ -100,9 +104,9 @@ export abstract class CadastroBase implements ICadastroStrategy {
             this.form.controls[key].markAsTouched();
         });
     }
-    
+
     // template method => as subclasses implementam o processo específico
-   // protected abstract processarCadastro(): void;
+    // protected abstract processarCadastro(): void;
 
     obterDadosConfirmacao(): any {
 
@@ -128,5 +132,12 @@ export abstract class CadastroBase implements ICadastroStrategy {
             tipo: this.entidade.hasOwnProperty('nivelAcesso') ? 'administrador' : 'gerente'
         };
     }
+
+
+    //*
+    voltarParaEdicao(): void {
+        this.mostrarConfirmacao = false;
+    }
+
 
 }

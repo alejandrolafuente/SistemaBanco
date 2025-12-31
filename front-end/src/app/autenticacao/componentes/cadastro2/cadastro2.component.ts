@@ -116,10 +116,4 @@ export class Cadastro2Component extends CadastroBase {
       }
     });
   }
-
-  //*
-  voltarParaEdicao(): void {
-    this.mostrarConfirmacao = false;
-  }
-
 }
