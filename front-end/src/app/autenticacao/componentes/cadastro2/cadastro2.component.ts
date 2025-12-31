@@ -101,14 +101,6 @@ export class Cadastro2Component extends CadastroBase {
     this.cliente.endereco.complemento = endereco.complemento;
   }
 
-  // ** TEMPLATE METHOD
-  // metodos para controle da confirmacao
-  protected override processarCadastro(): void {
-    // mostra tela de confirmacao ao inves de enviar diretamente
-    this.mostrarConfirmacao = true;
-    this.dadosConfirmacao = this.obterDadosConfirmacao();
-  }
-
   //*
   confirmarEnvio(): void {
     if (this.cliente.salario == null) {

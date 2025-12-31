@@ -102,9 +102,7 @@ export abstract class CadastroBase implements ICadastroStrategy {
     }
     
     // template method => as subclasses implementam o processo específico
-    protected abstract processarCadastro(): void;
-
-    // !!!!!!!!!!
+   // protected abstract processarCadastro(): void;
 
     obterDadosConfirmacao(): any {
 

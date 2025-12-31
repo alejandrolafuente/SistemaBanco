@@ -42,11 +42,8 @@ export class RegistrarAdminComponent extends CadastroBase {
     return this.administrador;
   }
 
-  protected override processarCadastro(): void {
-    this.mostrarConfirmacao = true;
-    this.dadosConfirmacao = this.obterDadosConfirmacao();
-  }
-  //*
+
+  
   confirmarEnvio(): void {
     this.loginService.cadastrarAdmin(this.administrador).subscribe({
       next: () => {

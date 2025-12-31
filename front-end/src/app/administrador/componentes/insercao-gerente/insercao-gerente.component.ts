@@ -54,11 +54,7 @@ export class InsercaoGerenteComponent extends CadastroBase {
   executarVerificacaoEmail(): void {
     this.verificarEmail(this.gerente.email);
   }
-
-  protected override processarCadastro(): void {
-    this.mostrarConfirmacao = true;
-    this.dadosConfirmacao = this.obterDadosConfirmacao();
-  }
+  
   //*
   confirmarEnvio(): void {
     console.log('USUÁRIO LOGADO:', this.loginService.usuarioLogado);
