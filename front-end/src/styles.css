@@ -4,7 +4,7 @@
 
 /* Cor de fundo global para TODO o projeto */
 body {
-    background: linear-gradient(135deg, #d1fae5 0%, #86efac 100%);
+    background: linear-gradient(135deg, #0f766e 0%, #047857 100%);
     min-height: 100vh;
     margin: 0;
 }
