@@ -21,7 +21,7 @@ export abstract class CadastroBase implements ICadastroStrategy {
     protected get form(): NgForm {
         return this.formCadastro;
     }
-    
+
     protected abstract get entidade(): IEntidadeCadastravel;
 
     constructor(protected loginService: LoginService) { }
@@ -86,7 +86,10 @@ export abstract class CadastroBase implements ICadastroStrategy {
 
     validarAntesDoCadastro(): boolean {
         if (!this.form.valid) {
-            this.marcarCamposComoSujos();
+            Object.keys(this.form.controls).forEach(key => {
+                this.form.controls[key].markAsDirty();
+                this.form.controls[key].markAsTouched();
+            });
             return false;
         }
 
@@ -97,16 +100,8 @@ export abstract class CadastroBase implements ICadastroStrategy {
         return true;
     }
 
-    //*
-    private marcarCamposComoSujos(): void {
-        Object.keys(this.form.controls).forEach(key => {
-            this.form.controls[key].markAsDirty();
-            this.form.controls[key].markAsTouched();
-        });
-    }
-
-    // template method => as subclasses implementam o processo específico
-    // protected abstract processarCadastro(): void;
+    // template method abstrato
+    abstract confirmarEnvio(): void;
 
     obterDadosConfirmacao(): any {
 
@@ -133,11 +128,8 @@ export abstract class CadastroBase implements ICadastroStrategy {
         };
     }
 
-
-    //*
     voltarParaEdicao(): void {
         this.mostrarConfirmacao = false;
     }
-
 
 }
