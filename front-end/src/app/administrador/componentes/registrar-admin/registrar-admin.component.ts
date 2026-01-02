@@ -46,9 +46,15 @@ export class RegistrarAdminComponent extends CadastroBase {
   confirmarEnvio(): void {
     this.loginService.cadastrarAdmin(this.administrador).subscribe({
       next: (resposta: AdminResponse) => {
-        // Opcional: você pode usar os dados da resposta se quiser
-        console.log('Admin criado com ID:', resposta.id)
-        this.router.navigate(["/login"]);
+        // mostra mensagem de sucesso
+        // implementar tela dedicada depois!
+        alert(`Administrador ${resposta.nome} adicionado com sucesso!\nA senha foi enviada para o email: 
+          ${resposta.email}\n\nVocê será redirecionado para a tela de login`);
+
+        // redireciona para login apos 2 segundos
+        setTimeout(() => {
+          this.router.navigate(["/login"]);
+        }, 2000);
       },
       error: (error: HttpErrorResponse) => {
         this.erroMensagem = this.errorHandler.handleHttpError(error);
