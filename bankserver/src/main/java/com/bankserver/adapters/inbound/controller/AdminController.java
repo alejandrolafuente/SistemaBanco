@@ -40,26 +40,25 @@ public class AdminController {
     @PostMapping
     public ResponseEntity<AdminResponseDTO> criarAdmin(@RequestBody AdminRegistrationDTO request) {
 
-        System.out.println("Cadastro admin está chegando ==> " + request);
-        // // 1. converte dto da api para command do core
-        // CriarAdminCommand command = new CriarAdminCommand(
-        //         request.cpf(),
-        //         request.email(),
-        //         request.nome(),
-        //         request.telefone());
+        // 1. converte dto da api para command do core
+        CriarAdminCommand command = new CriarAdminCommand(
+                request.cpf(),
+                request.email(),
+                request.nome(),
+                request.telefone());
 
-        // // 2. Chama a PORTA do core
-        // Administrador adminCriado = adminServicePort.criarAdmin(command);
+        // 2. chama a porta do core
+        Administrador adminCriado = adminServicePort.criarAdmin(command);
 
-        // // 3. Converte resultado para DTO da API (MANUAL)
-        // AdminResponseDTO response = new AdminResponseDTO(
-        //         adminCriado.getId(),
-        //         adminCriado.getCpf(),
-        //         adminCriado.getNome(),
-        //         adminCriado.getLogin());
+        // 3. Converte resultado para dto da api
+        AdminResponseDTO response = new AdminResponseDTO(
+                adminCriado.getId(),
+                adminCriado.getNome(),
+                adminCriado.getCpf(),
+                adminCriado.getLogin(),
+                adminCriado.getTelefone());
 
-        // return ResponseEntity.status(201).body(response);
-        return null;
+        return ResponseEntity.status(201).body(response);
 
     }
 

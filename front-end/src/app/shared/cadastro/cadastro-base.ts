@@ -15,9 +15,7 @@ export abstract class CadastroBase implements ICadastroStrategy {
     cpfMessage: string = '';
     mostrarConfirmacao: boolean = false;
     dadosConfirmacao: any;
-    //*
-    //protected abstract get form(): NgForm;
-    //*
+    
     protected get form(): NgForm {
         return this.formCadastro;
     }
