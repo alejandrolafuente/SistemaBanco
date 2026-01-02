@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { Cliente } from '../../models/cliente/cliente';
 import { Administrador } from '../../models/administrador/administrador';
 import { Gerente } from '../../models/gerente/gerente';
+import { AdminResponse } from '../../models/adminresponse/admin-response';
 
 const LS_LOGIN_KEY: string = "usuarioLogado";
 
@@ -74,11 +75,10 @@ export class LoginService {
     });
   }
 
-  // R21 - adicionar admin - servico extra
-  cadastrarAdmin(administrador: Administrador): Observable<HttpResponse<void>> {
-    return this.httpClient.post<void>(`${this.BASE_URL}/admin`, administrador, {
-      observe: 'response'
-    });
+  // R21 - adicionar admin - requisito extra
+  cadastrarAdmin(administrador: Administrador): Observable<AdminResponse> {
+    return this.httpClient.post<AdminResponse>(`${this.BASE_URL}/admin`,
+      administrador, this.getHttpOptions());
   }
 
   logout() {

@@ -9,6 +9,9 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { CadastroBase } from '../../../shared/cadastro/cadastro-base';
 import { IEntidadeCadastravel } from '../../../shared/cadastro/ientidade-cadastravel';
 import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/componentes/confirmacao-cadastro/confirmacao-cadastro.component';
+import { ErrorHandlerService } from '../../../shared/servico-erros/error-handler.service';
+import { AdminResponse } from '../../../models/adminresponse/admin-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registrar-admin',
@@ -30,7 +33,8 @@ export class RegistrarAdminComponent extends CadastroBase {
 
   constructor(
     loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private errorHandler: ErrorHandlerService
   ) {
     super(loginService);
   }
@@ -41,11 +45,13 @@ export class RegistrarAdminComponent extends CadastroBase {
 
   confirmarEnvio(): void {
     this.loginService.cadastrarAdmin(this.administrador).subscribe({
-      next: () => {
+      next: (resposta: AdminResponse) => {
+        // Opcional: você pode usar os dados da resposta se quiser
+        console.log('Admin criado com ID:', resposta.id)
         this.router.navigate(["/login"]);
       },
-      error: (erro) => {
-        console.error('Erro no cadastro do admin:', erro);
+      error: (error: HttpErrorResponse) => {
+        this.erroMensagem = this.errorHandler.handleHttpError(error);
         this.mostrarConfirmacao = false;
       }
     });
