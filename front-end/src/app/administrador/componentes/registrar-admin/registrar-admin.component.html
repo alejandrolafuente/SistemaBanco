@@ -51,8 +51,7 @@
                                     [(ngModel)]="administrador.cpf" #cpf="ngModel" readonly mask="000.000.000-00"
                                     required (blur)="verificarCpf(administrador.cpf)" (input)="cpfMessage = ''">
                                 <div class="mt-2">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm"
-                                        (click)="gerarCPFValido()">
+                                    <button type="button" class="btn btn-light btn-sm" (click)="gerarCPFValido()">
                                         <i class="fa fa-magic" aria-hidden="true"></i> Gerar CPF Válido
                                     </button>
                                 </div>
