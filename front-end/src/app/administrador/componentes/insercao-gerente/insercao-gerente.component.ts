@@ -9,6 +9,9 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { CadastroBase } from '../../../shared/cadastro/cadastro-base';
 import { IEntidadeCadastravel } from '../../../shared/cadastro/ientidade-cadastravel';
 import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/componentes/confirmacao-cadastro/confirmacao-cadastro.component';
+import { ErrorHandlerService } from '../../../shared/servico-erros/error-handler.service';
+import { GerenteResponse } from '../../../models/gerente-response/gerente-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -22,9 +25,6 @@ import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/component
 })
 export class InsercaoGerenteComponent extends CadastroBase {
 
-  message: string = '';
-  //dadosConfirmacao: any;
-
   gerente: Gerente = {
     cpf: '',
     email: '',
@@ -34,38 +34,26 @@ export class InsercaoGerenteComponent extends CadastroBase {
 
   constructor(
     loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private errorHandler: ErrorHandlerService
   ) {
     super(loginService);
   }
 
-  protected override get form(): NgForm {
-    return this.formCadastro
-  }
   protected override get entidade(): IEntidadeCadastravel {
     return this.gerente
   }
-  //*
-  executarVerificacaoCpf(): void {
-    this.verificarCpf(this.gerente.cpf);
-  }
 
-  //*
-  executarVerificacaoEmail(): void {
-    this.verificarEmail(this.gerente.email);
-  }
-  
-  //*
   confirmarEnvio(): void {
-    console.log('USUÁRIO LOGADO:', this.loginService.usuarioLogado);
-    console.log('PERFIL:', this.loginService.usuarioLogado?.perfil);
 
     this.loginService.cadastrarGerente(this.gerente).subscribe({
-      next: () => {
-        this.router.navigate(["/login"]);
+      next: (resposta: GerenteResponse) => {
+        alert(`Gerente ${resposta.nome} adicionado com sucesso!\nA senha foi enviada para o email: 
+          ${resposta.email}\n\nVocê será redirecionado para a tela de gerentes`);
+        this.router.navigate(["/admin/listar-gerentes"]);
       },
-      error: (erro) => {
-        console.error('Erro no cadastro do gerente:', erro);
+      error: (error: HttpErrorResponse) => {
+        this.erroMensagem = this.errorHandler.handleHttpError(error);
         this.mostrarConfirmacao = false;
       }
     });

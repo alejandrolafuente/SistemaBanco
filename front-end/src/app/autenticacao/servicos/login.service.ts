@@ -8,6 +8,7 @@ import { Cliente } from '../../models/cliente/cliente';
 import { Administrador } from '../../models/administrador/administrador';
 import { Gerente } from '../../models/gerente/gerente';
 import { AdminResponse } from '../../models/adminresponse/admin-response';
+import { GerenteResponse } from '../../models/gerente-response/gerente-response';
 
 const LS_LOGIN_KEY: string = "usuarioLogado";
 
@@ -68,10 +69,9 @@ export class LoginService {
   }
 
   // R17 - insercao de gerente
-  cadastrarGerente(gerente: Gerente): Observable<HttpResponse<void>> {
-    return this.httpClient.post<void>(`${this.BASE_URL}/admin/novo-gerente`, gerente, {
-      ...this.getHttpOptions(),
-      observe: 'response'
+  cadastrarGerente(gerente: Gerente): Observable<GerenteResponse> {
+    return this.httpClient.post<GerenteResponse>(`${this.BASE_URL}/admin/novo-gerente`, gerente, {
+      ...this.getHttpOptions()
     });
   }
 

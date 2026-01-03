@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bankserver.application.commands.CriarAdminCommand;
+import com.bankserver.application.commands.CriarGerenteCommand;
 import com.bankserver.application.domain.Administrador;
+import com.bankserver.application.domain.Gerente;
 import com.bankserver.application.usecases.AdminServicePort;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
@@ -33,8 +35,23 @@ public class AdminController {
     @Transactional
     public ResponseEntity<GerenteResponseDTO> novoGerente(@RequestBody GerenteRegistrationDTO request) {
 
-        return null;
+        // 1. converte dto da api para command do core
+        CriarGerenteCommand command = new CriarGerenteCommand(
+                request.cpf(),
+                request.email(),
+                request.nome(),
+                request.telefone());
 
+        Gerente gerenteCriado = adminServicePort.criarGerente(command);
+
+        GerenteResponseDTO response = new GerenteResponseDTO(
+                gerenteCriado.getId(),
+                gerenteCriado.getNome(),
+                gerenteCriado.getCpf(),
+                gerenteCriado.getLogin(),
+                gerenteCriado.getTelefone());
+
+        return ResponseEntity.status(201).body(response);
     }
 
     // R21 - cadastrar admin
