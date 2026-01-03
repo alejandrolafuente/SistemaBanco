@@ -1,7 +1,5 @@
 package com.bankserver.application.servicos;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bankserver.adapters.outbound.ports.AdminRepository;
@@ -10,9 +8,9 @@ import com.bankserver.adapters.outbound.ports.GerenteRepository;
 import com.bankserver.adapters.outbound.ports.HashSenhaPort;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
 import com.bankserver.application.commands.CriarAdminCommand;
+import com.bankserver.application.commands.CriarGerenteCommand;
 import com.bankserver.application.domain.Administrador;
 import com.bankserver.application.usecases.AdminServicePort;
-import com.bankserver.dto.request.GerenteRegistrationDTO;
 import com.bankserver.utils.GeradorSenha;
 import com.bankserver.application.domain.Gerente;
 import com.bankserver.application.domain.enums.StatusUsuario;
@@ -51,26 +49,25 @@ public class AdminServiceImpl implements AdminServicePort {
 
     // R17 - cadastrar gerente
     @Override
-    public ResponseEntity<Void> insertGerente(GerenteRegistrationDTO data) {
+    public Gerente criarGerente(CriarGerenteCommand command) {
 
-        if (this.usuarioRepository.existsByLogin(data.email())) {
-            // return ResponseEntity.badRequest().body("Gerente já cadastrado");
-            return ResponseEntity.badRequest().build();
+        if (this.usuarioRepository.existsByLogin(command.getEmail())) {
+            throw new UsuarioJaCadastradoException(command.getEmail(), "Administrador");
         }
 
         Gerente gerente = new Gerente();
 
         String senha = geradorSenha.gerarSenhaAleatoria();
 
-        gerente.setCpf(data.cpf());
-        gerente.setLogin(data.email());
-        gerente.setNome(data.nome());
-        gerente.setTelefone(data.telefone());
+        gerente.setCpf(command.getCpf());
+        gerente.setLogin(command.getEmail());
+        gerente.setNome(command.getNome());
+        gerente.setTelefone(command.getTelefone());
         gerente.setSenha(hashSenhaPort.hash(senha));
         gerente.setPerfil(TipoUsuario.GERENTE);
         gerente.setStatus(StatusUsuario.ATIVO);
 
-        gerenteRepository.save(gerente);
+        Gerente gerenteSalvo = gerenteRepository.save(gerente);
 
         String subject = "BANTADS: CADASTRO DE GERENTE APROVADO";
 
@@ -80,9 +77,7 @@ public class AdminServiceImpl implements AdminServicePort {
 
         emailServicePort.sendApproveEmail(gerente.getLogin(), subject, message);
 
-        // return ResponseEntity.ok(new GerRegResDTO(gerente.getId(), gerente.getCpf(),
-        // gerente.getLogin(), gerente.getNome(), gerente.getTelefone()));
-        return ResponseEntity.ok().build();
+        return gerenteSalvo;
 
     }
 
@@ -90,11 +85,11 @@ public class AdminServiceImpl implements AdminServicePort {
     @Override
     public Administrador criarAdmin(CriarAdminCommand command) {
 
-        // execao especifica
+        // excecao especifica
         if (this.usuarioRepository.existsByLogin(command.getEmail())) {
             throw new UsuarioJaCadastradoException(command.getEmail(), "Administrador");
         }
-        
+
         Administrador administrador = new Administrador();
 
         String senha = geradorSenha.gerarSenhaAleatoria();
@@ -103,7 +98,7 @@ public class AdminServiceImpl implements AdminServicePort {
         administrador.setLogin(command.getEmail());
         administrador.setNome(command.getNome());
         administrador.setTelefone(command.getTelefone());
-        administrador.setSenha(new BCryptPasswordEncoder().encode(senha));
+        administrador.setSenha(hashSenhaPort.hash(senha));
         administrador.setPerfil(TipoUsuario.ADMIN);
         administrador.setStatus(StatusUsuario.ATIVO);
 

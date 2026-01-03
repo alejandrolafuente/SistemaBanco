@@ -13,6 +13,7 @@ import com.bankserver.application.usecases.AdminServicePort;
 import com.bankserver.dto.request.AdminRegistrationDTO;
 import com.bankserver.dto.request.GerenteRegistrationDTO;
 import com.bankserver.dto.response.AdminResponseDTO;
+import com.bankserver.dto.response.GerenteResponseDTO;
 
 import jakarta.transaction.Transactional;
 
@@ -30,9 +31,9 @@ public class AdminController {
     // R17 - cadastrar gerente
     @PostMapping("/novo-gerente")
     @Transactional
-    public ResponseEntity<?> novoGerente(@RequestBody GerenteRegistrationDTO dto) {
+    public ResponseEntity<GerenteResponseDTO> novoGerente(@RequestBody GerenteRegistrationDTO request) {
 
-        return adminServicePort.insertGerente(dto);
+        return null;
 
     }
 

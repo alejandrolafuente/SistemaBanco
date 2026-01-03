@@ -78,7 +78,7 @@ export class LoginService {
   // R21 - adicionar admin - requisito extra
   cadastrarAdmin(administrador: Administrador): Observable<AdminResponse> {
     return this.httpClient.post<AdminResponse>(`${this.BASE_URL}/admin`,
-      administrador, this.getHttpOptions());
+      administrador);
   }
 
   logout() {
