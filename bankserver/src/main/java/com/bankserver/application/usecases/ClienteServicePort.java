@@ -9,9 +9,9 @@ import com.bankserver.dto.request.TransferDTO;
 import com.bankserver.dto.response.R03ResDTO;
 import com.bankserver.seguranca.UserDetailsImpl;
 
-public interface ClienteService {
+public interface ClienteServicePort {
 
-    // R01
+    // R01 - cadastro cliente
     ResponseEntity<Void> insertClient(ClienteRegistrationDTO data);
 
     // R03
