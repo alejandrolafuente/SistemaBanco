@@ -13,15 +13,15 @@ import { IEntidadeCadastravel } from '../../../shared/cadastro/ientidade-cadastr
 import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/componentes/confirmacao-cadastro/confirmacao-cadastro.component';
 
 @Component({
-  selector: 'app-cadastro2',
+  selector: 'app-registrar-cliente',
   standalone: true,
   imports: [FormsModule, CommonModule, NumericoDirective, MonetarioDirective,
     NgxMaskDirective, NgxMaskPipe, ConfirmacaoCadastroComponent],
   providers: [provideNgxMask()],
-  templateUrl: './cadastro2.component.html',
-  styleUrl: './cadastro2.component.css'
+  templateUrl: './registrar-cliente.component.html',
+  styleUrl: './registrar-cliente.component.css'
 })
-export class Cadastro2Component extends CadastroBase {
+export class RegistrarClienteComponent extends CadastroBase {
   //dadosConfirmacao: any;
   cepMessage: string = '';
   //*
@@ -51,24 +51,10 @@ export class Cadastro2Component extends CadastroBase {
     super(loginService);
   }
 
-
-  protected override get form(): NgForm {
-    return this.formCadastro;
-  }
   protected override get entidade(): IEntidadeCadastravel {
     return this.cliente;
   }
-  //*
-  executarVerificacaoCpf(): void {
-    this.verificarCpf(this.cliente.cpf);
-  }
-
-  //*
-  executarVerificacaoEmail(): void {
-    this.verificarEmail(this.cliente.email);
-  }
-
-  //*
+  
   consultarCEP(): void {
     const cep = this.cliente.endereco.cep.replace(/\D/g, '');
 

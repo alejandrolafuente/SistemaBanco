@@ -54,7 +54,7 @@ export class LoginService {
       map(response => response.existe)
     );
   }
-  // R01
+  // R01 - cadastrar cliente
   cadastrar(cliente: Cliente): Observable<HttpResponse<void>> {
     return this.httpClient.post<void>(`${this.BASE_URL}/cliente/register`, cliente, {
       observe: 'response'
@@ -68,14 +68,14 @@ export class LoginService {
 
   }
 
-  // R17 - insercao de gerente
+  // R17 - cadastrar gerente
   cadastrarGerente(gerente: Gerente): Observable<GerenteResponse> {
     return this.httpClient.post<GerenteResponse>(`${this.BASE_URL}/admin/novo-gerente`, gerente, {
       ...this.getHttpOptions()
     });
   }
 
-  // R21 - adicionar admin - requisito extra
+  // R21 - cadastrar admin - requisito extra
   cadastrarAdmin(administrador: Administrador): Observable<AdminResponse> {
     return this.httpClient.post<AdminResponse>(`${this.BASE_URL}/admin`,
       administrador);

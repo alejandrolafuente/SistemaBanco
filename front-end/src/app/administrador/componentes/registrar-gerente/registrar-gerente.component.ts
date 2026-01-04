@@ -15,7 +15,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
-  selector: 'app-insercao-gerente',
+  selector: 'app-registrar-gerente',
   standalone: true,
   imports: [FormsModule, CommonModule, NumericoDirective,
     NgxMaskDirective, NgxMaskPipe, ConfirmacaoCadastroComponent],
@@ -23,7 +23,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './insercao-gerente.component.html',
   styleUrl: './insercao-gerente.component.css'
 })
-export class InsercaoGerenteComponent extends CadastroBase {
+export class RegistrarGerenteComponent extends CadastroBase {
 
   gerente: Gerente = {
     cpf: '',
