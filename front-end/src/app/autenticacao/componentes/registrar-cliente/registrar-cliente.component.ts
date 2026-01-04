@@ -11,6 +11,7 @@ import { MonetarioDirective } from '../../../shared/diretivas/monetario/monetari
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { IEntidadeCadastravel } from '../../../shared/cadastro/ientidade-cadastravel';
 import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/componentes/confirmacao-cadastro/confirmacao-cadastro.component';
+import { ClienteResponse } from '../../../models/cliente-response/cliente-response';
 
 @Component({
   selector: 'app-registrar-cliente',
@@ -54,7 +55,7 @@ export class RegistrarClienteComponent extends CadastroBase {
   protected override get entidade(): IEntidadeCadastravel {
     return this.cliente;
   }
-  
+
   consultarCEP(): void {
     const cep = this.cliente.endereco.cep.replace(/\D/g, '');
 
@@ -78,7 +79,6 @@ export class RegistrarClienteComponent extends CadastroBase {
     }
   }
 
-  //*
   private preencherEndereco(endereco: EnderecoViaCEP): void {
     this.cliente.endereco.uf = endereco.uf;
     this.cliente.endereco.cidade = endereco.localidade;
@@ -87,13 +87,14 @@ export class RegistrarClienteComponent extends CadastroBase {
     this.cliente.endereco.complemento = endereco.complemento;
   }
 
-  //*
   confirmarEnvio(): void {
     if (this.cliente.salario == null) {
       this.cliente.salario = 0;
     }
-    this.loginService.cadastrar(this.cliente).subscribe({
-      next: () => {
+    this.loginService.cadastrarCliente(this.cliente).subscribe({
+      next: (resposta: ClienteResponse) => {
+        alert(`Seu cadastro foi efetuado!\nSua solicitação está sendo analisada, fique atento a seu email: 
+          ${resposta.email}\n`);
         this.router.navigate(["/login"]);
       },
       error: (erro) => {

@@ -3,7 +3,7 @@ package com.bankserver.application.servicos;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.List;
+//import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import com.bankserver.adapters.outbound.ports.GerenteRepository;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
 import com.bankserver.adapters.outbound.repository.JpaSaldoRepository;
 import com.bankserver.adapters.outbound.repository.JpaTransacaoRepository;
-import com.bankserver.application.domain.Usuario;
+//import com.bankserver.application.domain.Usuario;
 import com.bankserver.application.domain.enums.StatusConta;
 import com.bankserver.application.domain.enums.StatusUsuario;
 import com.bankserver.application.domain.enums.TipoUsuario;
@@ -25,12 +25,12 @@ import com.bankserver.dto.request.DepositoDTO;
 import com.bankserver.dto.request.SaqueDTO;
 import com.bankserver.dto.request.TransferDTO;
 import com.bankserver.dto.response.R03ResDTO;
-import com.bankserver.exceptions.ClientNotFoundException;
+//import com.bankserver.exceptions.ClientNotFoundException;
 import com.bankserver.application.commands.CriarClienteCommand;
 import com.bankserver.application.domain.Cliente;
 import com.bankserver.application.domain.Conta;
 import com.bankserver.application.domain.Endereco;
-import com.bankserver.application.domain.Gerente;
+//import com.bankserver.application.domain.Gerente;
 import com.bankserver.seguranca.UserDetailsImpl;
 
 @Service

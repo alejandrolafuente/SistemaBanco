@@ -9,6 +9,7 @@ import { Administrador } from '../../models/administrador/administrador';
 import { Gerente } from '../../models/gerente/gerente';
 import { AdminResponse } from '../../models/adminresponse/admin-response';
 import { GerenteResponse } from '../../models/gerente-response/gerente-response';
+import { ClienteResponse } from '../../models/cliente-response/cliente-response';
 
 const LS_LOGIN_KEY: string = "usuarioLogado";
 
@@ -55,10 +56,8 @@ export class LoginService {
     );
   }
   // R01 - cadastrar cliente
-  cadastrar(cliente: Cliente): Observable<HttpResponse<void>> {
-    return this.httpClient.post<void>(`${this.BASE_URL}/cliente/register`, cliente, {
-      observe: 'response'
-    });
+  cadastrarCliente(cliente: Cliente): Observable<ClienteResponse> {
+    return this.httpClient.post<ClienteResponse>(`${this.BASE_URL}/cliente/register`, cliente);
   }
 
   // R02
