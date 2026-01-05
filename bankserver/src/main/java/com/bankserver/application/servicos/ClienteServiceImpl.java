@@ -97,7 +97,7 @@ public class ClienteServiceImpl implements ClienteServicePort {
         conta.setSaldo(BigDecimal.ZERO);
         conta.setLimite(calcularLimite(command.getSalario()));
         conta.setStatusConta(StatusConta.PENDENTE);
-        conta.setCliente(cliente);
+        conta.setCliente(clienteSalvo);
         conta.setGerente(gerenteRepository.findAllOrderByQuantidadeContas());
 
         conta = contaRepository.save(conta);
