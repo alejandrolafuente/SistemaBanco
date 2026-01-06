@@ -9,7 +9,6 @@ export abstract class CadastroBase implements ICadastroStrategy {
 
     @ViewChild('formCadastro')
     formCadastro!: NgForm;
-
     erroMensagem: string = '';
     emailMessage: string = '';
     cpfMessage: string = '';
@@ -98,9 +97,6 @@ export abstract class CadastroBase implements ICadastroStrategy {
         return true;
     }
 
-    // template method abstrato
-    abstract confirmarEnvio(): void;
-
     obterDadosConfirmacao(): any {
 
         const dadosBasicos = {
@@ -125,6 +121,9 @@ export abstract class CadastroBase implements ICadastroStrategy {
             tipo: this.entidade.hasOwnProperty('nivelAcesso') ? 'administrador' : 'gerente'
         };
     }
+
+    // template method abstrato
+    abstract confirmarEnvio(): void;
 
     voltarParaEdicao(): void {
         this.mostrarConfirmacao = false;

@@ -45,7 +45,6 @@ export class RegistrarGerenteComponent extends CadastroBase {
   }
 
   confirmarEnvio(): void {
-
     this.loginService.cadastrarGerente(this.gerente).subscribe({
       next: (resposta: GerenteResponse) => {
         alert(`Gerente ${resposta.nome} adicionado com sucesso!\nA senha foi enviada para o email: 

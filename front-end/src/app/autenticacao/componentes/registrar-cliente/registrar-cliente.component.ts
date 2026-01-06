@@ -12,6 +12,8 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { IEntidadeCadastravel } from '../../../shared/cadastro/ientidade-cadastravel';
 import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/componentes/confirmacao-cadastro/confirmacao-cadastro.component';
 import { ClienteResponse } from '../../../models/cliente-response/cliente-response';
+import { ErrorHandlerService } from '../../../shared/servico-erros/error-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registrar-cliente',
@@ -47,7 +49,8 @@ export class RegistrarClienteComponent extends CadastroBase {
   constructor(
     loginService: LoginService,
     private router: Router,
-    private cepService: CepService
+    private cepService: CepService,
+    private errorHandler: ErrorHandlerService
   ) {
     super(loginService);
   }
@@ -97,8 +100,8 @@ export class RegistrarClienteComponent extends CadastroBase {
           ${resposta.email}\n`);
         this.router.navigate(["/login"]);
       },
-      error: (erro) => {
-        console.error('Erro no cadastro do cliente:', erro);
+      error: (error: HttpErrorResponse) => {
+        this.erroMensagem = this.errorHandler.handleHttpError(error);
         this.mostrarConfirmacao = false;
       }
     });

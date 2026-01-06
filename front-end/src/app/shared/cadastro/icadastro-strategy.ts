@@ -10,7 +10,6 @@ export interface ICadastroStrategy {
     mostrarConfirmacao: boolean
     dadosConfirmacao: any;
 
-
     // metodos do fluxo de cadastro (em ordem logica)
     gerarCPFValido(): void
 
@@ -28,5 +27,4 @@ export interface ICadastroStrategy {
     // template method 
     confirmarEnvio(): void;
 
-    
 }
