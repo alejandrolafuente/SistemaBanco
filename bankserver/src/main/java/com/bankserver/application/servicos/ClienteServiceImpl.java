@@ -100,7 +100,7 @@ public class ClienteServiceImpl implements ClienteServicePort {
         conta.setCliente(clienteSalvo);
         conta.setGerente(gerenteRepository.findAllOrderByQuantidadeContas());
 
-        conta = contaRepository.save(conta);
+        contaRepository.save(conta);
 
         return clienteSalvo;
     }
