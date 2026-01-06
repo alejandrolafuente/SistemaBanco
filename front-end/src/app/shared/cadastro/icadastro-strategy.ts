@@ -22,11 +22,11 @@ export interface ICadastroStrategy {
 
     cadastrar(): void;
 
-    // template method 
-    confirmarEnvio(): void;
-
     // metodo para obter dados de confirmação
     obterDadosConfirmacao(): any;
+
+    // template method 
+    confirmarEnvio(): void;
 
     
 }
