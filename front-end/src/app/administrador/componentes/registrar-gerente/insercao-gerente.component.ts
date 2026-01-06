@@ -2,29 +2,30 @@ import { Component, ViewChild } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { Administrador } from '../../../models/administrador/administrador';
 import { LoginService } from '../../../autenticacao/servicos/login.service';
+import { Gerente } from '../../../models/gerente/gerente';
 import { NumericoDirective } from '../../../shared/diretivas/numerico/numerico.directive';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { CadastroBase } from '../../../shared/cadastro/cadastro-base';
 import { IEntidadeCadastravel } from '../../../shared/cadastro/ientidade-cadastravel';
 import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/componentes/confirmacao-cadastro/confirmacao-cadastro.component';
 import { ErrorHandlerService } from '../../../shared/servico-erros/error-handler.service';
-import { AdminResponse } from '../../../models/adminresponse/admin-response';
+import { GerenteResponse } from '../../../models/gerente-response/gerente-response';
 import { HttpErrorResponse } from '@angular/common/http';
 
+
 @Component({
-  selector: 'app-registrar-admin',
+  selector: 'app-registrar-gerente',
   standalone: true,
   imports: [FormsModule, CommonModule, NumericoDirective,
     NgxMaskDirective, NgxMaskPipe, ConfirmacaoCadastroComponent],
   providers: [provideNgxMask()],
-  templateUrl: './registrar-admin.component.html',
-  styleUrl: './registrar-admin.component.css'
+  templateUrl: './registrar-gerente.component.html',
+  styleUrl: './registrar-gerente.component.css'
 })
-export class RegistrarAdminComponent extends CadastroBase {
+export class RegistrarGerenteComponent extends CadastroBase {
 
-  administrador: Administrador = {
+  gerente: Gerente = {
     cpf: '',
     email: '',
     nome: '',
@@ -40,15 +41,16 @@ export class RegistrarAdminComponent extends CadastroBase {
   }
 
   protected override get entidade(): IEntidadeCadastravel {
-    return this.administrador;
+    return this.gerente
   }
 
   confirmarEnvio(): void {
-    this.loginService.cadastrarAdmin(this.administrador).subscribe({
-      next: (resposta: AdminResponse) => {
-        alert(`Administrador ${resposta.nome} adicionado com sucesso!\nA senha foi enviada para o email: 
-          ${resposta.email}\n\nVocê será redirecionado para a tela de login`);
-        this.router.navigate(["/login"]);
+
+    this.loginService.cadastrarGerente(this.gerente).subscribe({
+      next: (resposta: GerenteResponse) => {
+        alert(`Gerente ${resposta.nome} adicionado com sucesso!\nA senha foi enviada para o email: 
+          ${resposta.email}\n\nVocê será redirecionado para a tela de gerentes`);
+        this.router.navigate(["/admin/listar-gerentes"]);
       },
       error: (error: HttpErrorResponse) => {
         this.erroMensagem = this.errorHandler.handleHttpError(error);
@@ -56,6 +58,5 @@ export class RegistrarAdminComponent extends CadastroBase {
       }
     });
   }
-
 
 }

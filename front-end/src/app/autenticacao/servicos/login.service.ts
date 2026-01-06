@@ -7,6 +7,9 @@ import { environment } from '../../../environments/environment';
 import { Cliente } from '../../models/cliente/cliente';
 import { Administrador } from '../../models/administrador/administrador';
 import { Gerente } from '../../models/gerente/gerente';
+import { AdminResponse } from '../../models/adminresponse/admin-response';
+import { GerenteResponse } from '../../models/gerente-response/gerente-response';
+import { ClienteResponse } from '../../models/cliente-response/cliente-response';
 
 const LS_LOGIN_KEY: string = "usuarioLogado";
 
@@ -52,11 +55,9 @@ export class LoginService {
       map(response => response.existe)
     );
   }
-  // R01
-  cadastrar(cliente: Cliente): Observable<HttpResponse<void>> {
-    return this.httpClient.post<void>(`${this.BASE_URL}/cliente/register`, cliente, {
-      observe: 'response'
-    });
+  // R01 - cadastrar cliente
+  cadastrarCliente(cliente: Cliente): Observable<ClienteResponse> {
+    return this.httpClient.post<ClienteResponse>(`${this.BASE_URL}/cliente/register`, cliente);
   }
 
   // R02
@@ -66,19 +67,17 @@ export class LoginService {
 
   }
 
-  // R17 - insercao de gerente
-  cadastrarGerente(gerente: Gerente): Observable<HttpResponse<void>> {
-    return this.httpClient.post<void>(`${this.BASE_URL}/admin/novo-gerente`, gerente, {
-      ...this.getHttpOptions(),
-      observe: 'response'
+  // R17 - cadastrar gerente
+  cadastrarGerente(gerente: Gerente): Observable<GerenteResponse> {
+    return this.httpClient.post<GerenteResponse>(`${this.BASE_URL}/admin/novo-gerente`, gerente, {
+      ...this.getHttpOptions()
     });
   }
 
-  // R21 - adicionar admin - servico extra
-  cadastrarAdmin(administrador: Administrador): Observable<HttpResponse<void>> {
-    return this.httpClient.post<void>(`${this.BASE_URL}/admin`, administrador, {
-      observe: 'response'
-    });
+  // R21 - cadastrar admin - requisito extra
+  cadastrarAdmin(administrador: Administrador): Observable<AdminResponse> {
+    return this.httpClient.post<AdminResponse>(`${this.BASE_URL}/admin`,
+      administrador);
   }
 
   logout() {

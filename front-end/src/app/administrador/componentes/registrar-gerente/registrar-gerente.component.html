@@ -2,9 +2,9 @@
     <h1 class="text-center">Cadastro de Gerente</h1><br>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div *ngIf="message" class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{message}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="message = ''">
+            <div *ngIf="erroMensagem" class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{erroMensagem}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="erroMensagem = ''">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -32,9 +32,9 @@
                                 <label for="cpf">CPF:</label>
                                 <input type="text" class="form-control" id="cpf" name="cpf" [(ngModel)]="gerente.cpf"
                                     #cpf="ngModel" readonly mask="000.000.000-00" required
-                                    (blur)="executarVerificacaoCpf()" (input)="cpfMessage = ''">
+                                    (blur)="verificarCpf(gerente.cpf)" (input)="cpfMessage = ''">
                                 <div class="mt-2">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                    <button type="button" class="btn btn-light btn-sm"
                                         (click)="gerarCPFValido()">
                                         <i class="fa fa-magic" aria-hidden="true"></i> Gerar CPF Válido
                                     </button>
@@ -55,7 +55,7 @@
                                 <label for="email">Email:</label>
                                 <input type="email" class="form-control" id="email" name="email"
                                     [(ngModel)]="gerente.email" #email="ngModel" maxlength="60" email required
-                                    (blur)="executarVerificacaoEmail()" (input)="emailMessage = ''">
+                                    (blur)="verificarEmail(gerente.email)" (input)="emailMessage = ''">
                                 <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
                                     <div [hidden]="!email.errors['required']">
                                         Digite o email
@@ -99,7 +99,7 @@
                     <div class="d-flex justify-content-center">
                         <button type="button" class="btn btn-primary" [disabled]="!formCadastro.form.valid"
                             (click)="cadastrar()">
-                            <i class="fa fa-save" aria-hidden="true"></i> Cadastrar Administrador
+                            <i class="fa fa-save" aria-hidden="true"></i> Cadastrar Gerente
                         </button>
                     </div>
                 </div>

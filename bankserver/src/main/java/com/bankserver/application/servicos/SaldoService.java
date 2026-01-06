@@ -1,7 +1,7 @@
 package com.bankserver.application.servicos;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bankserver.adapters.outbound.entidades.JpaSaldoEntidade;
 import com.bankserver.adapters.outbound.repository.JpaContaRepository;
 import com.bankserver.adapters.outbound.repository.JpaSaldoRepository;
-import com.bankserver.application.domain.Conta;
+//import com.bankserver.application.domain.Conta;
 
 @Service
 @EnableScheduling

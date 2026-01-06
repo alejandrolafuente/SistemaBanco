@@ -1,7 +1,6 @@
 package com.bankserver.adapters.outbound.entidades;
 
 import com.bankserver.application.domain.Administrador;
-import com.bankserver.application.domain.Usuario;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -24,7 +23,7 @@ public class JpaAdministradorEntidade extends JpaUsuarioEntidade {
         super(administrador);
     }
 
-    public Usuario toDomain() {
+    public Administrador toDomain() {
         // onverte para o objeto de dominio administrador
         return new Administrador(
             this.getId(),

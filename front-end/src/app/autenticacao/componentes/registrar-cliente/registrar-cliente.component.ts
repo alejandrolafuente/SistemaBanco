@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { CadastroBase } from '../../../shared/cadastro/cadastro-base';
 import { NgForm, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -11,31 +11,22 @@ import { MonetarioDirective } from '../../../shared/diretivas/monetario/monetari
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { IEntidadeCadastravel } from '../../../shared/cadastro/ientidade-cadastravel';
 import { ConfirmacaoCadastroComponent } from '../../../shared/cadastro/componentes/confirmacao-cadastro/confirmacao-cadastro.component';
+import { ClienteResponse } from '../../../models/cliente-response/cliente-response';
+import { ErrorHandlerService } from '../../../shared/servico-erros/error-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-cadastro2',
+  selector: 'app-registrar-cliente',
   standalone: true,
   imports: [FormsModule, CommonModule, NumericoDirective, MonetarioDirective,
     NgxMaskDirective, NgxMaskPipe, ConfirmacaoCadastroComponent],
   providers: [provideNgxMask()],
-  templateUrl: './cadastro2.component.html',
-  styleUrl: './cadastro2.component.css'
+  templateUrl: './registrar-cliente.component.html',
+  styleUrl: './registrar-cliente.component.css'
 })
-export class Cadastro2Component extends CadastroBase {
-
-  //*
-  @ViewChild('formCadastro')
-  formCadastro!: NgForm;
-
-  //*
+export class RegistrarClienteComponent extends CadastroBase {
+  //dadosConfirmacao: any;
   cepMessage: string = '';
-
-  // campos para controle da tela de confirmacao
-  //*
-  mostrarConfirmacao: boolean = false;
-  //*
-  dadosConfirmacao: any;
-
   //*
   cliente: Cliente = {
     cpf: '', //2
@@ -58,35 +49,16 @@ export class Cadastro2Component extends CadastroBase {
   constructor(
     loginService: LoginService,
     private router: Router,
-    private cepService: CepService
+    private cepService: CepService,
+    private errorHandler: ErrorHandlerService
   ) {
     super(loginService);
   }
 
-
-  protected override get form(): NgForm {
-    return this.formCadastro;
-  }
   protected override get entidade(): IEntidadeCadastravel {
     return this.cliente;
   }
 
-  //*
-  gerarCPFValido(): void {
-    this.cliente.cpf = this.gerarCPF();
-  }
-
-  //*
-  executarVerificacaoCpf(): void {
-    this.verificarCpf(this.cliente.cpf);
-  }
-
-  //*
-  executarVerificacaoEmail(): void {
-    this.verificarEmail(this.cliente.email);
-  }
-
-  //*
   consultarCEP(): void {
     const cep = this.cliente.endereco.cep.replace(/\D/g, '');
 
@@ -110,7 +82,6 @@ export class Cadastro2Component extends CadastroBase {
     }
   }
 
-  //*
   private preencherEndereco(endereco: EnderecoViaCEP): void {
     this.cliente.endereco.uf = endereco.uf;
     this.cliente.endereco.cidade = endereco.localidade;
@@ -119,33 +90,20 @@ export class Cadastro2Component extends CadastroBase {
     this.cliente.endereco.complemento = endereco.complemento;
   }
 
-  // ** TEMPLATE METHOD
-  // metodos para controle da confirmacao
-  protected override processarCadastro(): void {
-    // mostra tela de confirmacao ao inves de enviar diretamente
-    this.mostrarConfirmacao = true;
-    this.dadosConfirmacao = this.obterDadosConfirmacao();
-  }
-
-  //*
   confirmarEnvio(): void {
     if (this.cliente.salario == null) {
       this.cliente.salario = 0;
     }
-    this.loginService.cadastrar(this.cliente).subscribe({
-      next: () => {
+    this.loginService.cadastrarCliente(this.cliente).subscribe({
+      next: (resposta: ClienteResponse) => {
+        alert(`Seu cadastro foi efetuado!\nSua solicitação está sendo analisada, fique atento a seu email: 
+          ${resposta.email}\n`);
         this.router.navigate(["/login"]);
       },
-      error: (erro) => {
-        console.error('Erro no cadastro do cliente:', erro);
+      error: (error: HttpErrorResponse) => {
+        this.erroMensagem = this.errorHandler.handleHttpError(error);
         this.mostrarConfirmacao = false;
       }
     });
   }
-
-  //*
-  voltarParaEdicao(): void {
-    this.mostrarConfirmacao = false;
-  }
-
 }

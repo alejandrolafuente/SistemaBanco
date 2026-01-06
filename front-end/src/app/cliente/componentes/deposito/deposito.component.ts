@@ -32,7 +32,6 @@ export class DepositoComponent extends TransacaoBase {
     this.depositar();
   }
 
-
   depositar(): void {
     this.deposito.id = (this.usuario!.id);
     this.deposito.valor = (Number(this.valorTransacao));

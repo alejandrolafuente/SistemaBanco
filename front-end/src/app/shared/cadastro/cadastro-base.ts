@@ -2,20 +2,29 @@ import { NgForm } from "@angular/forms";
 import { ICadastroStrategy } from "./icadastro-strategy";
 import { IEntidadeCadastravel } from "./ientidade-cadastravel";
 import { LoginService } from "../../autenticacao/servicos/login.service";
+import { Directive, ViewChild } from "@angular/core";
 
+@Directive()
 export abstract class CadastroBase implements ICadastroStrategy {
 
+    @ViewChild('formCadastro')
+    formCadastro!: NgForm;
+    erroMensagem: string = '';
     emailMessage: string = '';
     cpfMessage: string = '';
+    mostrarConfirmacao: boolean = false;
+    dadosConfirmacao: any;
+    
+    protected get form(): NgForm {
+        return this.formCadastro;
+    }
 
-    //*
-    protected abstract get form(): NgForm;
-    //*
     protected abstract get entidade(): IEntidadeCadastravel;
 
     constructor(protected loginService: LoginService) { }
 
-    gerarCPF(): string {
+    // Método na base que todas as subclasses usarão
+    gerarCPFValido(): void {
         const randomDigit = () => Math.floor(Math.random() * 10);
 
         // gera 9 dígitos aleatórios
@@ -30,8 +39,7 @@ export abstract class CadastroBase implements ICadastroStrategy {
         soma = cpf.reduce((acc, digit, index) => acc + digit * (11 - index), 0);
         resto = soma % 11;
         cpf.push(resto < 2 ? 0 : 11 - resto);
-
-        return cpf.join('');
+        this.entidade.cpf = cpf.join('');
     }
 
     verificarCpf(cpf: string): void {
@@ -65,9 +73,20 @@ export abstract class CadastroBase implements ICadastroStrategy {
         }
     }
 
+    public cadastrar(): void {
+        if (this.validarAntesDoCadastro()) {
+            this.mostrarConfirmacao = true;
+            this.dadosConfirmacao = this.obterDadosConfirmacao();
+            //this.processarCadastro();
+        }
+    }
+
     validarAntesDoCadastro(): boolean {
         if (!this.form.valid) {
-            this.marcarCamposComoSujos();
+            Object.keys(this.form.controls).forEach(key => {
+                this.form.controls[key].markAsDirty();
+                this.form.controls[key].markAsTouched();
+            });
             return false;
         }
 
@@ -77,29 +96,6 @@ export abstract class CadastroBase implements ICadastroStrategy {
 
         return true;
     }
-
-    //*
-    private marcarCamposComoSujos(): void {
-        Object.keys(this.form.controls).forEach(key => {
-            this.form.controls[key].markAsDirty();
-            this.form.controls[key].markAsTouched();
-        });
-    }
-
-    // !!!!!!!!!!
-
-
-    //*
-    public cadastrar(): void {
-        if (this.validarAntesDoCadastro()) {
-            this.processarCadastro();
-        }
-    }
-
-    // template method => as subclasses implementam o processo específico
-    protected abstract processarCadastro(): void;
-
-    // !!!!!!!!!!
 
     obterDadosConfirmacao(): any {
 
@@ -124,6 +120,13 @@ export abstract class CadastroBase implements ICadastroStrategy {
             ...dadosBasicos,
             tipo: this.entidade.hasOwnProperty('nivelAcesso') ? 'administrador' : 'gerente'
         };
+    }
+
+    // template method abstrato
+    abstract confirmarEnvio(): void;
+
+    voltarParaEdicao(): void {
+        this.mostrarConfirmacao = false;
     }
 
 }

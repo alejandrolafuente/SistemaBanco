@@ -25,10 +25,9 @@ public class GerenteRepositoryImpl implements GerenteRepository {
 
         JpaGerenteEntidade jpaGerenteEntidade = new JpaGerenteEntidade(gerente);
 
-        // Salva no banco
         JpaGerenteEntidade entidadeSalva = this.jpaGerenteRepository.save(jpaGerenteEntidade);
 
-        return (Gerente) entidadeSalva.toDomain();
+        return entidadeSalva.toDomain();
     }
 
     @Override

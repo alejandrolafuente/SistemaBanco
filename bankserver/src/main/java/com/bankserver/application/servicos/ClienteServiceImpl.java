@@ -3,7 +3,7 @@ package com.bankserver.application.servicos;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.List;
+//import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,25 +16,25 @@ import com.bankserver.adapters.outbound.ports.GerenteRepository;
 import com.bankserver.adapters.outbound.ports.UsuarioRepository;
 import com.bankserver.adapters.outbound.repository.JpaSaldoRepository;
 import com.bankserver.adapters.outbound.repository.JpaTransacaoRepository;
-import com.bankserver.application.domain.Usuario;
+//import com.bankserver.application.domain.Usuario;
 import com.bankserver.application.domain.enums.StatusConta;
 import com.bankserver.application.domain.enums.StatusUsuario;
 import com.bankserver.application.domain.enums.TipoUsuario;
-import com.bankserver.application.usecases.ClienteService;
-import com.bankserver.dto.request.ClienteRegistrationDTO;
+import com.bankserver.application.usecases.ClienteServicePort;
 import com.bankserver.dto.request.DepositoDTO;
 import com.bankserver.dto.request.SaqueDTO;
 import com.bankserver.dto.request.TransferDTO;
 import com.bankserver.dto.response.R03ResDTO;
-import com.bankserver.exceptions.ClientNotFoundException;
+//import com.bankserver.exceptions.ClientNotFoundException;
+import com.bankserver.application.commands.CriarClienteCommand;
 import com.bankserver.application.domain.Cliente;
 import com.bankserver.application.domain.Conta;
 import com.bankserver.application.domain.Endereco;
-import com.bankserver.application.domain.Gerente;
+//import com.bankserver.application.domain.Gerente;
 import com.bankserver.seguranca.UserDetailsImpl;
 
 @Service
-public class ClienteServiceImpl implements ClienteService {
+public class ClienteServiceImpl implements ClienteServicePort {
 
     private final UsuarioRepository usuarioRepository;
 
@@ -62,47 +62,47 @@ public class ClienteServiceImpl implements ClienteService {
         this.contaRepository = contaRepository;
     }
 
-    // R01 - autocadastro cliente
+    // R01 - cadastro cliente
     // registra endereco, cliente e conta, nessa ordem
     @Override
-    public ResponseEntity<Void> insertClient(ClienteRegistrationDTO data) {
+    public Cliente criarCliente(CriarClienteCommand command) {
 
         Endereco endereco = new Endereco();
 
-        endereco.setCep(data.endereco().cep());
-        endereco.setUf(data.endereco().uf());
-        endereco.setCidade(data.endereco().cidade());
-        endereco.setBairro(data.endereco().bairro());
-        endereco.setRua(data.endereco().rua());
-        endereco.setNumero(data.endereco().numero());
-        endereco.setComplemento(data.endereco().complemento());
+        endereco.setCep(command.getEndereco().getCep());
+        endereco.setUf(command.getEndereco().getUf());
+        endereco.setCidade(command.getEndereco().getCidade());
+        endereco.setBairro(command.getEndereco().getBairro());
+        endereco.setRua(command.getEndereco().getRua());
+        endereco.setNumero(command.getEndereco().getNumero());
+        endereco.setComplemento(command.getEndereco().getComplemento());
 
         endereco = enderecoRepository.save(endereco);
 
         Cliente cliente = new Cliente();
-        cliente.setCpf(data.cpf());
-        cliente.setLogin(data.email());
-        cliente.setNome(data.nome());
-        cliente.setTelefone(data.telefone());
+        cliente.setCpf(command.getCpf());
+        cliente.setLogin(command.getEmail());
+        cliente.setNome(command.getNome());
+        cliente.setTelefone(command.getTelefone());
         cliente.setPerfil(TipoUsuario.CLIENTE);
         cliente.setStatus(StatusUsuario.PENDENTE);
-        cliente.setSalario(data.salario());
+        cliente.setSalario(command.getSalario());
         cliente.setEndereco(endereco); // associa o endereco salvo
 
-        cliente = clienteRepository.save(cliente);
+        Cliente clienteSalvo = clienteRepository.save(cliente);
 
         Conta conta = new Conta();
         conta.setNumeroConta(gerarNumeroConta());
         conta.setDataCriacao(LocalDateTime.now());
         conta.setSaldo(BigDecimal.ZERO);
-        conta.setLimite(calcularLimite(data.salario()));
+        conta.setLimite(calcularLimite(command.getSalario()));
         conta.setStatusConta(StatusConta.PENDENTE);
-        conta.setCliente(cliente);
+        conta.setCliente(clienteSalvo);
         conta.setGerente(gerenteRepository.findAllOrderByQuantidadeContas());
 
-        conta = contaRepository.save(conta);
+        contaRepository.save(conta);
 
-        return ResponseEntity.ok().build();
+        return clienteSalvo;
     }
 
     // // R03
