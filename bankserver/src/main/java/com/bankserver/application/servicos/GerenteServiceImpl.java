@@ -13,7 +13,7 @@ import com.bankserver.adapters.outbound.ports.ClienteRepository;
 import com.bankserver.adapters.outbound.ports.ContaRepository;
 import com.bankserver.adapters.outbound.ports.EmailServicePort;
 import com.bankserver.adapters.outbound.ports.SaldoRepository;
-import com.bankserver.application.usecases.GerenteService;
+import com.bankserver.application.usecases.GerenteServicePort;
 import com.bankserver.dto.response.R09ResDTO;
 import com.bankserver.utils.GeradorSenha;
 import com.bankserver.application.domain.Cliente;
@@ -22,7 +22,7 @@ import com.bankserver.application.domain.Saldo;
 import com.bankserver.application.domain.enums.StatusUsuario;
 
 @Service
-public class GerenteServiceImpl implements GerenteService {
+public class GerenteServiceImpl implements GerenteServicePort {
 
     private final ContaRepository contaRepository;
 
